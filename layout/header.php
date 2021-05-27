@@ -77,14 +77,14 @@
 	<div style="background: #f7d5f2;">
 		<nav id="menu" class="container">			
 	        <ul>
-	            <li><a href="home.php" title="HOME">HOME</a></li>
+	            <li><a href="index.php" title="HOME">HOME</a></li>
 	            
 	             <?php
             		foreach ($category as $cate) {
             			$cate_id = $cate['id'];
             			$games= executeResult("select * from games where cate_id = $cate_id ");
             			echo '<li>
-            						<a style="text-transform: uppercase;" href="home.php?cate='.$cate['title'].'">'.$cate['title'].'</a>';
+            						<a style="text-transform: uppercase;" href="index.php?cate='.$cate['title'].'">'.$cate['title'].'</a>';
             						echo '<ul>';
 	            						foreach ($games as $game) {
 	            							echo '<li><a href="games.php?id='.$game['id'].'">'.$game['title'].'</a></li>';
