@@ -10,10 +10,11 @@
 	<!-- include summernote css/js -->
 	<link href="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.12/summernote.css" rel="stylesheet">
 	<script src="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.12/summernote.js"></script>
+	<link rel="stylesheet" type="text/css" href="style/toogle_switch.css">
 </head>
 <style type="text/css">
 	#btn{
-		background: transparent;
+		background:grey;
 	}
 	#btn:hover{
 		background: red;
@@ -52,6 +53,17 @@
 </div>
 
 
+						<label class="switch">
+                            <input id="active" type="checkbox" checked>
+                            <span class="slider round"></span>
+                          </label>
+<script type="text/javascript">
+	$('#active').change(function () {
+		if($('#active').checked()){alert('ok')}
+		
+		
+	})
+</script>
 </div>
 </body>
 </html>

@@ -57,7 +57,7 @@
 										      	<li><a href="category.php">Quản Lí DM</a></li>
 										      	<li><a href="product_list.php">Quản Lí Games</a></li>
 										      	<li><a href="product_list.php">Quản Lí Địa Điểm</a></li>
-										      	<li><a href="#">Quản lí Admin</a></li>
+										      	<li><a href="users.php">Quản lí Admin</a></li>
 										    </ul>
 										 </div>
 								</span>
@@ -84,7 +84,7 @@
             			$cate_id = $cate['id'];
             			$games= executeResult("select * from games where cate_id = $cate_id ");
             			echo '<li>
-            						<a style="text-transform: uppercase;" href="index.php?cate='.$cate['title'].'">'.$cate['title'].'</a>';
+            						<a style="text-transform: uppercase;" href="games.php?cate='.$cate['title'].'">'.$cate['title'].'</a>';
             						echo '<ul>';
 	            						foreach ($games as $game) {
 	            							echo '<li><a href="games.php?id='.$game['id'].'">'.$game['title'].'</a></li>';

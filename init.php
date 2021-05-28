@@ -22,7 +22,8 @@ require_once 'utility/utils.php';
 
 							password varchar(32) not null,
 							token varchar(32),
-							avatar varchar(500) default "https://static2.yan.vn/YanNews/2167221/202003/dan-mang-du-trend-thiet-ke-avatar-du-kieu-day-mau-sac-tu-anh-mac-dinh-b0de2bad.jpg"
+							avatar varchar(500) default "https://static2.yan.vn/YanNews/2167221/202003/dan-mang-du-trend-thiet-ke-avatar-du-kieu-day-mau-sac-tu-anh-mac-dinh-b0de2bad.jpg",
+							active tinyint default 0
 					)';
 		execute($users_table);
 

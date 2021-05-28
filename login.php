@@ -5,7 +5,7 @@
 	$user = checkLogin();
 	// var_dump($user);
 	if ($user!='') {
-		header('Location: home.php');
+		header('Location: index.php');
 	}
 
 	$alert = '';
@@ -26,7 +26,7 @@
 				//update lên db
 				execute("update users set token = '$token' where email='$email' ");
 
-				header('Location: home.php');
+				header('Location: index.php');
 			}else{
 				$alert='Email hoặc password không đúng !';
 			}		

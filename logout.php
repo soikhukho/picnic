@@ -13,4 +13,4 @@ if (isset($_COOKIE['token'])) {
 
 
 };
-header('Location: home.php');
+header('Location: index.php');
