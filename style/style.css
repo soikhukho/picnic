@@ -4,9 +4,12 @@
 }
 
 #header{
-    background-color: #72c3c4;
+    background-color: rgb(83, 163, 163);
 }
 
+#menu{
+    background: rgb(219 231 247);
+}
 #mid {
     color: #eb73c0;
     padding-top: 10px;
@@ -14,10 +17,6 @@
 #mid a {
     color: #eb73c0;
  }
-#footer {
-    height: 200px;
-    background-color:#72c3c4;
-}
 
 
 nav{
@@ -48,7 +47,7 @@ nav ul li:first-child {
     border-left: none; 
 }
 nav ul li:hover a{
-    background: #72c3c4;
+    background:#04B173;
     color: white;
 }
 nav li ul{
@@ -113,4 +112,8 @@ transform: scale(1.1);
 }
 #cart img:hover {
     transform: scale(1.1);
+}
+
+#popup:hover{
+    cursor: pointer;
 }

@@ -3,14 +3,13 @@
   require_once 'utility/utils.php';
 
   $user = checkLogin();
-  // var_dump($user);
-
+  include_once 'login.php';
 ?>
 
 <!DOCTYPE html>
 <html>
 <head>
-  <title></title>
+  <title>Home</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
@@ -25,10 +24,14 @@
     <?php
         include 'layout/header.php';
         include 'layout/carosell.php';
+
+        include_once 'layout/popup_login.php';
+
      ?>
-     <div class="container" style="height: 500px;">
+     <div class="container" style="min-height: 500px;">
        
      </div>
     <?php include 'layout/footer.php'; ?>
+
 </body>
 </html>

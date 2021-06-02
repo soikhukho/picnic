@@ -3,36 +3,46 @@
 	require_once 'utility/utils.php';
 
 	 $user = checkLogin();
+	 include_once 'login.php';
 
 	$alert = '';
 	$date= date('Y-m-d H:i:s');
-	$email = getPost('email');
+	$email_signup = getPost('email_signup');
 	$fullName = getPost('fullName');
 	$birthday = getPost('birthday');
-	$address = getPost('email');
+	$address = getPost('address');
 	$phone_no = getPost('phone_no');
-	$pwd = getPost('pwd');
+	$singup_pwd = getPost('singup_pwd');
 	$cf_pwd = getPost('cf_pwd');
+	$action=getPost('action');
 
 	if (!empty($_POST)) {
+		if ($action=='signup') {
 			//check email
-			$user=executeResult(" select * from users where email = '$email' ");
-			echo count($user);
-			if (count($user)>0) {
+			$check=executeResult(" select * from users where email = '$email_signup' ");
+			if (count($check)>0) {
 				$alert= 'email đã được sử dụng';
 			}
 
 			//nếu email hợp lệ và pass khớp nhau
-			if (count($user)==0 && $pwd==$cf_pwd) {
-					$password= getMd5($pwd);
+			if (count($check)==0 && $singup_pwd==$cf_pwd) {
+					$pass= getMd5($singup_pwd);
 					$sql = "insert into users(email , password, fullname, phone_no , address , birthday, created_at, updated_at) 
-						values ('$email', '$password', '$fullName', '$phone_no', '$address','$birthday', '$date','$date')";
+						values ('$email_signup', '$pass', '$fullName', '$phone_no', '$address','$birthday', '$date','$date')";
 					execute($sql);
 
-					header('Location: login.php');
+					//thuc hien dang nhap luon
+						$token = getMd5($email_signup.time());
+						//luu token lên cookie
+						setcookie("token", $token ,0, "/");
+						//update lên db
+						execute("update users set token = '$token' where email='$email_signup' ");
+
+
+					header('Location: admin.php');
 			}
+		}
 			
-		
 	}
 ?>
 <!DOCTYPE html>
@@ -50,7 +60,10 @@
   <link rel="stylesheet" type="text/css" href="style/style.css">
 </head>
 <body>
-    <?php include 'layout/header.php'; ?>
+    <?php 
+	    include 'layout/header.php';
+	    include_once 'layout/popup_login.php'; 
+    ?>
 
     <div style=" width:600px;margin: 0px auto; margin-top: 50px;">
 		<div class="panel panel-primary">
@@ -62,8 +75,8 @@
 					<span style="color: red"><?= $alert ?></span>
 					
 					<div class="form-group">
-					  <label for="email">Email:</label>
-					  <input required="true" type="email" class="form-control" id="email" name="email" value="<?= $email ?>">
+					  <label for="email_signup">Email:</label>
+					  <input required="true" type="email" class="form-control" id="email_signup" name="email_signup" value="<?= $email_signup ?>">
 					</div>
 
 					<div class="form-group">
@@ -87,13 +100,17 @@
 					</div>
 					<div class="form-group">
 					  <label for="pwd">Password:</label>
-					  <input required="true" type="password" class="form-control" id="pwd" name="pwd">
+					  <input required="true" type="password" class="form-control" id="singup_pwd" name="singup_pwd">
 					</div>
 					<div class="form-group">
 					  <label for="cf_pwd">Confirmation Password:</label>
 					  <input required="true" type="password" class="form-control" id="cf_pwd" name="cf_pwd">  
 					</div>
-					
+
+					<div class="form-group" style="display: none;">
+					  <label for="action"></label>
+					  <input required="true" type="text" class="form-control" id="action" name="action" value="signup">  
+					</div>
 					<center><button class="btn btn-warning" style="font-size: 20px;">Sign Up</button></center>
 				</form>
 			</div>
@@ -104,11 +121,11 @@
 
  <script type="text/javascript">
  	$('#signup_form').submit(function(){
- 		if ($('#pwd').val() != $('#cf_pwd').val()) {
+ 		if ($('#singup_pwd').val() != $('#cf_pwd').val()) {
  			alert('Password chua khop nhau')
- 			$('#pwd').val('')
+ 			$('#singup_pwd').val('')
  			$('#cf_pwd').val('')
- 			$('#pwd').focus()
+ 			$('#singup_pwd').focus()
  			return false;
  		}
  	})

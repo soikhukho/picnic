@@ -29,7 +29,7 @@ require_once 'utility/utils.php';
 
 		$places_table = 'create table if not exists places (
 						    id int primary key auto_increment,
-						    title varchar(50) unique,
+						    title varchar(200) unique,
 						    content longtext,
 						    created_at datetime,
 						    updated_at datetime,
@@ -48,7 +48,7 @@ require_once 'utility/utils.php';
 
 		$games_table = 'create table if not exists games  (
 						    id int PRIMARY KEY AUTO_INCREMENT,
-    						title varchar(100) not null,
+    						title varchar(200) not null,
     						thumbnail varchar(200),
     						price float not null,
     						description varchar(500) not null,
@@ -80,6 +80,7 @@ require_once 'utility/utils.php';
 		$orders_details_table = 'create table if not exists orders_details (
 									id int primary key auto_increment,
 									price float not null,
+									quantity int not null,
 									created_at datetime,
 									order_id int references orders(id),
 									game_id int references games(id)
