@@ -5,7 +5,8 @@ require_once 'utility/utils.php';
 	$init = getPost('init');
 	echo $init;
 
-	if ($init!='') {
+	if ($init==1){
+
 		$sql = 'create database if not exists '.DATABASE;
 		echo $sql;
 		createDB($sql);
@@ -114,12 +115,10 @@ require_once 'utility/utils.php';
 							    content varchar(200) not null,
 							    created_at datetime,
 							    href varchar(100),
-							    status tinyint default 0'
-							   );
+							    status tinyint default 0)';
 		execute($message_table);
 
-)
-	}
+}
 
 ?>
 <!DOCTYPE html>
