@@ -53,6 +53,7 @@ $user_id=$user['id'];
                 <!--End Page Header -->
             </div>
 
+        <!-- main content start-->
             <div class="row">
                 
             </div>

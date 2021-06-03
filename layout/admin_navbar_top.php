@@ -1,3 +1,12 @@
+<?php
+  require_once 'db/dbhelper.php';
+  require_once 'utility/utils.php';
+
+  $mess=executeResult("select * from message where status = 0 order by created_at desc");
+  $number=count($mess);
+
+?>
+
 <nav class="navbar navbar-default navbar-fixed-top" role="navigation" id="navbar">
             <!-- navbar-header -->
             <div class="navbar-header">
@@ -17,115 +26,65 @@
                 <!-- main dropdown -->
                 <li class="dropdown">
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                        <span class="top-label label label-danger">3</span><i class="fa fa-envelope fa-3x"></i>
+                        <span class="top-label label label-danger">3</span><i class="fa fa-envelope-o fa-3x"></i>
                     </a>
                     <!-- dropdown-messages -->
                     <ul class="dropdown-menu dropdown-messages">
                         <li>
                             <a href="#">
                                 <div>
-                                    <strong><span class=" label label-danger">Andrew Smith</span></strong>
+                                    <strong><span class=" label label-danger">Thông báo mới</span></strong>
                                     <span class="pull-right text-muted">
                                         <em>Yesterday</em>
                                     </span>
                                 </div>
-                                <div>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque eleifend...</div>
+                                <div>fadf</div>
                             </a>
                         </li>
                         <li class="divider"></li>
-                        <li>
-                            <a href="#">
-                                <div>
-                                    <strong><span class=" label label-info">Jonney Depp</span></strong>
-                                    <span class="pull-right text-muted">
-                                        <em>Yesterday</em>
-                                    </span>
-                                </div>
-                                <div>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque eleifend...</div>
-                            </a>
-                        </li>
-                        <li class="divider"></li>
-                        <li>
-                            <a href="#">
-                                <div>
-                                    <strong><span class=" label label-success">Jonney Depp</span></strong>
-                                    <span class="pull-right text-muted">
-                                        <em>Yesterday</em>
-                                    </span>
-                                </div>
-                                <div>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque eleifend...</div>
-                            </a>
-                        </li>
-                        <li class="divider"></li>
-                        <li>
-                            <a class="text-center" href="#">
-                                <strong>Read All Messages</strong>
-                                <i class="fa fa-angle-right"></i>
-                            </a>
-                        </li>
+                        
                     </ul>
                     <!-- end dropdown-messages -->
                 </li>
-
+<!--  -->
                 <li class="dropdown">
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                        <span class="top-label label label-warning">5</span>  <i class="fa fa-bell fa-3x"></i>
+                        <span class="top-label label label-warning"><?=$number?></span><i class="fa fa-bell fa-3x"></i>
                     </a>
-                    <!-- dropdown alerts-->
-                    <ul class="dropdown-menu dropdown-alerts">
+
+                <!-- dropdown alerts-->
+                    <ul class="dropdown-menu dropdown-messages">
+                        <?php
+                            $i=0;
+                            foreach ($mess as $item) {
+                                $i++;
+                                if ($i<=5) {
+                                    echo '<li onclick="seen('.$item['id'].')">
+                                                <a href="'.$item['href'].'">
+                                                    <div>
+                                                        <strong><span class=" label label-danger">Thông báo mới</span></strong>
+                                                        <span class="pull-right text-muted">
+                                                            <em>'.timeAgo($item['created_at']).'</em>
+                                                        </span>
+                                                    </div>
+                                                    <div>'.$item['content'].'</div>
+                                                </a>
+                                            </li>
+                                            <li class="divider"></li>';
+                                                    }
+                                
+                            }
+                        ?>
+                        
                         <li>
-                            <a href="#">
-                                <div>
-                                    <i class="fa fa-comment fa-fw"></i>New Comment
-                                    <span class="pull-right text-muted small">4 minutes ago</span>
-                                </div>
-                            </a>
-                        </li>
-                        <li class="divider"></li>
-                        <li>
-                            <a href="#">
-                                <div>
-                                    <i class="fa fa-twitter fa-fw"></i>3 New Followers
-                                    <span class="pull-right text-muted small">12 minutes ago</span>
-                                </div>
-                            </a>
-                        </li>
-                        <li class="divider"></li>
-                        <li>
-                            <a href="#">
-                                <div>
-                                    <i class="fa fa-envelope fa-fw"></i>Message Sent
-                                    <span class="pull-right text-muted small">4 minutes ago</span>
-                                </div>
-                            </a>
-                        </li>
-                        <li class="divider"></li>
-                        <li>
-                            <a href="#">
-                                <div>
-                                    <i class="fa fa-tasks fa-fw"></i>New Task
-                                    <span class="pull-right text-muted small">4 minutes ago</span>
-                                </div>
-                            </a>
-                        </li>
-                        <li class="divider"></li>
-                        <li>
-                            <a href="#">
-                                <div>
-                                    <i class="fa fa-upload fa-fw"></i>Server Rebooted
-                                    <span class="pull-right text-muted small">4 minutes ago</span>
-                                </div>
-                            </a>
-                        </li>
-                        <li class="divider"></li>
-                        <li>
-                            <a class="text-center" href="#">
+                            <a class="text-center" href="adm_message.php">
                                 <strong>See All Alerts</strong>
                                 <i class="fa fa-angle-right"></i>
                             </a>
                         </li>
                     </ul>
-                    <!-- end dropdown-alerts -->
+                <!-- end dropdown-alerts -->
+
                 </li>
 
                 <li class="dropdown">
@@ -134,10 +93,9 @@
                     </a>
                     <!-- dropdown user-->
                     <ul class="dropdown-menu dropdown-user">
-                        <li><a href="#"><i class="fa fa-user fa-fw"></i>User Profile</a>
+                        <li><a href="admin.php"><i class="fa fa-user fa-fw"></i>User Profile</a>
                         </li>
-                        <li><a href="#"><i class="fa fa-gear fa-fw"></i>Settings</a>
-                        </li>
+                        
                         <li class="divider"></li>
                         <li><a href="logout.php"><i class="fa fa-sign-out fa-fw"></i>Logout</a>
                         </li>
@@ -149,3 +107,11 @@
             <!-- end navbar-top-links -->
 
         </nav>
+
+        <script type="text/javascript">
+            function seen(id) {
+                $.post('adm_message.php',{change_id:id},function(data){
+                   
+                })
+            }
+        </script>

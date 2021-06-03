@@ -1,9 +1,8 @@
 <?php
   require_once 'db/dbhelper.php';
   require_once 'utility/utils.php';
-
-  $selected="adm_games";
-
+  
+  $selected='adm_albums';
   $user = checkLogin();
       if ($user=='') {
         header('Location: index.php');
@@ -16,52 +15,54 @@ $user_id=$user['id'];
   $title = getPost('title');
   $thumbnail =getPost('thumbnail');
   $description =getPost('description');
-  $content =getPost('content');
-  $cate_id = getPost('cate_id');
-  $price = getPost('price');
+  $game_id = getPost('game_id');
 
   $delID= getPost('delID');
 
   $editID = getGet('editID');
 
   if ($editID !=''){
-        //tránh tình trạng sửa trên url
-        $edit_game = executeResult(" select * from games where id = $editID " ,true);
+        //tránh tình trạng typing vào url
+        $edit_album = executeResult(" select * from albums where id = $editID " ,true);
 
-        if ($edit_game=='') {
-          header('Location: adm_games.php');
+        if ($edit_album=='') {
+          header('Location: adm_albums.php');
         }
     }
 
   if (!empty($_POST)) {
     //delete
     if ($delID!='') {
-        execute("delete from games where id = $delID");
-        mess('<b>Game ID='.$delID.'</b> đã bị xóa bởi admin '.$user['fullname'],'adm_games.php','adm_games.php');
-        header('Location: adm_games.php');
+        execute("delete from photoes where album_id = $delID");
+        execute("delete from albums where id = $delID");
+
+        mess('<b>Album có ID='.$delID.'</b> đã bị xóa bỏi admin '.$user['fullname'],'adm_albums.php');
+
+        header('Location: adm_albums.php');
     }
 
     //add
     if ($title!='' && $editID =='') {
 
-        execute("insert into games (title , cate_id,price , thumbnail,description ,content , created_at , updated_at , user_id) 
-            values ('$title', '$cate_id', '$price','$thumbnail' ,'$description', '$content','$date','$date', '$user_id')");
-        mess('<b>Game '.$title.'</b> đã được tạo mới bởi admin '.$user['fullname'],'adm_games.php');
-    
+        execute("insert into albums (title , game_id , thumbnail,description ,created_at , updated_at ) 
+            values ('$title', '$game_id' ,'$thumbnail' ,'$description', '$date','$date')");
+
+        mess('<b>Album '.$title.'</b> đã được tạo bỏi admin '.$user['fullname'],'adm_albums.php');
+
         echo "<script>
-          alert('Bạn đã thêm một games mới !')
-          window.location.replace('adm_games.php')
+          alert('Bạn đã thêm một albums mới !')
+          window.location.replace('adm_albums.php')
         </script>";
     }
     //edit
     if ( $title!='' && $editID !=''){
-        execute("update games set title='$title' ,cate_id='$cate_id',price='$price',
-                    thumbnail='$thumbnail' ,description='$description' ,content= '$content',
+        execute("update albums set title='$title' ,game_id='$game_id',
+                    thumbnail='$thumbnail' ,description='$description' ,
                       updated_at='$date' where id ='$editID' ");
 
-        mess('<b>Game '.$title.'(ID='.$editID.')</b> đã được update bởi admin '.$user['fullname'],'adm_games.php');
+        mess('<b>Album '.$title.'</b> đã được update bởi admin '.$user['fullname'],'adm_albums.php');
 
-        header('Location: adm_games.php');
+        header('Location: adm_albums.php');
     }
   }
 ?>
@@ -70,7 +71,7 @@ $user_id=$user['id'];
 <html>
 
 <head>
-    <title>adm games</title>
+    <title>adm albums</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
@@ -103,7 +104,7 @@ $user_id=$user['id'];
             <div class="row">
                 <!-- Page Header -->
                 <div class="col-lg-12">
-                    <h1 class="page-header">Admintration Games</h1>
+                    <h1 class="page-header">Admintration Albums</h1>
                 </div>
                 <!--End Page Header -->
             </div>
@@ -114,34 +115,34 @@ $user_id=$user['id'];
 
         <div style=" width:800px;margin: 0px auto;">
           <button id="place_btn" class="btn" style="background: #04B173;"><h5 style="color: white ;font-weight: bold;">Create / Update</h5><small>(Click here)</small></button>
-          <div id="place" class="panel panel-primary" style="display: none;">
+          <div id="place" class="panel panel-primary" style="display:none; ;">
             <div class="panel-heading">
               <div style="text-align:right;">
                 <button id="close" class="btn btn-primary " style="font-size: 20px;padding: 10px;">X</button>
               </div>
-              <h3 class="text-center" style="margin-top:-30px;"><?= (isset($edit_game))?'Update this places':'Create new places'?></h3>
+              <h3 class="text-center" style="margin-top:-30px;"><?= (isset($edit_album))?'Update this Album':'Create a new Album'?></h3>
             </div>
             <div class="panel-body">
-              <form id="places_form" method="post">
+              <form id="album_form" method="post">
                 <span style="color: red"><?= $alert ?></span>
                 
                 <div class="form-group">
                   <label for="title">Title:</label>
                   <input required="true" type="text" class="form-control" id="title" name="title" 
-                          value="<?=(isset($edit_game))?$edit_game['title']:'' ?>" >
+                          value="<?=(isset($edit_album))?$edit_album['title']:'' ?>" >
                 </div>
 
                 <div class="form-group">
-                  <label for="title">Category:</label>
-                  <select class="form-control" style="width: 250px;" name="cate_id">
-                    <option value="">--chon danh muc game--</option>
+                  <label for="game_id">Game</label>
+                  <select class="form-control" style="width: 250px;" name="game_id">
+                    <option value="">--chon game--</option>
                       <?php
-                        $category=executeResult("select * from category");
-                        foreach ($category as $category) {
-                            if ($category['id']!=$edit_game['cate_id']) {
-                                echo '<option value="'.$category['id'].'">'.$category['title'].'</option>';
+                        $games=executeResult("select id , title from games");
+                        foreach ($games as $game) {
+                            if ($game['id']!=$edit_album['game_id']) {
+                                echo '<option value="'.$game['id'].'">'.$game['title'].'</option>';
                             }else{
-                                echo '<option selected value="'.$category['id'].'">'.$category['title'].'</option>';
+                                echo '<option selected value="'.$game['id'].'">'.$game['title'].'</option>';
                             }
                         }
                       ?>
@@ -149,70 +150,65 @@ $user_id=$user['id'];
                 </div>
 
                 <div class="form-group">
-                  <label for="price">Price:</label>
-                  <input required="true" type="number" class="form-control" id="price" name="price" 
-                          value="<?=(isset($edit_game))?$edit_game['price']:'' ?>" >
-                </div>
-
-                <div class="form-group">
                   <label for="thumbnail">Thumbnail:</label>
                   <input required="true" type="text" class="form-control" id="thumbnail" name="thumbnail" 
-                          value="<?=(isset($edit_game))?$edit_game['thumbnail']:'' ?>" >
+                          value="<?=(isset($edit_album))?$edit_album['thumbnail']:'' ?>" >
                 </div>
 
                 <div class="form-group">
                   <label for="description">Description:</label>
                   <input required="true" type="text" class="form-control" id="description" name="description" 
-                          value="<?=(isset($edit_game))?$edit_game['description']:'' ?>" >
+                          value="<?=(isset($edit_album))?$edit_album['description']:'' ?>" >
                 </div>
 
-                <div class="form-group">
-                  <label for="content">Content:</label>                  
-                  <textarea class="form-control" id="content" name="content"><?=(isset($edit_game))?$edit_game['content']:'' ?></textarea>
-                </div>
-
-                <center><button class="btn btn-warning" style="font-size: 20px;"><?= (isset($edit_game))?'Update':'Create'?></button></center>
+                <center><button class="btn btn-warning" style="font-size: 20px;"><?= (isset($edit_album))?'Update':'Create'?></button></center>
               </form>
             </div>
           </div>
         </div>
         
-        <!-- show games -->
+        <!-- show albums -->
         <div id="show_cate" style="margin-top: 50px;margin-bottom: 50px;">
-          <h2 style="text-align: center;">List of Games</h2>
+          <h2 style="text-align: center;">List of Albums </h2>
           <table class="table table-bordered" style=" margin: 0px auto;">
             <thead>
               <tr>
                 <th>No</th>
+                <th>Album Title</th>
                 <th>Thumbnail</th>
-                <th>Title</th>
-                <th>Category</th>
-                <th>Ticket Price</th>
-                <th>Created by</th>
+                <th>Game Title</th>
+                <th>Category of Game </th>
+                <th>Updated at</th>
+                <th>Total photoes</th>
                 <th></th>
                 <th></th>
               </tr>
             </thead>
             <tbody>
               <?php
-                $places = executeResult(" select games.id ,games.title 'game title',
-                                                category.title 'category title' ,
-                                                games.thumbnail ,games.price , users.fullname
-                                            from games ,  category , users
-                                            where games.cate_id = category.id 
-                                            and  games.user_id = users.id
-                                            ORDER by games.updated_at desc ");
+                $albums = executeResult(" select albums.id ,albums.title 'albums title' ,albums.thumbnail, games.title 'games title',category.title 'category title',games.updated_at
+                                          from albums , games , category
+                                          where albums.game_id = games.id and games.cate_id = category.id 
+
+                                            order by albums.updated_at desc
+                                          ");
                 $i=1;
-                foreach ($places as $item) {
+                foreach ($albums as $album) {
+
+                  $album_id = $album['id'] ;
+                  $total = executeResult("select count(*) 'total' from photoes where album_id ='$album_id' " , true);
+                  $total = $total['total'];
+
                   echo '<tr>
                           <td>'.$i++.'</td>
-                          <td><img src="'.$item['thumbnail'].'" style="width: 150px;"></td>
-                          <td>'.$item['game title'].'</td>
-                          <td>'.$item['category title'].'</td>
-                          <td>'.$item['price'].'</td>
-                          <td>'.$item['fullname'].'</td>
-                          <td><button class="btn btn-danger" onclick="del('.$item['id'].')">Delete</button></td>
-                          <td><button class="btn btn-warning" onclick="edit('.$item['id'].')">Edit</button></td>
+                          <td>'.$album['albums title'].'</td>
+                          <td><img src="'.$album['thumbnail'].'" style="width: 150px;"></td>
+                          <td>'.$album['games title'].'</td>
+                          <td>'.$album['category title'].'</td>
+                          <td>'.$album['updated_at'].'</td>
+                          <td><b>'.$total.'</b></td>
+                          <td><button class="btn btn-danger" onclick="del('.$album['id'].')">Delete</button></td>
+                          <td><button class="btn btn-warning" onclick="edit('.$album['id'].')">Edit</button></td>
                         </tr>';
                 }
               ?>
@@ -224,8 +220,8 @@ $user_id=$user['id'];
 
      <script type="text/javascript">
       function del(id){
-        if (confirm('Ban co chắc chắc muốn xóa sp này ?') ) {
-          $.post('adm_games.php',
+        if (confirm('Ban co chắc chắc muốn xóa album này ?') ) {
+          $.post('adm_albums.php',
             {
               delID:id
             }
@@ -239,7 +235,7 @@ $user_id=$user['id'];
 
       function edit(id){
         if (confirm('Ban co chắc chắc muốn sửa game này ?') ) {
-          window.location.replace("adm_games.php?editID="+id);
+          window.location.replace("adm_albums.php?editID="+id);
         }
       }
 

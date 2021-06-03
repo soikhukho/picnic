@@ -73,7 +73,8 @@ require_once 'utility/utils.php';
 		$orders_table = 'create table if not exists orders (
 							id int primary key auto_increment,
 							cus_id int references customers(id),
-							created_at datetime
+							created_at datetime,
+							status tinyint default 0
 							)';
 		execute($orders_table);
 
@@ -90,6 +91,10 @@ require_once 'utility/utils.php';
 		$albums_table = 'create table if not exists albums (
 							id int primary key auto_increment,
 							title varchar (200) ,
+							thumbnail varchar (200) ,
+							description varchar(500),
+							created_at datetime,
+						    updated_at datetime,
 							game_id int references games (id)
 						)';
 		execute($albums_table);
@@ -98,9 +103,22 @@ require_once 'utility/utils.php';
 							id int primary key auto_increment,
 							title varchar (200) ,
 							address varchar(200) not null,
+							created_at datetime,
+						    updated_at datetime,
 							album_id int references albums (id)
 						)';
 		execute($photoes_table);
+
+		$message_table = 'create table message(
+								id int PRIMARY key AUTO_INCREMENT,
+							    content varchar(200) not null,
+							    created_at datetime,
+							    href varchar(100),
+							    status tinyint default 0'
+							   );
+		execute($message_table);
+
+)
 	}
 
 ?>
@@ -137,7 +155,7 @@ require_once 'utility/utils.php';
 				},
 				function (data){
 					// location.reload()
-					window.location.replace('login.php')
+					window.location.replace('index.php')
 				})
 	}
 </script>

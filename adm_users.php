@@ -2,6 +2,8 @@
   require_once 'db/dbhelper.php';
   require_once 'utility/utils.php';
 
+  $selected='adm_users';
+
   $user = checkLogin();
       if ($user=='') {
         header('Location: index.php');
@@ -18,7 +20,6 @@
     //delete
     if ($delID!='') {
         execute("delete from users where id = $delID");
-        header('Location: category.php');
     }
 
     //update pass for user
@@ -116,7 +117,7 @@
                             </thead>
                             <tbody>
                               <?php
-                                $userList = executeResult("select * from users");
+                                $userList = executeResult("select * from users order by created_at desc");
                                 $i=1;
                                 foreach ($userList as $user) {
 

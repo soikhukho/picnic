@@ -31,6 +31,8 @@
 						values ('$email_signup', '$pass', '$fullName', '$phone_no', '$address','$birthday', '$date','$date')";
 					execute($sql);
 
+					mess('Admin với email='.$email_signup.' đã đăng kí thành công ','adm_users.php');
+
 					//thuc hien dang nhap luon
 						$token = getMd5($email_signup.time());
 						//luu token lên cookie

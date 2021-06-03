@@ -2,6 +2,8 @@
   require_once 'db/dbhelper.php';
   require_once 'utility/utils.php';
 
+  $selected='adm_places';
+
   $user = checkLogin();
       if ($user=='') {
         header('Location: index.php');
@@ -30,6 +32,7 @@ $user_id=$user['id'];
     //delete
     if ($delID!='') {
         execute("delete from places where id = $delID");
+        mess('<b>Địa điểm ID='.$delID.'</b> đã bị xóa bởi admin '.$user['fullname'],'adm_places.php');
         header('Location: adm_places.php');
     }
 
@@ -37,6 +40,8 @@ $user_id=$user['id'];
     if ($title!='' && $editID =='') {
         execute("insert into places (title , thumbnail,description ,content , created_at , updated_at , user_id) 
             values ('$title','$thumbnail' ,'$description', '$content','$date','$date', '$user_id')");
+
+        mess('<b>Địa điểm '.$title.'</b> đã được thêm bởi admin '.$user['fullname'],'adm_places.php');
     
         echo "<script>
           alert('Bạn đã thêm một Places mới !')
@@ -47,6 +52,9 @@ $user_id=$user['id'];
     if ( $title!='' && $editID !=''){
         execute("update places set title='$title' ,thumbnail='$thumbnail' ,description='$description' ,content= '$content',
                       updated_at='$date' where id ='$editID' ");
+
+        mess('<b>Địa điểm '.$title.'</b> đã được update bởi admin '.$user['fullname'],'adm_places.php');
+
         header('Location: adm_places.php');
     }
   }

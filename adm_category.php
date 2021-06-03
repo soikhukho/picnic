@@ -2,6 +2,8 @@
   require_once 'db/dbhelper.php';
   require_once 'utility/utils.php';
 
+  $selected='adm_category';
+
   $user = checkLogin();
       if ($user=='') {
         header('Location: index.php');
@@ -24,12 +26,15 @@
     //delete
     if ($delID!='') {
         execute("delete from category where id = $delID");
+        mess('<b>Danh mục ID='.$delID.'</b> đã bị xóa bởi admin '.$user['fullname'],'adm_category.php');
         header('Location: adm_category.php');
     }
 
     //add
     if ($title!='' && $editID =='') {
         execute("insert into category(title , created_at , updated_at) values ('$title','$date','$date')");
+
+        mess('<b>Danh mục '.$title.'</b> đã được tạo bởi admin '.$user['fullname'],'adm_category.php');
         echo "<script>
           alert('Ban da them danh muc thanh cong')
           window.location.replace('adm_category.php')
@@ -38,6 +43,7 @@
     //edit
     if ( $title!='' && $editID !=''){
         execute("update category set title='$title' , updated_at='$date' where id ='$editID' ");
+        mess('<b>Danh mục '.$title.'</b> đã được update bởi admin '.$user['fullname'],'adm_category.php');
         header('Location: adm_category.php');
     }
   }
@@ -163,7 +169,7 @@
       }
 
       function edit(id){
-        if (confirm('Ban co chắc chắc muốn sửa sp này ?') ) {
+        if (confirm('Ban co chắc chắc muốn sửa danh mục này ?') ) {
           window.location.replace("adm_category.php?editID="+id);
         }
       }

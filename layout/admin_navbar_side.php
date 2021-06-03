@@ -36,24 +36,36 @@
                         <a href="index.php"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
                     </li>
 
-                    <li class="">
+                    <li class="<?= ($selected =='adm_orders')?'selected':''?>">
+                        <a href="adm_orders.php"><i class="fa fa-angle-double-right" aria-hidden="true" style="margin-right: 5px;"></i> Orders</a>
+                    </li>
+
+                    <li class="<?= ($selected =='adm_games')?'selected':''?>">
                         <a href="adm_games.php"><i class="fa fa-angle-double-right" aria-hidden="true" style="margin-right: 5px;"></i> Games</a>
                     </li>
 
-                    <li class="">
+                    <li class="<?= ($selected =='adm_albums')?'selected':''?>">
+                        <a href="adm_albums.php"><i class="fa fa-angle-double-right" aria-hidden="true" style="margin-right: 5px;"></i> Albums</a>
+                    </li>
+
+                    <li class="<?= ($selected =='adm_photoes')?'selected':''?>">
+                        <a href="adm_photoes.php"><i class="fa fa-angle-double-right" aria-hidden="true" style="margin-right: 5px;"></i> Photoes</a>
+                    </li>
+
+                    <li class="<?= ($selected =='adm_places')?'selected':''?>">
                         <a href="adm_places.php"><i class="fa fa-angle-double-right" aria-hidden="true"></i> Places</a>
                     </li>
 
-                    <li class="">
+                    <li class="<?= ($selected =='adm_users')?'selected':''?>">
                         <a href="adm_users.php"><i class="fa fa-angle-double-right" aria-hidden="true" style="margin-right: 5px;"></i>Users</a>
                     </li>
 
-                    <li class="">
+                    <li class="<?= ($selected =='adm_category')?'selected':''?>">
                         <a href="adm_category.php"><i class="fa fa-angle-double-right" aria-hidden="true" style="margin-right: 5px;"></i> Category</a>
                     </li>
 
-                    <li class="">
-                        <a href="adm_change_password.php"><i class="fa fa-angle-double-right" aria-hidden="true"></i> Change Password</a>
+                    <li class="<?= ($selected =='adm_change_password')?'selected':''?>">
+                        <a href="adm_change_password.php"><i class="fa fa-shield" aria-hidden="true"></i> Change Password</a>
                     </li>
 
                 </ul>
