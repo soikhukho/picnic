@@ -18,11 +18,11 @@
 	foreach ($place as $item) {
 		echo '<div style="margin-top:50px;">
 					<a href="places_detail.php?id='.$item['id'].'"><h2>'.$i++.'. '.$item['title'].'</h2>
-   				<div><img src="'.$item['thumbnail'].'"></div></a>
-   				<p>'.$item['description'].'</p>
-
+	   				<div><img src="'.$item['thumbnail'].'"></div></a>
+	   				<p>'.$item['description'].'</p>
+	   				<a href="places_detail.php?id='.$item['id'].'">(Xem chi tiết)</a>
 				</div>';
 	}
 	if ($page<$total_page) {
-		echo '<button id="btn'.$page.'" class="btn btn-info" onclick="loadmore('.$page.')"><i class="fad fa-chevron-double-down"></i>Xem thêm ...</button>';
+		echo '<center><button id="btn'.$page.'" class="btn btn-info" onclick="loadmore('.$page.')"><i class="fad fa-chevron-double-down"></i>Xem thêm ...</button></center>';
 	}

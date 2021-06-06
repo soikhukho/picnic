@@ -110,115 +110,122 @@ $user_id=$user['id'];
             </div>
 
             <div class="row">
-                <div class="">
-        <!-- form create -->
+                <div style="margin-left: 50px;margin-right: 50px;">
+                    
+                  <!-- form create start-->
+                  <div style=" width:800px;">
 
-        <div style=" width:800px;margin: 0px auto;">
-          <button id="place_btn" class="btn" style="background: #04B173;"><h5 style="color: white ;font-weight: bold;">Create / Update</h5><small>(Click here)</small></button>
-          <div id="place" class="panel panel-primary" style="display:none; ;">
-            <div class="panel-heading">
-              <div style="text-align:right;">
-                <button id="close" class="btn btn-primary " style="font-size: 20px;padding: 10px;">X</button>
-              </div>
-              <h3 class="text-center" style="margin-top:-30px;"><?= (isset($edit_album))?'Update this Album':'Create a new Album'?></h3>
-            </div>
-            <div class="panel-body">
-              <form id="album_form" method="post">
-                <span style="color: red"><?= $alert ?></span>
-                
-                <div class="form-group">
-                  <label for="title">Title:</label>
-                  <input required="true" type="text" class="form-control" id="title" name="title" 
-                          value="<?=(isset($edit_album))?$edit_album['title']:'' ?>" >
-                </div>
+                      <button id="creat_btn" class="btn btn-warning"><h5 style="color: grey ;font-weight: bold;">Create / Update</h5>
+                      </button>
 
-                <div class="form-group">
-                  <label for="game_id">Game</label>
-                  <select class="form-control" style="width: 250px;" name="game_id">
-                    <option value="">--chon game--</option>
-                      <?php
-                        $games=executeResult("select id , title from games");
-                        foreach ($games as $game) {
-                            if ($game['id']!=$edit_album['game_id']) {
-                                echo '<option value="'.$game['id'].'">'.$game['title'].'</option>';
-                            }else{
-                                echo '<option selected value="'.$game['id'].'">'.$game['title'].'</option>';
-                            }
-                        }
-                      ?>
-                  </select>
-                </div>
+                      <div id="creat_form" class="panel panel-primary" style="display:none; ;">
+                        <div class="panel-heading">
+                          <div style="text-align:right;">
+                            <button id="close" class="btn btn-primary " style="font-size: 20px;padding: 10px;">X</button>
+                          </div>
+                          <h3 class="text-center" style="margin-top:-30px;"><?= (isset($edit_album))?'Update this Album':'Create a new Album'?></h3>
+                        </div>
+                        <div class="panel-body">
+                          <form id="album_form" method="post">
+                            <span style="color: red"><?= $alert ?></span>
+                            
+                            <div class="form-group">
+                              <label for="title">Title:</label>
+                              <input required="true" type="text" class="form-control" id="title" name="title" 
+                                      value="<?=(isset($edit_album))?$edit_album['title']:'' ?>" >
+                            </div>
 
-                <div class="form-group">
-                  <label for="thumbnail">Thumbnail:</label>
-                  <input required="true" type="text" class="form-control" id="thumbnail" name="thumbnail" 
-                          value="<?=(isset($edit_album))?$edit_album['thumbnail']:'' ?>" >
-                </div>
+                            <div class="form-group">
+                              <label for="game_id">Game</label>
+                              <select class="form-control" style="width: 250px;" name="game_id">
+                                <option value="">--chon game--</option>
+                                  <?php
+                                    $games=executeResult("select id , title from games");
+                                    foreach ($games as $game) {
+                                        if ($game['id']!=$edit_album['game_id']) {
+                                            echo '<option value="'.$game['id'].'">'.$game['title'].'</option>';
+                                        }else{
+                                            echo '<option selected value="'.$game['id'].'">'.$game['title'].'</option>';
+                                        }
+                                    }
+                                  ?>
+                              </select>
+                            </div>
 
-                <div class="form-group">
-                  <label for="description">Description:</label>
-                  <input required="true" type="text" class="form-control" id="description" name="description" 
-                          value="<?=(isset($edit_album))?$edit_album['description']:'' ?>" >
-                </div>
+                            <div class="form-group">
+                              <label for="thumbnail">Thumbnail:</label>
+                              <input required="true" type="text" class="form-control" id="thumbnail" name="thumbnail" 
+                                      value="<?=(isset($edit_album))?$edit_album['thumbnail']:'' ?>" >
+                            </div>
 
-                <center><button class="btn btn-warning" style="font-size: 20px;"><?= (isset($edit_album))?'Update':'Create'?></button></center>
-              </form>
-            </div>
-          </div>
-        </div>
+                            <div class="form-group">
+                              <label for="description">Description:</label>
+                              <input required="true" type="text" class="form-control" id="description" name="description" 
+                                      value="<?=(isset($edit_album))?$edit_album['description']:'' ?>" >
+                            </div>
+
+                            <center><button class="btn btn-warning" style="font-size: 20px;"><?= (isset($edit_album))?'Update':'Create'?></button></center>
+                          </form>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- form create end-->
         
-        <!-- show albums -->
-        <div id="show_cate" style="margin-top: 50px;margin-bottom: 50px;">
-          <h2 style="text-align: center;">List of Albums </h2>
-          <table class="table table-bordered" style=" margin: 0px auto;">
-            <thead>
-              <tr>
-                <th>No</th>
-                <th>Album Title</th>
-                <th>Thumbnail</th>
-                <th>Game Title</th>
-                <th>Category of Game </th>
-                <th>Updated at</th>
-                <th>Total photoes</th>
-                <th></th>
-                <th></th>
-              </tr>
-            </thead>
-            <tbody>
-              <?php
-                $albums = executeResult(" select albums.id ,albums.title 'albums title' ,albums.thumbnail, games.title 'games title',category.title 'category title',games.updated_at
-                                          from albums , games , category
-                                          where albums.game_id = games.id and games.cate_id = category.id 
+                    <!-- show albums start -->
+                    <div id="show_albums" style="margin-top: 50px;margin-bottom: 50px;">
+                      <h2 >List of Albums </h2>
 
-                                            order by albums.updated_at desc
-                                          ");
-                $i=1;
-                foreach ($albums as $album) {
+                      <table class="table table-bordered" style=" margin: 0px auto;">
+                        <thead>
+                          <tr>
+                            <th>No</th>
+                            <th>Album Title</th>
+                            <th>Thumbnail</th>
+                            <th>Game Title</th>
+                            <th>Category of Game </th>
+                            <th>Updated at</th>
+                            <th>Total photoes</th>
+                            <th></th>
+                            <th></th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <?php
+                            $albums = executeResult(" select albums.id ,albums.title 'albums title' ,albums.thumbnail, games.title 'games title',category.title 'category title',games.updated_at
+                                                      from albums , games , category
+                                                      where albums.game_id = games.id and games.cate_id = category.id 
 
-                  $album_id = $album['id'] ;
-                  $total = executeResult("select count(*) 'total' from photoes where album_id ='$album_id' " , true);
-                  $total = $total['total'];
+                                                        order by albums.updated_at desc
+                                                      ");
+                            $i=1;
+                            foreach ($albums as $album) {
 
-                  echo '<tr>
-                          <td>'.$i++.'</td>
-                          <td>'.$album['albums title'].'</td>
-                          <td><img src="'.$album['thumbnail'].'" style="width: 150px;"></td>
-                          <td>'.$album['games title'].'</td>
-                          <td>'.$album['category title'].'</td>
-                          <td>'.$album['updated_at'].'</td>
-                          <td><b>'.$total.'</b></td>
-                          <td><button class="btn btn-danger" onclick="del('.$album['id'].')">Delete</button></td>
-                          <td><button class="btn btn-warning" onclick="edit('.$album['id'].')">Edit</button></td>
-                        </tr>';
-                }
-              ?>
-            </tbody>
-          </table>
-        </div>
-     </div>
+                              $album_id = $album['id'] ;
+                              $total = executeResult("select count(*) 'total' from photoes where album_id ='$album_id' " , true);
+                              $total = $total['total'];
+
+                              echo '<tr>
+                                      <td>'.$i++.'</td>
+                                      <td>'.$album['albums title'].'</td>
+                                      <td><img src="'.$album['thumbnail'].'" style="width: 150px;"></td>
+                                      <td>'.$album['games title'].'</td>
+                                      <td>'.$album['category title'].'</td>
+                                      <td>'.$album['updated_at'].'</td>
+                                      <td><b>'.$total.'</b></td>
+                                      <td><button class="btn btn-danger" onclick="del('.$album['id'].')">Delete</button></td>
+                                      <td><button class="btn btn-warning" onclick="edit('.$album['id'].')">Edit</button></td>
+                                    </tr>';
+                            }
+                          ?>
+                        </tbody>
+                      </table>
+                    </div>
+                    <!-- show album end -->
+
+                </div>
 
 
-     <script type="text/javascript">
+    <script type="text/javascript">
       function del(id){
         if (confirm('Ban co chắc chắc muốn xóa album này ?') ) {
           $.post('adm_albums.php',
@@ -241,24 +248,26 @@ $user_id=$user['id'];
 
       $('#content').summernote();
 
-      $('#place_btn').click(function(){
-        document.getElementById('place').style.display=""
-        document.getElementById('place_btn').style.display="none"
+      $('#creat_btn').click(function(){
+        document.getElementById('creat_form').style.display=""
+        document.getElementById('creat_btn').style.display="none"
       })
        $("#close").click(function(){
-             document.getElementById('place').style.display="none"
-             document.getElementById('place_btn').style.display=""  
+             document.getElementById('creat_form').style.display="none"
+             document.getElementById('creat_btn').style.display=""  
           })
     </script>
 
     <?php if ($editID!='') {
          echo '<script type="text/javascript">
                 $("document").ready(function(){
-                  document.getElementById("place").style.display=""
-                  document.getElementById("place_btn").style.display="none"
+                  document.getElementById("creat_form").style.display=""
+                  document.getElementById("creat_btn").style.display="none"
                 })
               </script>';
     } ?>
+
+
         </div>
         <!-- end page-wrapper -->
 

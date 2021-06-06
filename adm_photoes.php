@@ -96,17 +96,21 @@
             <div class="row">
                 <!-- Page Header -->
                 <div class="col-lg-12">
-                    <h1 class="page-header">Admintrations photoes</h1>
+                    <h1 class="page-header">Admintrations Photoes</h1>
                 </div>
                 <!--End Page Header -->
             </div>
 
-            <div  class="row">
+            <div  class="row" style="margin-left: 50px;margin-right: 50px;">
 
                 <!-- form create -->
-                <div style=" width: 600px;margin: 0px auto;">
-                  <button id="cate_btn" class="btn" style="background: #04B173;"><h5 style="color: white ;font-weight: bold;">Create / Update</h5><small>(Click here)</small></button>
-                  <div id="photoes_form"  class="panel panel-primary" style="display: none;">
+                <div style=" width: 600px;">
+
+                  <button id="create_btn" class="btn" style="background: #04B173;"><h5 style="color: white ;font-weight: bold;">
+                      Create / Update</h5>
+                  </button>
+
+                  <div id="create_form"  class="panel panel-primary" style="display: none;">
                     <div class="panel-heading">
                       <div style="text-align:right;">
                         <button id="close" class="btn btn-primary " style="font-size: 20px;padding: 10px;">X</button>
@@ -152,8 +156,9 @@
                 
                 <!-- show photoes -->
                 <div id="show_cate" style=" width: 100% ;margin-top: 50px;margin-bottom: 50px;">
-                  <h2 style="text-align: center;">List of photoes</h2>
-                  <table class="table table-bordered" style="margin: 0px auto;width: 60%;">
+                  <h2>List of Photoes</h2>
+
+                  <table class="table table-bordered" style="width: 80%;">
                     <thead>
                       <tr>
                         <th>No</th>
@@ -221,22 +226,22 @@
       }
 
 
-      $('#cate_btn').click(function(){
-        document.getElementById('photoes_form').style.display=""
-        document.getElementById('cate_btn').style.display="none"
+      $('#create_btn').click(function(){
+        document.getElementById('create_form').style.display=""
+        document.getElementById('create_btn').style.display="none"
       })
 
        $("#close").click(function(){
-             document.getElementById('photoes_form').style.display="none"
-             document.getElementById('cate_btn').style.display=""  
+             document.getElementById('create_form').style.display="none"
+             document.getElementById('create_btn').style.display=""  
       })
     </script>
 
     <?php if ($editID!='') {
          echo '<script type="text/javascript">
                 $("document").ready(function(){
-                  document.getElementById("photoes_form").style.display=""
-                  document.getElementById("cate_btn").style.display="none"
+                  document.getElementById("create_form").style.display=""
+                  document.getElementById("create_btn").style.display="none"
                 })
               </script>';
     } ?>

@@ -1,4 +1,5 @@
-<!-- banner carosell -->
+<!-- banner carosell for places-->
+
 	<div id="myCarousel" class="carousel slide" data-ride="carousel">
 	  <!-- Indicators -->
 	  <ol class="carousel-indicators">
@@ -10,15 +11,15 @@
 	  <!-- Wrapper for slides -->
 	  <div class="carousel-inner">
 	  	<div class="item active">
-	      <img src="pictures/home1.jpg" style="width: 100%;height: 80%;">
+	  		<img src="pictures/beauty2.jpg" style="width: 100%;height: 80%;">
 	    </div>
 
 	  	<div class="item">
-	      <img src="pictures/home2.jpg" style="width: 100%;height: 80%;">
+	      <img src="pictures/beauty1.jpg" style="width: 100%;height: 80%;">
 	    </div>
 	    
 	    <div class="item">
-	      <img src="pictures/home3.jpg" style="width: 100%;height: 80%;">
+	    	<img src="pictures/beauty.jpg" style="width: 100%;height: 80%;">
 	    </div>
 	  </div>
 

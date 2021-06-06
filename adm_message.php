@@ -45,6 +45,9 @@ if ($change_id=='' && $checked_all!=''){
         table td,th{
             height: 50px;
         }
+        table a{
+            color: black;
+        }
     </style>
 
 </head>
@@ -88,14 +91,14 @@ if ($change_id=='' && $checked_all!=''){
                                 if ($item['status']==0) {
                                     echo '<tr>
                                             <td>'.$i++.'</td>
-                                            <td>'.$item['content'].'</td>
+                                            <td><a onclick="status_change_dont_reload('.$item['id'].')" href="'.$item['href'].'">'.$item['content'].'</a></td>
                                             <td>'.timeAgo($item['created_at']).'</td>
                                             <td><input  type="checkbox" name="status" onclick="status_change('.$item['id'].')"></td>
                                         </tr>';
                                 }else{
                                     echo '<tr>
                                             <td>'.$i++.'</td>
-                                            <td>'.$item['content'].'</td>
+                                            <td><a onclick="status_change_dont_reload('.$item['id'].')" href="'.$item['href'].'">'.$item['content'].'</a></td>
                                             <td>'.timeAgo($item['created_at']).'</td>
                                             <td><input checked readonly="true" type="checkbox" name="status" onclick="return false;" ></td>
                                         </tr>';
@@ -117,6 +120,13 @@ if ($change_id=='' && $checked_all!=''){
     function status_change(id){
         $.post('adm_message.php',{change_id:id},function(data){
             window.location.reload()
+        })
+        
+    }
+
+    function status_change_dont_reload(id){
+        $.post('adm_message.php',{change_id:id},function(data){
+            // window.location.reload()
         })
         
     }

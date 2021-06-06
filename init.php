@@ -16,7 +16,7 @@ require_once 'utility/utils.php';
 							fullname varchar(100) not null,
 							email varchar(100) unique,
 							phone_no varchar(20),
-							birthday datetime,
+							birthday date,
 							address varchar(200) ,
 							created_at datetime,
 						    updated_at datetime,
@@ -96,7 +96,7 @@ require_once 'utility/utils.php';
 							description varchar(500),
 							created_at datetime,
 						    updated_at datetime,
-							game_id int references games (id)
+							game_id int references games(id)
 						)';
 		execute($albums_table);
 
@@ -117,6 +117,12 @@ require_once 'utility/utils.php';
 							    href varchar(100),
 							    status tinyint default 0)';
 		execute($message_table);
+
+		$create_first_admin= "insert into users(email , password, fullname, phone_no , address ,
+									 birthday, created_at, updated_at) 
+								values ('picnic@gmail.com', '88b2a7b2ee7b09fe0b35086f3db80759',
+								 'Picnic Games', '+84865698896', '54 Lê Thanh Nghị','1989-01-23', '2021-05-15 05:57:19','2021-05-15 05:57:19')";
+		execute($create_first_admin);
 
 }
 

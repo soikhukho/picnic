@@ -1,6 +1,10 @@
-**{
+*{
     margin: 0;
     padding: 0;
+}
+*{
+    font-family: 'Poppins', sans-serif;
+    box-sizing: border-box;
 }
 
 #header{
@@ -19,53 +23,67 @@
  }
 
 
-nav{
-    
-    height: 60px;
+nav:after{
+    content: '';
+    clear: both;
+    display: table;
+}
+nav .logo{
+    float: left;
+    padding: 10px;
+    display: block;
+    margin-top: -10px;
 }
 nav ul{
-    display: flex;
-    padding-bottom: 0px;
-    padding-left: 0px;
+    float: right;
+    list-style: none;
+    margin-top: 20px;
+    position: relative;
 }
 nav ul li{
-
-    list-style: none;
-   z-index: 100;
-   border-right: 1px dotted white;
+    float: left;
+    display: inline-block;
+    margin: 0 5px;
+    padding-left: 5px;
+    
 }
 nav ul li a{
-    display: block;
-    padding:0 25px;
-    line-height: 60px;
     color: black;
     text-decoration: none;
-    font-weight: bold;
-    font-size: 16px;
-}
-nav ul li:first-child {
-    border-left: none; 
-}
-nav ul li:hover a{
-    background:#04B173;
-    color: white;
-}
-nav li ul{
-    display: none;
-    min-width: 350px;
-    position: absolute;
-    padding-left: 0px;
-}
-nav li ul li{
-    width: 100%;
-    border: none;
-    border-bottom: 1px solid #ccc;
-    background: #88b3ab;
-    text-align: left;
+    line-height: 70px;
+    font-size: 18px;
+    padding-right: 25px;
 }
 
-nav li:hover ul{
-    display: block;
+nav ul ul{
+    border-top: 3px solid #41adad;
+    position: absolute;
+    top: 130px;
+    opacity: 0;
+    visibility: hidden;
+    transition: .3s;
+    background: white ;
+}
+nav ul li:hover > ul{
+    top: 42px;
+    opacity: 1;
+    visibility: visible;
+    z-index: 1;
+}
+
+nav ul ul li{
+    position: relative;
+    margin:0px;
+    width:150px;
+    float: none;
+    display: list-item;
+    border-bottom: 1px solid grey;
+    margin-left: -40px;
+    padding-left: 5px;
+}
+nav ul ul li a{
+    line-height: 50px;
+    color:  black;
 }
 
 
@@ -84,12 +102,7 @@ transition: all 0.5s;
 transform: scale(1.1);
 }}
 
-#optionGroup{
-    border:1px solid black;
-    display: flex;
-    padding-right: 0px;
-     
-}
+
 #login_group{
     padding: 0px;
 }

@@ -26,7 +26,7 @@
                 <!-- main dropdown -->
                 <li class="dropdown">
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                        <span class="top-label label label-danger">3</span><i class="fa fa-envelope-o fa-3x"></i>
+                        <span class="top-label label label-danger">0</span><i class="fa fa-envelope-o fa-3x"></i>
                     </a>
                     <!-- dropdown-messages -->
                     <ul class="dropdown-menu dropdown-messages">
@@ -38,7 +38,7 @@
                                         <em>Yesterday</em>
                                     </span>
                                 </div>
-                                <div>fadf</div>
+                                <div>khong co gi </div>
                             </a>
                         </li>
                         <li class="divider"></li>

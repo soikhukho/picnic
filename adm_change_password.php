@@ -80,8 +80,11 @@ if (!empty($_POST) && $new_pwd!='') {
             </div>
 
             <div class="row">
-                <div style=" width:600px;margin: 0px auto;">
-                    <button id="show_btn" class="btn btn-danger" ><h5 style="color: white ;font-weight: bold;">Update your Password</h5><small>(click here)</small></button>
+                <div style=" width:600px;margin-left: 50px;">
+
+                    <button id="show_btn" class="btn btn-warning" ><h5 style="color: grey ;font-weight: bold;">Update your Password</h5>
+                    </button>
+
                       <div id="myform"  class="panel panel-primary" style="display: none;">
                         <div class="panel-heading">
                           <div style="text-align:right;">

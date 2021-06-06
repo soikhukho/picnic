@@ -8,7 +8,7 @@
   	$email = $user['email'];
 
     if($updateID!=''){
-      echo '<div style=" width:600px;margin: 0px auto; margin-top: 50px;">
+      echo '<div style=" width:600px;">
 			    <div class="panel panel-primary">
 			      <div class="panel-heading">
 			      	<div style="text-align:right;">

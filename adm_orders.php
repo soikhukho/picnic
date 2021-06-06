@@ -60,7 +60,7 @@ if ($sucessID != '') {
 <html>
 
 <head>
-    <title>admin</title>
+    <title>admin orders</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
@@ -79,7 +79,6 @@ if ($sucessID != '') {
     <style type="text/css">
         #showOrder table{
             width: 600px;
-            margin:0px auto;
         }
         .info_customer{
             
@@ -118,7 +117,7 @@ if ($sucessID != '') {
             
 
         <!-- main content start-->
-            <div class="row" id="showOrder" style="margin:0px auto;">
+            <div class="row" id="showOrder" style="margin-left: 50px;margin-right: 50px;">
                 <div class="row">
                     <div class="form-group">
                     <label>Chọn tác vụ :</label>
@@ -132,7 +131,7 @@ if ($sucessID != '') {
                 </div>
                 
                 <?php
-
+                    $count=1;
                     foreach ($orderIDList as $order) {
 
                         $sql = "select customers.fullname, customers.address, customers.phone ,
@@ -147,17 +146,13 @@ if ($sucessID != '') {
                             
                         $time =$orderDetails[0]['created_at'];
 
-                        echo '<div class="row" style="border-bottom:1px solid #bfbfbf;padding-top:20px;padding-bottom:20px;">';
+                        echo '<div class="row" style="border-bottom:1px dotted #bfbfbf;padding-top:20px;padding-bottom:20px;">';
 
-                        echo '<div class="row" style="width:600px;margin:0px auto;text-align: justify;">
-
-                                    <div class="col-sm-8">
-                                        <i>ORDERED : '.timeAgo($time).'</i>
-                                    </div>
-                                    <div >
-                                        <div style="font-weight:bold;font-size:20px;font-style:italic">Đơn hàng số : '.$order['id'].'</div>
-                                    </div>
-                                
+                        echo '<div class="row" style="width:600px;margin-left:10px;">
+                                    <div style="font-weight:bold;font-size:20px;font-style:italic;color:;">
+                                        '.$count++.'.Đơn hàng số : '.$order['id'].'
+                                        <i style="font-size:12px;font-weight:normal;">('.timeAgo($time).')</i>
+                                    </div>                             
                               </div>';
 
                         echo '<table class="table table-bordered" style=";

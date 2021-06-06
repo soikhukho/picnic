@@ -89,17 +89,18 @@
                 <!--End Page Header -->
             </div>
 
-            <div class="row">
-                <div class="">
-
+            <div class="row" style="margin-left: 50px;margin-right: 50px;">
+                      <!-- hiden form  -->
                       <div id="update_pwd">
                         
                       </div>
                         
-                        <!-- show category -->
-                        <div id="show_cate" style="margin-top: 50px;margin-bottom: 50px;">
-                          <h2 style="text-align: center;">User List</h2>
-                          <table class="table table-bordered" style="margin: 0px auto;">
+                        <!-- show users -->
+                        <div id="show_users" style="margin-top: 50px;margin-bottom: 50px;">
+
+                          <h2 style="">User List</h2>
+
+                          <table class="table table-bordered" >
                             <thead>
                               <tr>
 
@@ -163,8 +164,7 @@
                               ?>
                             </tbody>
                           </table>
-                        </div>
-                     </div>
+
             </div>
             
          </div>

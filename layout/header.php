@@ -64,45 +64,34 @@
 
 	<!-- Menu -->
 	<div id="menu">
-		<nav class="container">			
-	        <ul>
-	            <li><a href="index.php" title="HOME">HOME</a></li>
-	             
-	             <li><a href="">DANH MỤC GAMES</a>
-	             	<ul>
-	             		<?php
-		            		foreach ($category as $cate) {
-		            			$cate_id = $cate['id'];
-		            			$games= executeResult("select * from games where cate_id = $cate_id ");
-		            			echo '<li>
-		            						<a style="text-transform: uppercase;" href="games.php?cate='.$cate['title'].'">'.$cate['title'].'</a>';
+		<nav>
+				<div class="logo">
+					<img src="https://hinoderoyalpark.com.vn/public/media/logo_hnd_rp.png" style="height: 95px;">
+				</div>
+				<ul>
+					<li><a href="">HOME </a></li>
+					<li>
+						<a href="">DANH MỤC GAMES</a>
+						<ul >
+							<?php
+			            		foreach ($category as $cate) {
+			            			$cate_id = $cate['id'];
+			            			$games= executeResult("select * from games where cate_id = $cate_id ");
+			            			echo '<li>
+			            						<a style="text-transform: uppercase;" href="games.php?cate='.$cate['title'].'">'.$cate['title'].'</a>';
 
-		            			echo "</li>";
-		            		}
-			              ?>
-	             	</ul>
-	             </li>
-
-	            <li><a href="">SỰ KIỆN</a>
-	                <ul>
-	                	
-	                </ul>   
-	            </li>
-	            
-	            <li><a href="places.php">ĐỊA ĐIỂM NỔI BẬT</a>
-	                <ul>
-	                	
-	                </ul>   
-	            </li>
-	            <li><a href="">ALBUM</a>
-	                <ul>
-	                	
-	                </ul>   
-	            </li>
-	            
-	            <li style="border-right: none !important; "><a href="#" title="LIÊN HỆ">LIÊN HỆ</a></li>
-	        </ul>
-	    </nav>
+			            			echo "</li>";
+			            		}
+				              ?>
+						</ul>
+					</li>
+					<li><a href="">SỰ KIỆN</a></li>
+					<li><a href="places.php">ĐỊA ĐIỂM NỔI BẬT</a></li>
+					<li><a href="">ALBUM</a></li>
+					<li><a href="">LIÊN HỆ</a></li>
+					<li><a><i class="fas fa-search"></i></a></li>
+				</ul>
+			</nav>
 	</div>
 	</div>
 

@@ -92,10 +92,14 @@
             </div>
 
             <div  class="row">
+
                 <!-- form create -->
-                <div style=" width:600px;margin: 0px auto;">
-                  <button id="cate_btn" class="btn" style="background: #04B173;"><h5 style="color: white ;font-weight: bold;">Create / Update</h5><small>(Click here)</small></button>
-                  <div id="category_form"  class="panel panel-primary" style="display: none;">
+                <div style=" width:500px;margin-left: 50px;">
+
+                  <button id="create_btn" class="btn" style="background: #04B173;"><h5 style="color: white ;font-weight: bold;">Create / Update</h5>
+                  </button>
+
+                  <div id="create_form"  class="panel panel-primary" style="display: none;">
                     <div class="panel-heading">
                       <div style="text-align:right;">
                         <button id="close" class="btn btn-primary " style="font-size: 20px;padding: 10px;">X</button>
@@ -116,11 +120,14 @@
                     </div>
                   </div>
                 </div>
+                <!-- form creat end -->
                 
                 <!-- show category -->
-                <div id="show_cate" style="margin-top: 50px;margin-bottom: 50px;">
-                  <h2 style="text-align: center;">List of Category</h2>
-                  <table class="table table-bordered" style="margin: 0px auto;width: 60%;">
+                <div id="show_cate" style="margin: 50px;">
+
+                  <h2 >List of Category</h2>
+
+                  <table class="table table-bordered" style="width: 60%;">
                     <thead>
                       <tr>
                         <th>No</th>
@@ -144,6 +151,7 @@
                       ?>
                     </tbody>
                   </table>
+
                 </div>
              </div>
 
@@ -175,22 +183,22 @@
       }
 
 
-      $('#cate_btn').click(function(){
-        document.getElementById('category_form').style.display=""
-        document.getElementById('cate_btn').style.display="none"
+      $('#create_btn').click(function(){
+        document.getElementById('create_form').style.display=""
+        document.getElementById('create_btn').style.display="none"
       })
 
        $("#close").click(function(){
-             document.getElementById('category_form').style.display="none"
-             document.getElementById('cate_btn').style.display=""  
+             document.getElementById('create_form').style.display="none"
+             document.getElementById('create_btn').style.display=""  
       })
     </script>
 
     <?php if ($editID!='') {
          echo '<script type="text/javascript">
                 $("document").ready(function(){
-                  document.getElementById("category_form").style.display=""
-                  document.getElementById("cate_btn").style.display="none"
+                  document.getElementById("create_form").style.display=""
+                  document.getElementById("create_btn").style.display="none"
                 })
               </script>';
     } ?>
