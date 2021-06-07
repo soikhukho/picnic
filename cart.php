@@ -11,6 +11,70 @@
   } else{
     $cart = [];
   }
+
+  $date= date('Y-m-d H:i:s');
+  $fullname = getPost('fullname');
+  $address = getPost('address');
+  $phone_no = getPost('phone_no');
+
+  if (!empty($_POST) &&count($cart)!=0) {
+    
+    //check customer by phone_no
+    $list_id = executeResult("select * from customers where phone = '$phone_no' ");
+    $count=count($list_id);
+
+    if ($count==0) {
+        //create new customer
+        $sql=" insert into customers(fullname , phone , address , created_at) values 
+                    ('$fullname','$phone_no','$address','$date')";
+                    
+        execute($sql);
+
+        $result = executeResult("select * from customers where phone = '$phone_no' ");
+        $cus_id=$result[0]['id'];
+
+    }else{
+
+        $id=$list_id[0];
+        $cus_id=$id['id'];
+    }
+
+    // have cus_id , then create an order ,then take id of that order
+    $sql = "insert into orders (cus_id , created_at) values ('$cus_id' , '$date')";
+    execute($sql);
+
+    $order=executeResult("select * from orders where created_at = '$date' and cus_id ='$cus_id' ",true);
+
+    $order_id = $order['id'];
+
+    //create a mess
+    mess('<b>Bạn có 1 đơn hàng mới ,đơn hàng số '.$order_id.'</b>','adm_orders.php');
+
+
+    //then create order details
+    $cart = json_decode($_COOKIE['cart_picnic'],true);
+    foreach ($cart as $detail) {
+
+        $game_id = $detail['game_id'];
+
+        $game=executeResult("select * from games where id = '$game_id' " , true);
+        $price = $game['price'];
+
+        $quantity = $detail['quantity'];
+
+        $sql="insert into orders_details(order_id,created_at , game_id , quantity ,price) 
+              values ('$order_id','$date','$game_id','$quantity' , '$price')";
+        execute($sql);
+
+      //then delete cart
+      setcookie('cart_picnic','',-1,'/');
+
+      //
+      header('Location: complete.php');
+    }
+
+  }
+
 ?>
 
 <!DOCTYPE html>
@@ -27,44 +91,8 @@
   <script src="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.12/summernote.js"></script>
   <link rel="stylesheet" type="text/css" href="style/style_header2.css">
   <script src="https://kit.fontawesome.com/3e49906220.js" crossorigin="anonymous"></script>
-  <style type="text/css">
 
-    #btn_minus{
-      height: 28px;
-      border-radius: 5px 0 0 5px;
-      margin-right: -5px !important;
-    }
-
-    #btn_add{
-      height: 28px;
-      border-radius: 0 5px 5px 0;
-      margin-left: -5px !important;
-    }
-    .title{
-      padding-top: 25px !important;
-    }
-    .quantity_area{
-      padding-top: 15px;
-    }
-
-    .quantity_area input{
-      margin-top: 0px !important;
-      width: 50px !important;
-      height: 35px;
-      text-align: center;
-      font-weight: bold;
-      font-size: 18px;
-    }
-
-    .quantity_area button{
-      height: 35px !important;
-      width: 35px !important;
-    }
-
-    .fas:hover{
-      cursor: pointer;
-    }
-  </style>
+  <link rel="stylesheet" type="text/css" href="style/cart_style.css">
 </head>
 <body>
     <?php
@@ -75,15 +103,13 @@
      ?>
      <div class="container" style="min-height: 1000px;">
 
-        <div id="result"></div>
-
-        <div id="" style="margin-top: 50px;">
+        <div id="content" >
           <h3>Your cart :</h3>
           <form id="myForm" method="post">
-              <table class="table table-bordered" style="width: 80%;">
+              <table class="table table-bordered" style="">
                 <thead >
                   <th>STT</th>
-                  <th>Game ID</th>
+                  <th style="display: none;">Game ID</th>
                   <th>Game Title </th>
                   <th>Thumbnail</th>
                   <th>Price</th>
@@ -106,7 +132,7 @@
                       echo '<tr class="detail">
                             <td>'.$i.'</td>
 
-                            <td class="game_id"><input type="number" value="'.$detail['game_id'].'" style=" border:none;width:40px;" readonly="true" id="game_id'.$i.'" name="game_id'.$i.'"></td>
+                            <td style="display: none;" class="game_id"><input type="number" value="'.$detail['game_id'].'" style=" border:none;width:40px;" readonly="true" id="game_id'.$i.'" name="game_id'.$i.'"></td>
 
                             <td class="title">'.$game['title'].'</td>
 
@@ -141,6 +167,31 @@
               </table>
                 
                 <h3 class="row" id="total_money" style="margin-left: 600px;" > </h3>
+
+                <!-- form customer info start-->
+                <div <?= (count($cart)==0)?'style="display:none"':'' ?>>
+                  <div class="form-group">
+                    <label for="fullName">Full name:</label>
+                    <input required="true" type="text" class="form-control" id="fullname" name="fullname" value="<?= $fullname ?>">
+                  </div>
+
+                  <div class="form-group">
+                    <label for="phone_no">Phone number:</label>
+                    <input required="true" type="text" class="form-control" id="phone_no" name="phone_no" value="<?= $phone_no ?>">
+                  </div>
+
+                  <div class="form-group">
+                    <label for="address">Address:</label>
+                    <input required="true" type="text" class="form-control" id="address" name="address" value="<?= $address ?>">
+                  </div>
+                  
+                  
+                </div>
+                <!-- form caustomer end -->
+
+                <div style="text-align: center;margin-top: 30px;" >
+                  <a href="checkout.php" <?= (count($cart)==0)?'style="display:none"':'' ?> ><button id="btn_checkout" class="btn btn-warning">Mua hàng</button>
+                </div>
   
 
             </form>
@@ -263,7 +314,7 @@
           $('#total_money').html('Tổng tiền : '+total_money)
   }
 
-
+//onclick delete icon
 $('[name=delete_icon]').click(function(){
 
     var del_game_id = $(this).parent().parent().children('.game_id').children().val() ;
@@ -280,7 +331,7 @@ function del(del_game_id){
     })
   }
 }
-  
+
 
 </script>
 </body>

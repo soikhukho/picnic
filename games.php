@@ -42,8 +42,12 @@
               echo '<div class="game col-md-4">
                       <div class="game-inner">
                         <div class="thumbnail" >
+                          <a href="games_detail.php?id='.$game['id'].'">
                             <img src="'.$game['thumbnail'].'" style="height:225px;width:100%;border-radius:10px 10px 0 0;">
+                          </a>
                         </div>
+
+                        <a href="games_detail.php?id='.$game['id'].'" style="color:black;">
                         <div class="content" >
                             <div id="text_area">
                                 <p class="title">'.$game['title'].'</p>
@@ -74,6 +78,7 @@
                                      </div>
                                 </div>
                             </div>
+                            </a>
 
                             <div id="btn-area">
                                 <div style="width:100%;height: 40px; display: flex;text-align: justify;">

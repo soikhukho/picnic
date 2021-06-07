@@ -24,12 +24,14 @@
 <body>
     <?php
         include_once 'layout/header2.php';
-        include_once 'layout/carosell.php';
-        include_once 'layout/popup_login.php';
+        // include_once 'layout/carosell.php';
+        // include_once 'layout/popup_login.php';
 
      ?>
      <div class="container" style="min-height: 1000px;">
-       
+       <h1>
+         Bạn đã đặt hàng thành công !!!
+       </h1>
      </div>
     <?php include 'layout/footer.php'; ?>
 

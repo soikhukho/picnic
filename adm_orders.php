@@ -143,7 +143,7 @@ if ($sucessID != '') {
                                         and games.id = orders_details.game_id
                                 and orders.id =".$order['id'];
                         $orderDetails= executeResult($sql);
-                            
+                        
                         $time =$orderDetails[0]['created_at'];
 
                         echo '<div class="row" style="border-bottom:1px dotted #bfbfbf;padding-top:20px;padding-bottom:20px;">';

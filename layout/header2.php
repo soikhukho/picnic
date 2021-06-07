@@ -68,7 +68,7 @@
 				<div class="logo col-md-2">
 					<img src="https://hinoderoyalpark.com.vn/public/media/logo_hnd_rp.png" style="height: 80px;padding-top: 15px;">
 				</div>
-				<ul class="col-md-9">
+				<ul class="col-md-8">
 					<li><a href="index.php">HOME </a></li>
 					<li>
 						<a href="games.php">GAME CATEGORIES</a>
@@ -93,7 +93,7 @@
 				</ul>
 				<div id="cart" class="col-md-1">
 					<a href="cart.php">
-						<i id="icon_cart" class="fas fa-shopping-cart fa-5x" style="color:white"></i>
+						<i id="icon_cart" class="fas fa-shopping-cart fa-4x" style="color:white"></i>
 						<input type="text" name="total_item_in_cart" value="<?= $total_item_in_cart?>">
 					</a>
 				</div>
