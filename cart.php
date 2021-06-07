@@ -105,7 +105,7 @@
 
         <div id="content" >
           <h3>Your cart :</h3>
-          <form id="myForm" method="post">
+          
               <table class="table table-bordered" style="">
                 <thead >
                   <th>STT</th>
@@ -169,6 +169,8 @@
                 <h3 class="row" id="total_money" style="margin-left: 600px;" > </h3>
 
                 <!-- form customer info start-->
+              <form id="myForm" method="post">
+
                 <div <?= (count($cart)==0)?'style="display:none"':'' ?>>
                   <div class="form-group">
                     <label for="fullName">Full name:</label>
@@ -207,7 +209,6 @@
 
   //onclick btn minus
   $('[name=btn_minus]').click(function(){
-          $('#myForm').submit(function(){return false})
 
           var quantity =parseInt( $(this).parent().children('input').val() );
           var min=parseInt( $(this).parent().children('input').attr('min') );
@@ -236,7 +237,6 @@
 
   //onclick btn add
   $('[name=btn_add]').click(function(){
-          $('#myForm').submit(function(){return false})
 
           var quantity =parseInt( $(this).parent().children('input').val() );
           var max=parseInt( $(this).parent().children('input').attr('max') );
@@ -319,18 +319,18 @@ $('[name=delete_icon]').click(function(){
 
     var del_game_id = $(this).parent().parent().children('.game_id').children().val() ;
 
-    $(this).parent().parent().empty();
+    if (confirm('Are you sure to del this item?')) {
 
-    del(del_game_id) ;
+        $(this).parent().parent().empty();
+
+        $.post('add_to_cart.php',{del_game_id:del_game_id},function(data){
+            $('[name=total_item_in_cart]').val(data)
+        })
+
+        total_money()
+        
+    };
 })
-
-function del(del_game_id){
-  if (confirm('Are you sure to del this item?')) {
-      $.post('add_to_cart.php',{del_game_id:del_game_id},function(data){
-        $('[name=total_item_in_cart]').val(data)
-    })
-  }
-}
 
 
 </script>

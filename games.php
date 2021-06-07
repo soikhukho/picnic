@@ -47,7 +47,7 @@
                           </a>
                         </div>
 
-                        <a href="games_detail.php?id='.$game['id'].'" style="color:black;">
+                        
                         <div class="content" >
                             <div id="text_area">
                                 <p class="title">'.$game['title'].'</p>
@@ -78,7 +78,7 @@
                                      </div>
                                 </div>
                             </div>
-                            </a>
+                          
 
                             <div id="btn-area">
                                 <div style="width:100%;height: 40px; display: flex;text-align: justify;">

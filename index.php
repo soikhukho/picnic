@@ -28,7 +28,7 @@
         include_once 'layout/popup_login.php';
 
      ?>
-     <div class="container" style="min-height: 1000px;">
+     <div class="container" style="min-height: 500px;">
        
      </div>
     <?php include 'layout/footer.php'; ?>

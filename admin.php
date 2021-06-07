@@ -6,8 +6,9 @@
       if ($user=='') {
         header('Location: index.php');
       }
-$user_id=$user['id'];
+    $user_id=$user['id'];
 
+//rồi code tiếp php ở đây
 
 ?>
 
@@ -53,11 +54,12 @@ $user_id=$user['id'];
                 <!--End Page Header -->
             </div>
 
-        <!-- main content start-->
+            <!-- main content start-->
             <div class="row">
-                
+                code html vào giữa cái div này 
+
             </div>
-            
+            <!-- main content start-->
 
         </div>
         <!-- end page-wrapper -->
