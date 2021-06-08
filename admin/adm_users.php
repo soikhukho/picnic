@@ -1,6 +1,6 @@
 <?php
-  require_once 'db/dbhelper.php';
-  require_once 'utility/utils.php';
+  require_once '../db/dbhelper.php';
+  require_once '../utility/utils.php';
 
   $selected='adm_users';
 
@@ -60,12 +60,12 @@
     <link href="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.12/summernote.css" rel="stylesheet">
     <script src="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.12/summernote.js"></script>
 
-    <link href="assets/plugins/bootstrap/bootstrap.css" rel="stylesheet" />
-    <link href="assets/font-awesome/css/font-awesome.css" rel="stylesheet" />
-    <link href="assets/plugins/pace/pace-theme-big-counter.css" rel="stylesheet" />
-    <link href="assets/css/style.css" rel="stylesheet" />
-    <link href="assets/css/main-style.css" rel="stylesheet" />
-    <link rel="stylesheet" type="text/css" href="style/toogle_switch.css">
+    <link href="../assets/plugins/bootstrap/bootstrap.css" rel="stylesheet" />
+    <link href="../assets/font-awesome/css/font-awesome.css" rel="stylesheet" />
+    <link href="../assets/plugins/pace/pace-theme-big-counter.css" rel="stylesheet" />
+    <link href="../assets/css/style.css" rel="stylesheet" />
+    <link href="../assets/css/main-style.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="../style/toogle_switch.css">
 
 </head>
 
@@ -73,8 +73,8 @@
     <div id="wrapper">
         <!-- navbar  -->
         <?php 
-            include_once 'layout/admin_navbar_top.php';
-            include_once 'layout/admin_navbar_side.php';
+            include_once '../layout/admin_navbar_top.php';
+            include_once '../layout/admin_navbar_side.php';
         ?>
         <!-- end navbar  -->
 

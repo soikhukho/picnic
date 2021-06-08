@@ -33,7 +33,7 @@
 
 <!-- admintrations -->
                     <li class="">
-                        <a href="index.php"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
+                        <a href="../index.php"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
                     </li>
 
                     <li class="<?= ($selected =='adm_orders')?'selected':''?>">

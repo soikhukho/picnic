@@ -36,7 +36,7 @@
 					<div id="login_group" >
 							<ul  style="display: inline-flex; padding-top: 3px;list-style-type: none;">
 
-								  <li id="hello_user" <?=($user=='')?'style="display: none;"':'' ?> ><a href="adm_message.php" >
+								  <li id="hello_user" <?=($user=='')?'style="display: none;"':'' ?> ><a href="admin/adm_message.php" >
 										<button id="btn_user" class="btn" style="text-align: left;min-width: 80px; height: 36px; border-radius: 20px;padding: 2px;padding-right: 5px;">
 											<img src="<?=($user!='')?$user['avatar']:'' ?>" 
 													style="border-radius: 50%;max-height: 30px;">

@@ -19,7 +19,7 @@ $password= getMd5($pwd);
 				//update lên db
 				execute("update users set token = '$token' where email='$email' ");
 
-				header('Location: adm_message.php');
+				header('Location: admin/adm_message.php');
 			}else{
 				$alert_login='Email hoặc password không đúng !';
 			}		

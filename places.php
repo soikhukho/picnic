@@ -53,21 +53,7 @@
      <div class="container" style="min-height: 500px;">
          <div class="row">
             <div class="col-md-8" id="content" style="margin-bottom: 50px;">
-            <?php
-              $place=executeResult("select * from places limit $start,$limit ");
-            $i=1;
-            foreach ($place as $item) {
-              echo '<div style="margin-top:50px;">
-                      <a href="places_detail.php?id='.$item['id'].'"><h2>'.$i++.'. '.$item['title'].'</h2>
-                      <div><img src="'.$item['thumbnail'].'"></div></a>
-                      <p>'.$item['description'].'</p>
-                      <a href="places_detail.php?id='.$item['id'].'">(Xem chi tiết)</a>
-
-                    </div>';
-            }
-
-              echo '<center><button id="btn'.$page.'" class="btn btn-info" onclick="loadmore('.$page.')">Xem thêm ...</button></center>';
-            ?>
+            
             </div>
             <div class="col-md-4">
               
@@ -76,6 +62,8 @@
      </div>
      
      <script type="text/javascript">
+      loadmore(0)
+      
       function loadmore(page) {
         $('#btn'+page).hide()
         page++

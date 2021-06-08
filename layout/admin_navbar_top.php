@@ -1,6 +1,6 @@
 <?php
-  require_once 'db/dbhelper.php';
-  require_once 'utility/utils.php';
+  require_once '../db/dbhelper.php';
+  require_once '../utility/utils.php';
 
   $mess=executeResult("select * from message where status = 0 order by created_at desc");
   $number=count($mess);

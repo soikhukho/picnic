@@ -1,6 +1,6 @@
 <?php
-  require_once 'db/dbhelper.php';
-  require_once 'utility/utils.php';
+  require_once '../db/dbhelper.php';
+  require_once '../utility/utils.php';
 
   	$updateID= getPost('updateID');
 

@@ -176,7 +176,7 @@
 
        function addToCart(id,quantity){
         alert('Them vao gio hang thanh cong')
-        $.post('add_to_cart.php',{game_id:id,quantity:quantity},function(data){
+        $.post('selling/add_to_cart.php',{game_id:id,quantity:quantity},function(data){
           $('[name=total_item_in_cart]').val(data)
         })
        }

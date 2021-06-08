@@ -48,8 +48,7 @@
     $order_id = $order['id'];
 
     //create a mess
-    mess('<b>Bạn có 1 đơn hàng mới ,đơn hàng số '.$order_id.'</b>','adm_orders.php');
-
+    mess('<b>Bạn có 1 đơn hàng mới ,đơn hàng số '.$order_id.'</b>','adm_orders_details.php?id='.$order_id);
 
     //then create order details
     $cart = json_decode($_COOKIE['cart_picnic'],true);
@@ -89,16 +88,17 @@
   <!-- include summernote css/js -->
   <link href="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.12/summernote.css" rel="stylesheet">
   <script src="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.12/summernote.js"></script>
-  <link rel="stylesheet" type="text/css" href="style/style_header2.css">
+
   <script src="https://kit.fontawesome.com/3e49906220.js" crossorigin="anonymous"></script>
 
+  <link rel="stylesheet" type="text/css" href="style/style_header2.css">
   <link rel="stylesheet" type="text/css" href="style/cart_style.css">
 </head>
 <body>
     <?php
         include_once 'layout/header2.php';
-        // include_once 'layout/carosell.php';
-        // include_once 'layout/popup_login.php';
+        // include_once '../layout/carosell.php';
+        // include_once '../layout/popup_login.php';
 
      ?>
      <div class="container" style="min-height: 1000px;">
@@ -148,7 +148,7 @@
 
                                       <input class="quantity" id="quantity" type="number" value="'.$detail['quantity'].'" name="quantity" min="1" max="50">
 
-                                      <button id="btn_add" name="btn_add" class="btn btn-success" style="font-size: 9px;">
+                                      <button id="btn_plus" name="btn_plus" class="btn btn-success" style="font-size: 9px;">
                                           <i class="fa fa-plus" aria-hidden="true"></i>
                                       </button>
                                    </div>
@@ -236,7 +236,7 @@
       })
 
   //onclick btn add
-  $('[name=btn_add]').click(function(){
+  $('[name=btn_plus]').click(function(){
 
           var quantity =parseInt( $(this).parent().children('input').val() );
           var max=parseInt( $(this).parent().children('input').attr('max') );
@@ -299,7 +299,7 @@
       })
 
       function update_quantity(game_id,newquantity){
-          $.post('add_to_cart.php',{game_id:game_id,quantity:newquantity},function(data){
+          $.post('selling/add_to_cart.php',{game_id:game_id,quantity:newquantity},function(data){
                 $('[name=total_item_in_cart]').val(data)
               })
       }
@@ -323,7 +323,7 @@ $('[name=delete_icon]').click(function(){
 
         $(this).parent().parent().empty();
 
-        $.post('add_to_cart.php',{del_game_id:del_game_id},function(data){
+        $.post('selling/add_to_cart.php',{del_game_id:del_game_id},function(data){
             $('[name=total_item_in_cart]').val(data)
         })
 

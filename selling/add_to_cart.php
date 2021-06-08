@@ -1,6 +1,6 @@
 <?php
-include_once 'db/dbhelper.php';
-include_once 'utility/utils.php';
+include_once '../db/dbhelper.php';
+include_once '../utility/utils.php';
 
 //đồng bộ cart vs cookie
 if (isset($_COOKIE['cart_picnic'])) {
