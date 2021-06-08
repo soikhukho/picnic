@@ -1,9 +1,9 @@
 <?php
-  require_once '../db/dbhelper.php';
-  require_once '../utility/utils.php';
+  require_once 'db/dbhelper.php';
+  require_once 'utility/utils.php';
 
   $user = checkLogin();
-  include_once '../login.php';
+  include_once 'login.php';
 ?>
 
 <!DOCTYPE html>
@@ -21,13 +21,13 @@
 
   <script src="https://kit.fontawesome.com/3e49906220.js" crossorigin="anonymous"></script>
 
-  <link rel="stylesheet" type="text/css" href="../style/style_header2.css">
+  <link rel="stylesheet" type="text/css" href="style/style_header2.css">
 </head>
 <body>
     <?php
-        include_once '../layout/header2.php';
-        // include_once '../layout/carosell.php';
-        // include_once '../layout/popup_login.php';
+        include_once 'layout/header2.php';
+        // include_once 'layout/carosell.php';
+        // include_once 'layout/popup_login.php';
 
      ?>
      <div class="container" style="min-height: 1000px;">
@@ -35,7 +35,7 @@
          Bạn đã đặt hàng thành công !!!
        </h1>
      </div>
-    <?php include '../layout/footer.php'; ?>
+    <?php include 'layout/footer.php'; ?>
 
 </body>
 </html>
