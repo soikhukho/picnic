@@ -58,6 +58,21 @@ $user_id=$user['id'];
         header('Location: adm_places.php');
     }
   }
+
+//pagination form ?page=
+$totalItems = executeResult("select count(*) 'count' from places",true);
+  $totalItems = $totalItems['count'];
+
+$href='adm_places.php';
+
+$page = getGET('page');
+if($page==''){$page = 1;}
+
+$limit  =5;
+$totalPages = ceil($totalItems / $limit);
+$start = ($page-1) * $limit;
+
+  $data = executeResult("select * from places order by updated_at desc limit $start , $limit ");
 ?>
 
 <!DOCTYPE html>
@@ -165,9 +180,9 @@ $user_id=$user['id'];
                       </thead>
                       <tbody>
                         <?php
-                          $places = executeResult("select * from places order by updated_at desc ");
-                          $i=1;
-                          foreach ($places as $item) {
+                          
+                          $i=$limit*($page-1)+1;
+                          foreach ($data as $item) {
                             echo '<tr>
                                     <td>'.$i++.'</td>
                                     <td>'.$item['title'].'</td>
@@ -180,6 +195,9 @@ $user_id=$user['id'];
                       </tbody>
                     </table>
                   </div>
+
+                  <!-- pagination -->
+                  <div style="text-align: center;"> <?php include_once '../utility/pagination.php'; ?> </div>
 
                <script type="text/javascript">
                 function del(id){

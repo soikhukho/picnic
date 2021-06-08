@@ -37,6 +37,21 @@ switch ($task) {
 }
 $ordersList=executeResult($sql);
 
+//pagination
+$totalItems = count($ordersList);
+
+$href='adm_orders.php?task='.$task.'&';
+
+$page = getGET('page');
+if($page==''){$page = 1;}
+
+$limit  =2;
+$totalPages = ceil($totalItems / $limit);
+$start = ($page-1) * $limit;
+
+$sql=$sql.' limit ' .$start.','.$limit;
+$data = executeResult($sql);
+
 
 $user_id=$user['id'];
 $user_email=$user['email'];
@@ -125,6 +140,7 @@ if ($sucessID != '') {
 
         <!-- main content start-->
             <div class="row" id="showOrder" style="margin-left: 50px;margin-right: 50px;">
+                
                 <div class="row">
                     <div class="form-group">
                     <label>Chọn tác vụ :</label>
@@ -153,8 +169,8 @@ if ($sucessID != '') {
 
                     <tbody>
                         <?php
-                            $count=1;
-                            foreach ($ordersList as $order) {
+                            $count=$limit*($page-1)+1;
+                            foreach ($data as $order) {
 
                                 echo '
                                     <tr>
@@ -194,6 +210,10 @@ if ($sucessID != '') {
                         
                     </tbody>
                 </table>
+
+                <!-- pagination -->
+                <div style="text-align: center;"> <?php include_once '../utility/pagination_no_question_mark.php'; ?> </div>
+
 
             </div>
         <!-- main content end-->

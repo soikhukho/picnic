@@ -57,6 +57,27 @@
         header('Location: adm_photoes.php');
     }
   }
+
+//pagination form ?page=
+$totalItems = executeResult("select count(*) 'count' from photoes join albums 
+                                                    on photoes.album_id = albums.id ",true);
+  $totalItems = $totalItems['count'];
+
+$href='adm_photoes.php';
+
+$page = getGET('page');
+if($page==''){$page = 1;}
+
+$limit  =5;
+$totalPages = ceil($totalItems / $limit);
+$start = ($page-1) * $limit;
+
+  $data = executeResult("select photoes.id , photoes.title  ,photoes.address,
+                                                         albums.title 'album title' ,photoes.created_at ,
+                                                        photoes.updated_at 
+                                                    from photoes join albums 
+                                                    on photoes.album_id = albums.id 
+                                                    order by photoes.updated_at desc    limit $start , $limit      ");
 ?>
 
 <!DOCTYPE html>
@@ -133,7 +154,7 @@
 
                         <div class="form-group">
                           <label>Album</label>
-                          <select class="form-control" style="width: 250px;" name="album_id">
+                          <select class="form-control" style="width: 250px;" name="album_id" required="true">
                             <option value="">--chon album--</option>
                               <?php
                                 $albums=executeResult("select id , title from albums ");
@@ -173,14 +194,9 @@
                     </thead>
                     <tbody>
                       <?php
-                        $photoes = executeResult("select photoes.id , photoes.title  ,photoes.address,
-                                                         albums.title 'album title' ,photoes.created_at ,
-                                                        photoes.updated_at 
-                                                    from photoes join albums 
-                                                    on photoes.album_id = albums.id 
-                                                    order by photoes.updated_at desc          ");
-                        $i=1;
-                        foreach ($photoes as $photo) {
+                        
+                        $i=$limit*($page-1)+1;
+                        foreach ($data as $photo) {
                           echo '<tr>
                                   <td>'.$i++.'</td>
                                   <td>'.$photo['title'].'</td>
@@ -196,6 +212,9 @@
                     </tbody>
                   </table>
                 </div>
+
+                <!-- pagination -->
+                <div style="text-align: center;"> <?php include_once '../utility/pagination.php'; ?> </div>
              </div>
 
         </div>

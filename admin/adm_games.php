@@ -64,6 +64,31 @@ $user_id=$user['id'];
         header('Location: adm_games.php');
     }
   }
+
+//pagination
+$totalItems = executeResult("select count(*) 'count' from games ,  category , users
+                                                    where games.cate_id = category.id 
+                                                    and  games.user_id = users.id ",true);
+  $totalItems = $totalItems['count'];
+
+$href='adm_games.php';
+
+$page = getGET('page');
+if($page==''){$page = 1;}
+
+$limit  =5;
+$totalPages = ceil($totalItems / $limit);
+$start = ($page-1) * $limit;
+
+
+$data = executeResult(" select games.id ,games.title 'game title',
+                                                        category.title 'category title' ,
+                                                        games.thumbnail ,games.price , users.fullname
+                                                    from games ,  category , users
+                                                    where games.cate_id = category.id 
+                                                    and  games.user_id = users.id
+                                                    ORDER by games.updated_at desc limit $start , $limit ");
+
 ?>
 
 <!DOCTYPE html>
@@ -199,15 +224,9 @@ $user_id=$user['id'];
                     </thead>
                     <tbody>
                       <?php
-                        $create_forms = executeResult(" select games.id ,games.title 'game title',
-                                                        category.title 'category title' ,
-                                                        games.thumbnail ,games.price , users.fullname
-                                                    from games ,  category , users
-                                                    where games.cate_id = category.id 
-                                                    and  games.user_id = users.id
-                                                    ORDER by games.updated_at desc ");
-                        $i=1;
-                        foreach ($create_forms as $item) {
+                        
+                        $i=$limit*($page-1)+1;
+                        foreach ($data as $item) {
                           echo '<tr>
                                   <td>'.$i++.'</td>
                                   <td><img src="'.$item['thumbnail'].'" style="width: 150px;"></td>
@@ -222,6 +241,8 @@ $user_id=$user['id'];
                       ?>
                     </tbody>
                   </table>
+
+                  <div style="text-align: center;"> <?php include_once '../utility/pagination.php'; ?> </div>
                 </div>
              </div>
 

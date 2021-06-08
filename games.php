@@ -5,8 +5,20 @@
   $user = checkLogin();
   include_once 'login.php';
 
-  $sql="select * from games";
-  $gamesList=executeResult($sql);
+  $totalItems = executeResult("select count(*) 'count' from games ",true);
+  $totalItems = $totalItems['count'];
+
+  $href='games.php';
+
+  $page = getGET('page');
+  if($page==''){$page = 1;}
+
+  $limit  =6;
+  $totalPages = ceil($totalItems / $limit);
+  $start = ($page-1) * $limit;
+
+  $data = executeResult("select * from games limit $start , $limit ");
+
 ?>
 
 <!DOCTYPE html>
@@ -21,9 +33,10 @@
   <!-- include summernote css/js -->
   <link href="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.12/summernote.css" rel="stylesheet">
   <script src="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.12/summernote.js"></script>
-  <link rel="stylesheet" type="text/css" href="style/style_header2.css">
+  
   <script src="https://kit.fontawesome.com/3e49906220.js" crossorigin="anonymous"></script>
 
+<link rel="stylesheet" type="text/css" href="style/style_header2.css">
   <link rel="stylesheet" type="text/css" href="style/game_style.css">
 </head>
 <body>
@@ -38,7 +51,7 @@
         <div id="main-content" class="row">
           <!--  item start -->
           <?php
-            foreach ($gamesList as $game) {
+            foreach ($data as $game) {
               echo '<div class="game col-md-4">
                       <div class="game-inner">
                         <div class="thumbnail" >
@@ -102,11 +115,16 @@
                     </div>';
             }
           ?>
-          <!--  item end -->
-
-    
+          <!--  item end -->    
         </div>
+
+
      </div>
+     <!-- pagination -->
+        <div class="row" style="margin: 0px auto;"> <?php include_once 'utility/pagination.php'; ?> </div>
+
+
+
     <?php include 'layout/footer.php'; ?>
 <script type="text/javascript">
 

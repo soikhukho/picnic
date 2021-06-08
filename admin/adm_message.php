@@ -20,6 +20,21 @@ if ($change_id=='' && $checked_all!=''){
      execute("update message set status = 1");
 }
 
+//pagination
+$totalItems = executeResult("select count(*) 'count' from message ",true);
+  $totalItems = $totalItems['count'];
+
+$href='adm_message.php';
+
+$page = getGET('page');
+if($page==''){$page = 1;}
+
+$limit  =10;
+$totalPages = ceil($totalItems / $limit);
+$start = ($page-1) * $limit;
+
+$data=executeResult("select * from message order by status asc, created_at desc limit $start , $limit ");
+
 ?>
 
 <!DOCTYPE html>
@@ -85,9 +100,9 @@ if ($change_id=='' && $checked_all!=''){
                     </thead>
                     <tbody>
                         <?php
-                            $mess=executeResult("select * from message order by status asc, created_at desc");
-                            $i=1;
-                            foreach ($mess as $item) {
+                            
+                            $i=$limit*($page-1)+1;
+                            foreach ($data as $item) {
                                 if ($item['status']==0) {
                                     echo '<tr>
                                             <td>'.$i++.'</td>
@@ -108,6 +123,9 @@ if ($change_id=='' && $checked_all!=''){
                         ?>
                     </tbody>
                 </table>
+
+                <!-- pagination -->
+                <div style="text-align: center;"> <?php include_once '../utility/pagination.php'; ?> </div>
             </div>
             
 

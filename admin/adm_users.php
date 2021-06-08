@@ -44,6 +44,22 @@
     return ($total_post=$x['places'] + $y['games']);
   }
 
+  //pagination form ?page=
+$totalItems = executeResult("select count(*) 'count' from users ",true);
+  $totalItems = $totalItems['count'];
+
+$href='adm_users.php';
+
+$page = getGET('page');
+if($page==''){$page = 1;}
+
+$limit  =5;
+$totalPages = ceil($totalItems / $limit);
+$start = ($page-1) * $limit;
+
+$data = executeResult("select * from users order by created_at desc limit $start , $limit ");
+
+
 ?>
 
 <!DOCTYPE html>
@@ -118,9 +134,9 @@
                             </thead>
                             <tbody>
                               <?php
-                                $userList = executeResult("select * from users order by created_at desc");
-                                $i=1;
-                                foreach ($userList as $user) {
+                                
+                                $i=$limit*($page-1)+1;
+                                foreach ($data as $user) {
 
                                   $total_post = total_post($user['id']);
                                   if ($user['active']==1) {
@@ -166,6 +182,8 @@
                           </table>
 
             </div>
+            <!-- pagination -->
+            <div style="text-align: center;"> <?php include_once '../utility/pagination.php'; ?> </div>
             
          </div>
         <!-- end page-wrapper -->

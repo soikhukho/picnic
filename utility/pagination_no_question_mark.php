@@ -7,7 +7,7 @@
 
 /** coppy đoạn code này sang phần tạo data show ở mỗi page
 
-//pagination form ?page=
+//pagination
 $totalItems = executeResult("select count(*) 'count' from ??? ",true);
   $totalItems = $totalItems['count'];
 
@@ -41,7 +41,7 @@ echo '<div aria-label="Page navigation example" >
 	//page 1 thi khong hien back - không phục thuộc vào list active
 		if ($page >1) {
 			echo '<li class="page-item">
-				      <a class="page-link" href="'.$href.'?page='.($page-1).'" aria-label="Previous">
+				      <a class="page-link" href="'.$href.'page='.($page-1).'" aria-label="Previous">
 				        <span aria-hidden="true">&laquo;</span>
 				        <span class="sr-only">Previous</span>
 				      </a>
@@ -58,9 +58,9 @@ echo '<div aria-label="Page navigation example" >
 			if (in_array($i,$activePages)) {
 
 	    			if ($i ==$page) {
-		    			echo '<li class="page-item active" active><a  class="page-link " href="'.$href.'?page='.$i.'">'.$i.'</a></li>';
+		    			echo '<li class="page-item active" active><a  class="page-link " href="'.$href.'page='.$i.'">'.$i.'</a></li>';
 		    		}else{
-		    			echo '<li class="page-item"><a class="page-link" href="'.$href.'?page='.$i.'">'.$i.'</a></li>';
+		    			echo '<li class="page-item"><a class="page-link" href="'.$href.'page='.$i.'">'.$i.'</a></li>';
 		    		}
 			}
 		}
@@ -73,7 +73,7 @@ echo '<div aria-label="Page navigation example" >
 	//page cuoi thi khong hien next - không phụ thuộc vào list active
 		if ($page <=$totalPages-1) {
 			echo '<li>
-				      <a class="page-link" href="'.$href.'?page='.($page+1).'" aria-label="Next">
+				      <a class="page-link" href="'.$href.'page='.($page+1).'" aria-label="Next">
 				        <span aria-hidden="true">&raquo;</span>
 				        <span class="sr-only">Next</span>
 				      </a>

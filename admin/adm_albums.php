@@ -65,6 +65,30 @@ $user_id=$user['id'];
         header('Location: adm_albums.php');
     }
   }
+
+  //pagination
+$totalItems = executeResult("select count(*) 'count' from albums , games , category
+                                                      where albums.game_id = games.id and games.cate_id = category.id  ",true);
+  $totalItems = $totalItems['count'];
+
+$href='adm_albums.php';
+
+$page = getGET('page');
+if($page==''){$page = 1;}
+
+$limit  =5;
+$totalPages = ceil($totalItems / $limit);
+$start = ($page-1) * $limit;
+
+$data = executeResult(" select albums.id ,albums.title 'albums title' ,albums.thumbnail, games.title 'games title',category.title 'category title',games.updated_at
+                                                      from albums , games , category
+                                                      where albums.game_id = games.id and games.cate_id = category.id 
+
+                                                        order by albums.updated_at desc
+                                                        limit $start , $limit 
+                                                      ");
+
+
 ?>
 
 <!DOCTYPE html>
@@ -191,14 +215,9 @@ $user_id=$user['id'];
                         </thead>
                         <tbody>
                           <?php
-                            $albums = executeResult(" select albums.id ,albums.title 'albums title' ,albums.thumbnail, games.title 'games title',category.title 'category title',games.updated_at
-                                                      from albums , games , category
-                                                      where albums.game_id = games.id and games.cate_id = category.id 
-
-                                                        order by albums.updated_at desc
-                                                      ");
-                            $i=1;
-                            foreach ($albums as $album) {
+                            
+                            $i=$limit*($page-1)+1;
+                            foreach ($data as $album) {
 
                               $album_id = $album['id'] ;
                               $total = executeResult("select count(*) 'total' from photoes where album_id ='$album_id' " , true);
@@ -221,6 +240,9 @@ $user_id=$user['id'];
                       </table>
                     </div>
                     <!-- show album end -->
+
+                    <!-- pagination -->
+                    <div style="text-align: center;"> <?php include_once '../utility/pagination.php'; ?> </div>
 
                 </div>
 

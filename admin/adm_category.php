@@ -47,6 +47,23 @@
         header('Location: adm_category.php');
     }
   }
+
+  //pagination
+  $totalItems = executeResult("select count(*) 'count' from category ",true);
+  $totalItems = $totalItems['count'];
+
+  $href='adm_category.php';
+
+  $page = getGET('page');
+  if($page==''){$page = 1;}
+
+  $limit  =5;
+  $totalPages = ceil($totalItems / $limit);
+  $start = ($page-1) * $limit;
+
+  $data = executeResult("select * from category order by updated_at desc  limit $start , $limit ");
+
+  $cate = $data;
 ?>
 
 <!DOCTYPE html>
@@ -138,8 +155,8 @@
                     </thead>
                     <tbody>
                       <?php
-                        $cate = executeResult("select * from category order by updated_at desc          ");
-                        $i=1;
+                        
+                        $i=$limit*($page-1)+1;
                         foreach ($cate as $item) {
                           echo '<tr>
                                   <td>'.$i++.'</td>
@@ -152,6 +169,7 @@
                     </tbody>
                   </table>
 
+                  <div style="width: 60%; text-align: center;"> <?php include_once '../utility/pagination.php'; ?> </div>
                 </div>
              </div>
 
