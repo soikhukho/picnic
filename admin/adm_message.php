@@ -21,10 +21,15 @@ if ($change_id=='' && $checked_all!=''){
 }
 
 //pagination
-$totalItems = executeResult("select count(*) 'count' from message ",true);
+$search=getGET('search');
+  if ($search !='') {
+    $sub_sql = " where content like '%$search%' ";
+  }else {$sub_sql='';}
+
+$totalItems = executeResult("select count(*) 'count' from message ".$sub_sql,true);
   $totalItems = $totalItems['count'];
 
-$href='adm_message.php';
+$href='adm_message.php?search='.$search.'&';
 
 $page = getGET('page');
 if($page==''){$page = 1;}
@@ -33,7 +38,8 @@ $limit  =10;
 $totalPages = ceil($totalItems / $limit);
 $start = ($page-1) * $limit;
 
-$data=executeResult("select * from message order by status asc, created_at desc limit $start , $limit ");
+$sql="select * from message ".$sub_sql." order by status asc, created_at desc limit $start , $limit ";
+$data=executeResult($sql);
 
 ?>
 
@@ -88,7 +94,24 @@ $data=executeResult("select * from message order by status asc, created_at desc 
             </div>
 
             <div class="row">
-                <table class="table  table-bordered" style="width: 800px;margin: 0px auto;">
+
+                <div style="margin-left: 50px;">
+                    <!-- search form start -->
+                      <form method="get">
+                        <div class="input-group custom-search-form" style="margin-bottom: 8px;width: 300px;">
+                            <input type="text" class="form-control" name="search" placeholder="Search content..." value="<?= $search ?>">
+                            <span class="input-group-btn">
+                                <button class="btn btn-default" type="submit">
+                                    <i class="fa fa-search"></i>
+                                </button>
+                            </span>
+                        </div>
+                      </form>
+                      <!-- search form end -->
+                </div>
+
+                <!-- <div><?= $sql ?></div> -->
+                <table class="table  table-bordered" style="width: 800px;margin-left: 50px;">
                     <thead>
                         <tr>
                             <th>No</th>
@@ -125,7 +148,7 @@ $data=executeResult("select * from message order by status asc, created_at desc 
                 </table>
 
                 <!-- pagination -->
-                <div style="text-align: center;"> <?php include_once '../utility/pagination.php'; ?> </div>
+                <div style="text-align: center;"> <?php include_once '../utility/pagination_multi.php'; ?> </div>
             </div>
             
 

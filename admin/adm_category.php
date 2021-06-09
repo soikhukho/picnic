@@ -49,10 +49,15 @@
   }
 
   //pagination
-  $totalItems = executeResult("select count(*) 'count' from category ",true);
+  $search=getGET('search');
+  if ($search !='') {
+    $sub_sql = " where ( category.id like '%$search%' or category.title like '%$search%' ) ";
+  }else {$sub_sql='';}
+
+  $totalItems = executeResult("select count(*) 'count' from category ".$sub_sql,true);
   $totalItems = $totalItems['count'];
 
-  $href='adm_category.php';
+  $href='adm_category.php?search='.$search.'&';
 
   $page = getGET('page');
   if($page==''){$page = 1;}
@@ -61,7 +66,7 @@
   $totalPages = ceil($totalItems / $limit);
   $start = ($page-1) * $limit;
 
-  $data = executeResult("select * from category order by updated_at desc  limit $start , $limit ");
+  $data = executeResult("select * from category ".$sub_sql."order by updated_at desc  limit $start , $limit ");
 
   $cate = $data;
 ?>
@@ -144,6 +149,19 @@
 
                   <h2 >List of Category</h2>
 
+                  <!-- search form start -->
+                      <form method="get">
+                        <div class="input-group custom-search-form" style="margin-bottom: 8px;width: 300px;">
+                            <input type="text" class="form-control" name="search" placeholder="Search id or title..." value="<?= $search ?>">
+                            <span class="input-group-btn">
+                                <button class="btn btn-default" type="submit">
+                                    <i class="fa fa-search"></i>
+                                </button>
+                            </span>
+                        </div>
+                      </form>
+                      <!-- search form end -->
+
                   <table class="table table-bordered" style="width: 60%;">
                     <thead>
                       <tr>
@@ -169,7 +187,7 @@
                     </tbody>
                   </table>
 
-                  <div style="width: 60%; text-align: center;"> <?php include_once '../utility/pagination.php'; ?> </div>
+                  <div style="width: 60%; text-align: ;"> <?php include_once '../utility/pagination_multi.php'; ?> </div>
                 </div>
              </div>
 

@@ -60,10 +60,15 @@ $user_id=$user['id'];
   }
 
 //pagination form ?page=
-$totalItems = executeResult("select count(*) 'count' from places",true);
+  $search=getGET('search');
+  if ($search !='') {
+    $sub_sql = " where ( places.id like '%$search%' or places.title like '%$search%' ) ";
+  }else {$sub_sql='';}
+
+$totalItems = executeResult("select count(*) 'count' from places".$sub_sql,true);
   $totalItems = $totalItems['count'];
 
-$href='adm_places.php';
+$href='adm_places.php?search='.$search.'&';
 
 $page = getGET('page');
 if($page==''){$page = 1;}
@@ -72,7 +77,7 @@ $limit  =5;
 $totalPages = ceil($totalItems / $limit);
 $start = ($page-1) * $limit;
 
-  $data = executeResult("select * from places order by updated_at desc limit $start , $limit ");
+  $data = executeResult("select * from places ".$sub_sql." order by updated_at desc limit $start , $limit ");
 ?>
 
 <!DOCTYPE html>
@@ -168,6 +173,19 @@ $start = ($page-1) * $limit;
                   <div id="show_cate" style="margin-top:10px;margin-bottom: 50px;">
                     <h2 >List of Beauty places</h2>
 
+                    <!-- search form start -->
+                      <form method="get">
+                        <div class="input-group custom-search-form" style="margin-bottom: 8px;width: 300px;">
+                            <input type="text" class="form-control" name="search" placeholder="Search id or title..." value="<?= $search ?>">
+                            <span class="input-group-btn">
+                                <button class="btn btn-default" type="submit">
+                                    <i class="fa fa-search"></i>
+                                </button>
+                            </span>
+                        </div>
+                      </form>
+                      <!-- search form end -->
+
                     <table class="table table-bordered" style="width: 800px;">
                       <thead>
                         <tr>
@@ -197,7 +215,7 @@ $start = ($page-1) * $limit;
                   </div>
 
                   <!-- pagination -->
-                  <div style="text-align: center;"> <?php include_once '../utility/pagination.php'; ?> </div>
+                  <div style="text-align: center;"> <?php include_once '../utility/pagination_multi.php'; ?> </div>
 
                <script type="text/javascript">
                 function del(id){

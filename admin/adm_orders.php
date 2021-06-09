@@ -10,6 +10,13 @@ $task = getGET('task');
 
 $sql= "select orders.id,orders.status, customers.fullname,orders.created_at,sum(orders_details.quantity*orders_details.price)'total' from orders_details ,orders , customers , games where orders_details.order_id = orders.id and orders.cus_id = customers.id and games.id = orders_details.game_id ";
 
+$search=getGET('search');
+  if ($search !='') {
+    $sub_sql = " and ( orders.id like '%$search%' or customers.fullname like '%$search%' ) ";
+  }else {$sub_sql='';}
+
+$sql=$sql.$sub_sql;
+
 switch ($task) {
     case '0':
         $sql=$sql.'and status=0 GROUP by orders.id ORDER by orders.created_at DESC';
@@ -37,10 +44,12 @@ switch ($task) {
 }
 $ordersList=executeResult($sql);
 
-//pagination
+//pagination start
+
+
 $totalItems = count($ordersList);
 
-$href='adm_orders.php?task='.$task.'&';
+$href='adm_orders.php?task='.$task.'&search='.$search.'&';
 
 $page = getGET('page');
 if($page==''){$page = 1;}
@@ -51,6 +60,7 @@ $start = ($page-1) * $limit;
 
 $sql=$sql.' limit ' .$start.','.$limit;
 $data = executeResult($sql);
+//pagination end
 
 
 $user_id=$user['id'];
@@ -154,6 +164,20 @@ if ($sucessID != '') {
                     </div>
                 </div>
 
+                <!-- search form start -->
+                      <form method="get">
+                        <div class="input-group custom-search-form" style="margin-bottom: 8px;width: 350px;">
+                            <input type="text" class="form-control" name="search" placeholder="Search order_id or Customer name..." value="<?= $search ?>">
+                            <span class="input-group-btn">
+                                <button class="btn btn-default" type="submit">
+                                    <i class="fa fa-search"></i>
+                                </button>
+                            </span>
+                        </div>
+                      </form>
+                      <!-- search form end -->
+
+                <!-- <div><?= $sql ?></div> -->
                 <table class="table table-bordered">
                     <thead>
                         <tr>
@@ -212,7 +236,7 @@ if ($sucessID != '') {
                 </table>
 
                 <!-- pagination -->
-                <div style="text-align: center;"> <?php include_once '../utility/pagination_no_question_mark.php'; ?> </div>
+                <div style="width:600px;text-align:;"> <?php include_once '../utility/pagination_multi.php'; ?> </div>
 
 
             </div>

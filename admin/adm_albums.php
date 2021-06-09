@@ -66,12 +66,18 @@ $user_id=$user['id'];
     }
   }
 
-  //pagination
+//pagination
+
+  $search=getGET('search');
+  if ($search !='') {
+    $sub_sql = " and ( albums.id like '%$search%' or albums.title like '%$search%' ) ";
+  }else {$sub_sql='';}
+
 $totalItems = executeResult("select count(*) 'count' from albums , games , category
-                                                      where albums.game_id = games.id and games.cate_id = category.id  ",true);
+                                                      where albums.game_id = games.id and games.cate_id = category.id  ".$sub_sql ,true);
   $totalItems = $totalItems['count'];
 
-$href='adm_albums.php';
+$href='adm_albums.php?search='.$search.'&';
 
 $page = getGET('page');
 if($page==''){$page = 1;}
@@ -82,11 +88,11 @@ $start = ($page-1) * $limit;
 
 $data = executeResult(" select albums.id ,albums.title 'albums title' ,albums.thumbnail, games.title 'games title',category.title 'category title',games.updated_at
                                                       from albums , games , category
-                                                      where albums.game_id = games.id and games.cate_id = category.id 
+                                                      where albums.game_id = games.id and games.cate_id = category.id ".$sub_sql. "
 
                                                         order by albums.updated_at desc
-                                                        limit $start , $limit 
-                                                      ");
+                                                        limit $start , $limit "
+                                                    );
 
 
 ?>
@@ -110,6 +116,8 @@ $data = executeResult(" select albums.id ,albums.title 'albums title' ,albums.th
     <link href="../assets/plugins/pace/pace-theme-big-counter.css" rel="stylesheet" />
     <link href="../assets/css/style.css" rel="stylesheet" />
     <link href="../assets/css/main-style.css" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../style/style_form_search.css">
 
 </head>
 
@@ -199,6 +207,19 @@ $data = executeResult(" select albums.id ,albums.title 'albums title' ,albums.th
                     <div id="show_albums" style="margin-top: 50px;margin-bottom: 50px;">
                       <h2 >List of Albums </h2>
 
+                      <!-- search form start -->
+                      <form method="get">
+                        <div class="input-group custom-search-form" style="margin-bottom: 8px;width: 300px;">
+                            <input type="text" class="form-control" name="search" placeholder="Search id or title..." value="<?= $search ?>">
+                            <span class="input-group-btn">
+                                <button class="btn btn-default" type="submit">
+                                    <i class="fa fa-search"></i>
+                                </button>
+                            </span>
+                        </div>
+                      </form>
+                      <!-- search form end -->
+
                       <table class="table table-bordered" style=" margin: 0px auto;">
                         <thead>
                           <tr>
@@ -242,7 +263,7 @@ $data = executeResult(" select albums.id ,albums.title 'albums title' ,albums.th
                     <!-- show album end -->
 
                     <!-- pagination -->
-                    <div style="text-align: center;"> <?php include_once '../utility/pagination.php'; ?> </div>
+                    <div style="text-align: ;"> <?php include_once '../utility/pagination_multi.php'; ?> </div>
 
                 </div>
 

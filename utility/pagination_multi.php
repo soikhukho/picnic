@@ -7,8 +7,14 @@
 
 /** coppy đoạn code này sang phần tạo data show ở mỗi page
 
-//pagination
-$totalItems = executeResult("select count(*) 'count' from ??? ",true);
+//pagination form ?xx=&page=
+
+$search=getGET('search');
+  if ($search !='') {
+    $sub_sql = " and ( albums.id like '%$search%' or albums.title like '%$search%' ) ";
+  }else {$sub_sql='';}
+
+$totalItems = executeResult("select count(*) 'count' from ??? " . $sub nếu có ,true);
   $totalItems = $totalItems['count'];
 
 $href='?.php';
@@ -20,7 +26,7 @@ $limit  =?;
 $totalPages = ceil($totalItems / $limit);
 $start = ($page-1) * $limit;
 
-$data mỗi page = executeResult("select * from ??? limit $start , $limit ");
+$data mỗi page = executeResult("select * from ??? .sub nếu có limit $start , $limit ");
 
 rồi nhúng ở đoạn cuối:
 	

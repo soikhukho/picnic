@@ -66,12 +66,17 @@ $user_id=$user['id'];
   }
 
 //pagination
+  $search=getGET('search');
+  if ($search !='') {
+    $sub_sql = " and ( games.id like '%$search%' or games.title like '%$search%' ) ";
+  }else {$sub_sql='';}
+
 $totalItems = executeResult("select count(*) 'count' from games ,  category , users
                                                     where games.cate_id = category.id 
-                                                    and  games.user_id = users.id ",true);
+                                                    and  games.user_id = users.id ".$sub_sql,true);
   $totalItems = $totalItems['count'];
 
-$href='adm_games.php';
+$href='adm_games.php?search='.$search.'&';
 
 $page = getGET('page');
 if($page==''){$page = 1;}
@@ -86,7 +91,7 @@ $data = executeResult(" select games.id ,games.title 'game title',
                                                         games.thumbnail ,games.price , users.fullname
                                                     from games ,  category , users
                                                     where games.cate_id = category.id 
-                                                    and  games.user_id = users.id
+                                                    and  games.user_id = users.id ".$sub_sql."
                                                     ORDER by games.updated_at desc limit $start , $limit ");
 
 ?>
@@ -209,6 +214,19 @@ $data = executeResult(" select games.id ,games.title 'game title',
                 <div id="show_cate" style="margin-top: 50px;margin-bottom: 50px;">
                   <h2>List of Games</h2>
 
+                  <!-- search form start -->
+                      <form method="get">
+                        <div class="input-group custom-search-form" style="margin-bottom: 8px;width: 300px;">
+                            <input type="text" class="form-control" name="search" placeholder="Search id or title..." value="<?= $search ?>">
+                            <span class="input-group-btn">
+                                <button class="btn btn-default" type="submit">
+                                    <i class="fa fa-search"></i>
+                                </button>
+                            </span>
+                        </div>
+                      </form>
+                      <!-- search form end -->
+
                   <table class="table table-bordered" style=" margin: 0px auto;">
                     <thead>
                       <tr>
@@ -242,7 +260,7 @@ $data = executeResult(" select games.id ,games.title 'game title',
                     </tbody>
                   </table>
 
-                  <div style="text-align: center;"> <?php include_once '../utility/pagination.php'; ?> </div>
+                  <div style="text-align: ;"> <?php include_once '../utility/pagination_multi.php'; ?> </div>
                 </div>
              </div>
 

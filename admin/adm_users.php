@@ -45,10 +45,15 @@
   }
 
   //pagination form ?page=
-$totalItems = executeResult("select count(*) 'count' from users ",true);
+  $search=getGET('search');
+  if ($search !='') {
+    $sub_sql = " where ( users.email like '%$search%' or users.fullname like '%$search%' ) ";
+  }else {$sub_sql='';}
+
+$totalItems = executeResult("select count(*) 'count' from users ".$sub_sql,true);
   $totalItems = $totalItems['count'];
 
-$href='adm_users.php';
+$href='adm_users.php?search='.$search.'&';
 
 $page = getGET('page');
 if($page==''){$page = 1;}
@@ -57,7 +62,7 @@ $limit  =5;
 $totalPages = ceil($totalItems / $limit);
 $start = ($page-1) * $limit;
 
-$data = executeResult("select * from users order by created_at desc limit $start , $limit ");
+$data = executeResult("select * from users ".$sub_sql." order by created_at desc limit $start , $limit ");
 
 
 ?>
@@ -115,6 +120,19 @@ $data = executeResult("select * from users order by created_at desc limit $start
                         <div id="show_users" style="margin-top: 50px;margin-bottom: 50px;">
 
                           <h2 style="">User List</h2>
+
+                          <!-- search form start -->
+                          <form method="get">
+                            <div class="input-group custom-search-form" style="margin-bottom: 8px;width: 300px;">
+                                <input type="text" class="form-control" name="search" placeholder="Search email or fullname..." value="<?= $search ?>">
+                                <span class="input-group-btn">
+                                    <button class="btn btn-default" type="submit">
+                                        <i class="fa fa-search"></i>
+                                    </button>
+                                </span>
+                            </div>
+                          </form>
+                          <!-- search form end -->
 
                           <table class="table table-bordered" >
                             <thead>
@@ -183,7 +201,7 @@ $data = executeResult("select * from users order by created_at desc limit $start
 
             </div>
             <!-- pagination -->
-            <div style="text-align: center;"> <?php include_once '../utility/pagination.php'; ?> </div>
+            <div style="text-align: center;"> <?php include_once '../utility/pagination_multi.php'; ?> </div>
             
          </div>
         <!-- end page-wrapper -->

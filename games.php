@@ -121,7 +121,7 @@
 
      </div>
      <!-- pagination -->
-        <div class="row" style="margin: 0px auto;"> <?php include_once 'utility/pagination.php'; ?> </div>
+        <div style="text-align: center;"> <?php include_once 'utility/pagination.php'; ?> </div>
 
 
 

@@ -59,11 +59,16 @@
   }
 
 //pagination form ?page=
+  $search=getGET('search');
+  if ($search !='') {
+    $sub_sql = " and ( photoes.id like '%$search%' or photoes.title like '%$search%' ) ";
+  }else {$sub_sql='';}
+
 $totalItems = executeResult("select count(*) 'count' from photoes join albums 
-                                                    on photoes.album_id = albums.id ",true);
+                                                    on photoes.album_id = albums.id ".$sub_sql,true);
   $totalItems = $totalItems['count'];
 
-$href='adm_photoes.php';
+$href='adm_photoes.php?search='.$search.'&';
 
 $page = getGET('page');
 if($page==''){$page = 1;}
@@ -76,7 +81,7 @@ $start = ($page-1) * $limit;
                                                          albums.title 'album title' ,photoes.created_at ,
                                                         photoes.updated_at 
                                                     from photoes join albums 
-                                                    on photoes.album_id = albums.id 
+                                                    on photoes.album_id = albums.id ".$sub_sql."
                                                     order by photoes.updated_at desc    limit $start , $limit      ");
 ?>
 
@@ -179,6 +184,19 @@ $start = ($page-1) * $limit;
                 <div id="show_cate" style=" width: 100% ;margin-top: 50px;margin-bottom: 50px;">
                   <h2>List of Photoes</h2>
 
+                  <!-- search form start -->
+                      <form method="get">
+                        <div class="input-group custom-search-form" style="margin-bottom: 8px;width: 300px;">
+                            <input type="text" class="form-control" name="search" placeholder="Search id or title..." value="<?= $search ?>">
+                            <span class="input-group-btn">
+                                <button class="btn btn-default" type="submit">
+                                    <i class="fa fa-search"></i>
+                                </button>
+                            </span>
+                        </div>
+                      </form>
+                      <!-- search form end -->
+
                   <table class="table table-bordered" style="width: 80%;">
                     <thead>
                       <tr>
@@ -214,7 +232,7 @@ $start = ($page-1) * $limit;
                 </div>
 
                 <!-- pagination -->
-                <div style="text-align: center;"> <?php include_once '../utility/pagination.php'; ?> </div>
+                <div style="text-align: center;"> <?php include_once '../utility/pagination_multi.php'; ?> </div>
              </div>
 
         </div>
