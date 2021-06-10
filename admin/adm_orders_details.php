@@ -8,6 +8,14 @@
       }
 
 $id = getGET('id');
+$active=$user['active'];
+if ($active != 1) {
+  echo '<script type="text/javascript">
+          alert("Tài khoản của bạn chưa được kích hoạt")
+          window.location.replace("admin.php")
+        </script>';
+}
+
 if ($id=="") {
     echo '<script type="text/javascript">
         alert("Đơn hàng này không tồn tại hoặc đã bị xóa")
@@ -212,7 +220,10 @@ if ($new_status !='') {
                         </div>
 
                     </div>
-                            
+                    
+                     <div style="margin-top: 30px;">
+                        <a href="adm_orders.php"><button class="btn btn-warning">Xem đơn hàng khác</button></a>
+                    </div>  
 
             </div>
         <!-- main content end-->

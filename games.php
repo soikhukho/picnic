@@ -2,13 +2,33 @@
   require_once 'db/dbhelper.php';
   require_once 'utility/utils.php';
 
+  $index="games";
+
   $user = checkLogin();
   include_once 'login.php';
 
-  $totalItems = executeResult("select count(*) 'count' from games ",true);
+  $cate=getGET('cate');
+  $search=getGet('search');
+
+ if ($cate !='') {
+    $sub_sql1=' and cate_id ='.$cate;
+ }else{ 
+        $sub_sql1='';
+      }
+
+if ($search !='') {
+    $sub_sql2=" and (games.id like '%$search%' or games.title like '%$search%' ) ";
+ }else{ 
+        $sub_sql2='';
+      }
+
+  $totalItems = executeResult("select count(*) 'count' from games join category where 
+                            games.cate_id = category.id ".$sub_sql1.$sub_sql2,true);
+
+
   $totalItems = $totalItems['count'];
 
-  $href='games.php';
+  $href='games.php?cate='.$cate.'&search='.$search.'&';
 
   $page = getGET('page');
   if($page==''){$page = 1;}
@@ -17,7 +37,8 @@
   $totalPages = ceil($totalItems / $limit);
   $start = ($page-1) * $limit;
 
-  $data = executeResult("select * from games limit $start , $limit ");
+  $data = executeResult("select games.*,category.title 'cate title' from games join category where 
+                            games.cate_id = category.id ".$sub_sql1.$sub_sql2." order by updated_at DESC limit $start , $limit ");
 
 ?>
 
@@ -48,22 +69,46 @@
      ?>
      <div class="container" style="min-height: 500px;">
         <span id="result"></span>
+
+        <div style="font-size: 35px; font-weight: bold;text-align: center;margin-top: 30px;">- TOP GAMES MỚI -</div>
+
+        <div style="">
+          <!-- search form start -->
+          <form method="get">
+            <div class="input-group custom-search-form" style="margin-bottom: 8px;">
+                <input type="text" class="form-control" name="search" placeholder="Search id or title..." value="<?= $search ?>">
+                <span class="input-group-btn">
+                    <button class="btn btn-default" type="submit" style="margin-top: 6px;">
+                        <i class="fa fa-search"></i>
+                    </button>
+                </span>
+            </div>
+          </form>
+          <!-- search form end -->
+        </div>
+
         <div id="main-content" class="row">
           <!--  item start -->
           <?php
             foreach ($data as $game) {
               echo '<div class="game col-md-4">
                       <div class="game-inner">
-                        <div class="thumbnail" >
+                        <div class="thumbnail" style="position: relative;">
                           <a href="games_detail.php?id='.$game['id'].'">
-                            <img src="'.$game['thumbnail'].'" style="height:225px;width:100%;border-radius:10px 10px 0 0;">
+                            <img src="'.$game['thumbnail'].'" style=" position: absolute;bottom:0px;max-height:225px;width:100%;border-radius:10px 10px 0 0;">
                           </a>
                         </div>
 
                         
                         <div class="content" >
                             <div id="text_area">
-                                <p class="title">'.$game['title'].'</p>
+
+                                <p class="title">
+                                    '.$game['title'].'
+                                    <span style="font-size:12px;">
+                                        <i> ('.$game['cate title'].')</i>
+                                    </span>
+                                </p>
 
                                 <p style="text-align: justify;">
                                   '.$game['description'].'
@@ -121,7 +166,7 @@
 
      </div>
      <!-- pagination -->
-        <div style="text-align: center;"> <?php include_once 'utility/pagination.php'; ?> </div>
+        <div style="text-align: center;"> <?php include_once 'utility/pagination_multi.php'; ?> </div>
 
 
 

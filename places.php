@@ -2,6 +2,8 @@
   require_once 'db/dbhelper.php';
   require_once 'utility/utils.php';
 
+  $index="places";
+
   $user = checkLogin();
   include_once 'login.php';
 
@@ -51,6 +53,9 @@
    ?>
 
      <div class="container" style="min-height: 500px;">
+
+        <div style="font-size: 33px; font-weight: bold;text-align: center;margin-top: 30px;">- TOP BEAUTY PLACES -</div>
+
          <div class="row">
             <div class="col-md-8" id="content" style="margin-bottom: 50px;">
             

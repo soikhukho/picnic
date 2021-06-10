@@ -2,6 +2,8 @@
   require_once 'db/dbhelper.php';
   require_once 'utility/utils.php';
 
+  $index='';
+
   $user = checkLogin();
   include_once 'login.php';
 
@@ -166,10 +168,15 @@
                 </tbody>
               </table>
                 
-                <h3 class="row" id="total_money" style="margin-left: 600px;" > </h3>
+              <h3 class="row" id="total_money" style="margin-left: 600px;" > </h3>
+
+              <div style="text-align:  center;">
+                <a href="games.php"><button class="btn btn-warning ">Continue shopping</button></a>
+              </div>
 
                 <!-- form customer info start-->
-              <form id="myForm" method="post">
+              <form id="myForm" method="post" style="margin-top: 50px;">
+                <center><h2>Bạn cần hoàn tất thông tin để mua hàng </h2></center>
 
                 <div <?= (count($cart)==0)?'style="display:none"':'' ?>>
                   <div class="form-group">
@@ -193,6 +200,7 @@
 
                 <div style="text-align: center;margin-top: 30px;" >
                   <a href="checkout.php" <?= (count($cart)==0)?'style="display:none"':'' ?> ><button id="btn_checkout" class="btn btn-warning">Mua hàng</button>
+                  </a>
                 </div>
   
 
@@ -299,7 +307,7 @@
       })
 
       function update_quantity(game_id,newquantity){
-          $.post('selling/add_to_cart.php',{game_id:game_id,quantity:newquantity},function(data){
+          $.post('add_to_cart.php',{game_id:game_id,quantity:newquantity},function(data){
                 $('[name=total_item_in_cart]').val(data)
               })
       }
@@ -323,7 +331,7 @@ $('[name=delete_icon]').click(function(){
 
         $(this).parent().parent().empty();
 
-        $.post('selling/add_to_cart.php',{del_game_id:del_game_id},function(data){
+        $.post('add_to_cart.php',{del_game_id:del_game_id},function(data){
             $('[name=total_item_in_cart]').val(data)
         })
 

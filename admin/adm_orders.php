@@ -6,6 +6,14 @@
       if ($user=='') {
         header('Location: index.php');
       }
+$active=$user['active'];
+if ($active != 1) {
+  echo '<script type="text/javascript">
+          alert("Tài khoản của bạn chưa được kích hoạt")
+          window.location.replace("admin.php")
+        </script>';
+}
+
 $task = getGET('task');
 
 $sql= "select orders.id,orders.status, customers.fullname,orders.created_at,sum(orders_details.quantity*orders_details.price)'total' from orders_details ,orders , customers , games where orders_details.order_id = orders.id and orders.cus_id = customers.id and games.id = orders_details.game_id ";

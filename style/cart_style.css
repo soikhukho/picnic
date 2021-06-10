@@ -15,14 +15,15 @@
     #btn_minus{
       height: 28px;
       border-radius: 5px 0 0 5px;
-      margin-right: -5px !important;
+      margin-right: 0px !important;
     }
 
     #btn_plus{
       height: 28px;
       border-radius: 0 5px 5px 0;
-      margin-left: -5px !important;
+      margin-left: 0px !important;
     }
+
     .title{
       padding-top: 25px !important;
     }
@@ -31,7 +32,7 @@
     }
 
     .quantity_area input{
-      margin-top: 0px !important;
+      margin-top: 1px !important;
       width: 50px !important;
       height: 35px;
       text-align: center;

@@ -1,23 +1,48 @@
 
 * {
+	
 	font-family: 'Poppins', sans-serif;
 	box-sizing: border-box;
 }
 
-.header-top {
-	width: 100%;
-	height: 45px;
-	background-color: #e0e0e7;
+body{
+	background: white ;
 }
 
+.active-header{
+	color: #2a5d84;
+	font-size: 22px;
+	font-weight: bold;
+}
+
+.active-footer{
+	font-weight: bold;
+	text-decoration: underline;
+}
+
+.header-top {
+	width: 100%;
+	height: 40px;
+	background-color: #2a5d84;
+	line-height: 40px;
+	font-size: 12px;
+
+}
+
+#contact a{
+	color: #8b9993;
+}
+#login_group a{
+	color: #8b9993;
+}
 
 .header_body {
 	width: 100%;
-	height: 80px;
-	padding: 0;
+	height: 115px;
+	padding-top: 5px;
 	display: table;
 	clear: both;
-	background-color:rgb(83, 163, 163);
+	background-color:#efeee5;
 }
 #myCarousel{
 	width: 100%;
@@ -50,18 +75,19 @@ nav ul li a{
 	color: black;
 	text-decoration: none;
 	line-height: 70px;
-	font-size: 18px;
+	font-size: 20px;
 	padding-right: 25px;
 }
 
 nav ul ul{
-	border-top: 2px solid white;
+	border-top: 2px solid grey;
 	position: absolute;
 	top: 130px;
 	opacity: 0;
 	visibility: hidden;
 	transition: .3s;
-	background: #8fccd9;
+
+	background: #f0f0f0;
 }
 nav ul li:hover > ul{
 	top: 42px;
@@ -78,7 +104,7 @@ nav ul li ul li:hover{
 nav ul ul li{
 	position: relative;
 	margin:0px;
-	width:150px;
+	min-width:150px;
 	float: none;
 	display: block;
 	border-bottom: 1px solid grey;
@@ -86,7 +112,7 @@ nav ul ul li{
 	padding-left: 5px;
 }
 nav ul ul li a{
-	line-height: 50px;
+	line-height: 45px;
 	color:  black;
 }
 
@@ -106,54 +132,78 @@ nav ul ul li a{
     background:white;
 }
 
-#cart img {
+#cart i {
     transform: scale(1);
     transition: all 0.5s;
 }
-#cart img:hover {
-    transform: scale(1.1);
+#cart i:hover {
+    transform: scale(1.2);
 }
 
 #popup:hover{
     cursor: pointer;
 }
 
-#contact a{
-	color: #888888;
-}
-
 #cart {
-	padding-top: 20px !important;
+	padding-top: 28px !important;
 
 }
 
 
 #icon_cart{
+	color: #697da1;
 	position: absolute;
 
 }
 
 #cart input{
-	width: 32px;
+	width: 50px;
 	height: 22px;
-	border-radius:5px;
+	border-radius:50%;
+	background: transparent;
 
 	position: relative;
-	left: 22px;
-	top:10px;
-	border: 1px dotted #ffb3b3;
-	text-align:center;
+	left: 47px;
+	top:22px;
+	border: none;
 	outline:none;
-	color: orange;
+	color: grey ;
 	font-weight: bold;
-	font-size: 20px;
+	font-size: 14px;
 }
 
-#cart input:hover{
-	cursor: pointer;
-	background: grey;
+
+#footer-top{
+	background: #2a5d84 ;
+    color: white;
+    height: 300px;
 }
 
-#icon_cart:hover{
-	color: grey;
+#footer-bottom{
+	background: #284f6b ;
+    color: white;
+	height: 45px;
+}
+
+#footer i{
+	margin-right: 15px !important;
+}
+
+#info{
+	margin-top: 50px;
+}
+#info div{
+	margin-top: 10px;
+}
+
+#link{
+	margin-top: 50px;
+}
+#link a {
+	color: white;
+	line-height: 30px;
+}
+
+#map{
+	margin-top: 55px;
 }

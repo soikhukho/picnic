@@ -18,10 +18,10 @@
 
 
 <div class="header-top">
-	<div class="container">
-		<div class="row">
+	<div class="container" style="height: 40px !important">
+
 			<div class="col-md-6">
-				<div id="contact" class="row" style="margin-top: 15px;">
+				<div id="contact" class="row" >
 
 					<div class="col-md-3" style="margin-left: 60px;">
 						<a  href="tel: 0866759002"><i class="fas fa-phone-alt"></i> 0866759002</a>
@@ -32,14 +32,14 @@
 				</div>
 			</div>
 			
-			<div class="col-md-5" style="text-align: right;height: 45px!important">
+			<div class="col-md-5" style="text-align: right;height: 40px !important">
 					<div id="login_group" >
-							<ul  style="display: inline-flex; padding-top: 3px;list-style-type: none;">
+							<ul  style="display: inline-flex; list-style-type: none;">
 
 								  <li id="hello_user" <?=($user=='')?'style="display: none;"':'' ?> ><a href="admin/adm_message.php" >
-										<button id="btn_user" class="btn" style="text-align: left;min-width: 80px; height: 36px; border-radius: 20px;padding: 2px;padding-right: 5px;">
+										<button id="btn_user" class="btn" style="text-align: left;min-width: 80px; height: 32px; border-radius: 20px;padding: 2px;padding-right: 5px;">
 											<img src="<?=($user!='')?$user['avatar']:'' ?>" 
-													style="border-radius: 50%;max-height: 30px;">
+													style="border-radius: 50%;height: 26px;border: 1px solid grey ">
 											<span><?=($user!='')?$user['fullname']:'' ?></span>
 										</button>
 								  </li>
@@ -52,33 +52,33 @@
 							      	<span class="glyphicon glyphicon-user" ></span> Sign Up</a>
 							      </li>
 
-							      <li id="login" <?=($user!='')?'style="display: none;"':'' ?> >
+							      <li id="login" <?=($user!='' || $index=='')?'style="display: none;"':'' ?> >
 							      	<a id="popup"><span class="glyphicon glyphicon-log-in"></span> Log in</a>
 							      </li>
 						    </ul>
 					</div>
 				</div>
-		</div>
+
 	</div>
 </div>
 
 <div class="header_body">
-	<div class="container" style="height: 80px;">
+	<div class="container" style="">
 			<nav class="row">
 				<div class="logo col-md-2">
 					<img src="https://hinoderoyalpark.com.vn/public/media/logo_hnd_rp.png" style="height: 80px;padding-top: 15px;">
 				</div>
 				<ul class="col-md-8">
-					<li><a href="index.php">HOME </a></li>
+					<li><a href="index.php" <?= ($index=="index")?'class="active-header"':''?> >HOME </a></li>
 					<li>
-						<a href="games.php">GAME CATEGORIES</a>
+						<a href="games.php" <?= ($index=="games")?'class="active-header"':''?> >GAMES</a>
 						<ul >
 							<?php
 			            		foreach ($category as $cate) {
 			            			$cate_id = $cate['id'];
 			            			$games= executeResult("select * from games where cate_id = $cate_id ");
 			            			echo '<li>
-			            						<a style="text-transform: uppercase;" href="games.php?cate='.$cate['title'].'">'.$cate['title'].'</a>';
+			            						<a style="text-transform: uppercase;" href="games.php?cate='.$cate['id'].'">'.$cate['title'].'</a>';
 
 			            			echo "</li>";
 			            		}
@@ -86,15 +86,15 @@
 						</ul>
 					</li>
 					<!-- <li><a href="">NEWS</a></li> -->
-					<li><a href="places.php">BEAUTY PLACES</a></li>
-					<li><a href="albums.php">ALBUMS</a></li>
-					<li><a href="">CONTACTS</a></li>
+					<li><a href="places.php" <?= ($index=="places")?'class="active-header"':''?> >BEAUTY PLACES</a></li>
+					<li><a href="albums.php" <?= ($index=="albums")?'class="active-header"':''?>>ALBUMS</a></li>
+					<li><a href="contact.php" <?= ($index=="contact")?'class="active-header"':''?>>CONTACTS</a></li>
 
 				</ul>
 				<div id="cart" class="col-md-1">
 					<a href="cart.php">
-						<i id="icon_cart" class="fas fa-shopping-cart fa-4x" style="color:white"></i>
-						<input type="text" name="total_item_in_cart" value="<?= $total_item_in_cart?>">
+						<i id="icon_cart" class="fas fa-shopping-cart fa-3x" ></i>
+						<input readonly="true" type="text" name="total_item_in_cart" value="(<?= $total_item_in_cart?> sp)">
 					</a>
 				</div>
 

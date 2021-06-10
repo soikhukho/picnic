@@ -13,6 +13,7 @@ if (isset($_COOKIE['cart_picnic'])) {
 	
 
 //sau đó thực thi công việc add / del hay edit
+
 	$game_id = getPOST('game_id');
 	$quantity = getPOST('quantity');
 	$del_game_id=getPOST('del_game_id');
@@ -48,7 +49,6 @@ if (isset($_COOKIE['cart_picnic'])) {
 
 	//for del from cart 
 	
-
 	if ($del_game_id!='' && $game_id=='') {
 		
 			$i=0;
@@ -61,6 +61,7 @@ if (isset($_COOKIE['cart_picnic'])) {
 			}
 	}
 
+
 //b3 đồng bộ lên cookie
 	setcookie('cart_picnic',json_encode($cart),0,'/');
 
@@ -69,7 +70,8 @@ if (isset($_COOKIE['cart_picnic'])) {
 		$total_item_in_cart+=$item['quantity'];
 	}
 
-	echo $total_item_in_cart;
+	//echo để trả về result số lượng trong giỏ hàng
+	echo '('.$total_item_in_cart.' sp)';
 
 
 

@@ -16,7 +16,7 @@
 
 	$i=$start+1;
 	foreach ($place as $item) {
-		echo '<div style="margin-top:50px;">
+		echo '<div style="margin-top:10px;">
 					<a href="places_detail.php?id='.$item['id'].'"><h2>'.$i++.'. '.$item['title'].'</h2>
 	   				<div><img src="'.$item['thumbnail'].'"></div></a>
 	   				<p>'.$item['description'].'</p>

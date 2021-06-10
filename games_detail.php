@@ -2,12 +2,19 @@
   require_once 'db/dbhelper.php';
   require_once 'utility/utils.php';
 
+  $index ="games";
+
   $user = checkLogin();
   include_once 'login.php';
 
   $id=getGet('id');
+
   $sql="select * from games where id = $id";
+
   $detail=executeResult($sql,true);
+  if ($detail==null ) {
+    header('Location: games.php');
+  }
 ?>
 
 <!DOCTYPE html>

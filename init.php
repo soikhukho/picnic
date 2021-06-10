@@ -120,7 +120,7 @@ require_once 'utility/utils.php';
 							    status tinyint default 0)';
 		execute($message_table);
 
-		$create_first_admin= "INSERT INTO `users` (`id`, `fullname`, `email`, `birthday`, `address`, `created_at`, `updated_at`, `password`, `token`, `phone_no`, `avatar`, `active`) VALUES (NULL, 'Picnic Team', 'picnic@gmail.com', '2021-06-23 00:00:00', 'Hai Phong', '2021-06-06 15:48:50', '2021-06-06 15:48:50', 'be22810180c5247c846d0270e55fd236', NULL, '0865698896', 'https://scontent-hkg4-2.xx.fbcdn.net/v/t1.6435-9/54514819_2121950994761484_2297120214103359488_n.jpg?_nc_cat=109&ccb=1-3&_nc_sid=174925&_nc_ohc=Zz0gF1ubXwgAX8WE0Yn&_nc_ht=scontent-hkg4-2.xx&oh=4d0720d02591c4740153042bfb7c87f3&oe=60E34D5E', '1')";
+		$create_first_admin= "INSERT INTO `users` (`id`, `fullname`, `email`, `birthday`, `address`, `created_at`, `updated_at`, `password`, `token`, `phone_no`, `avatar`, `active`) VALUES (NULL, 'Picnic Team', 'picnic@gmail.com', '2021-06-23 00:00:00', 'Hai Phong', '2021-06-06 15:48:50', '2021-06-06 15:48:50', '8aabc57e58ea34cf54bbc0a6c00061bb', NULL, '0865698896', 'https://scontent-hkg4-2.xx.fbcdn.net/v/t1.6435-9/54514819_2121950994761484_2297120214103359488_n.jpg?_nc_cat=109&ccb=1-3&_nc_sid=174925&_nc_ohc=Zz0gF1ubXwgAX8WE0Yn&_nc_ht=scontent-hkg4-2.xx&oh=4d0720d02591c4740153042bfb7c87f3&oe=60E34D5E', '1')";
 		execute($create_first_admin);
 
 		$sql="INSERT INTO `category` (`id`, `title`, `created_at`, `updated_at`) VALUES (NULL, 'Ngoài trời', '2021-05-25 20:46:16', '2021-05-25 20:46:16')";

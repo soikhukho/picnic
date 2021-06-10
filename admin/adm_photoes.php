@@ -8,6 +8,13 @@
       if ($user=='') {
         header('Location: index.php');
       }
+$active=$user['active'];
+if ($active != 1) {
+  echo '<script type="text/javascript">
+          alert("Tài khoản của bạn chưa được kích hoạt")
+          window.location.replace("admin.php")
+        </script>';
+}
 
     $alert = '';
   $date = date('Y-m-d H:i:s');

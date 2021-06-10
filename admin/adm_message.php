@@ -7,6 +7,13 @@
         header('Location: index.php');
       }
 $user_id=$user['id'];
+$active=$user['active'];
+if ($active != 1) {
+  echo '<script type="text/javascript">
+          alert("Tài khoản của bạn chưa được kích hoạt")
+          window.location.replace("admin.php")
+        </script>';
+}
 
 $change_id =getPost('change_id');
 $checked_all =getPost('checked_all');

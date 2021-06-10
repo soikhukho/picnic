@@ -8,6 +8,7 @@
       }
     $user_id=$user['id'];
 
+
 //rồi code tiếp php ở đây
 
 ?>
@@ -56,7 +57,7 @@
 
             <!-- main content start-->
             <div class="row">
-                code html vào giữa cái div này 
+                
 
             </div>
             <!-- main content start-->
