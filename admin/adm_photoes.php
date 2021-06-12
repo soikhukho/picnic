@@ -2,95 +2,11 @@
   require_once '../db/dbhelper.php';
   require_once '../utility/utils.php';
 
-  $selected='adm_photoes';
+  require_once 'php_form_admin/form_photoes.php';
 
-  $user = checkLogin();
-      if ($user=='') {
-        header('Location: index.php');
-      }
-$active=$user['active'];
-if ($active != 1) {
-  echo '<script type="text/javascript">
-          alert("Tài khoản của bạn chưa được kích hoạt")
-          window.location.replace("admin.php")
-        </script>';
-}
-
-    $alert = '';
-  $date = date('Y-m-d H:i:s');
-  $title = getPost('title');
-  $address=getPost('address');
-  $album_id=getPost('album_id');
-
-  $delID= getPost('delID');
-
-  $editID = getGet('editID');
-  if ($editID !=''){
-        $edit_photo = executeResult("select * from photoes where id = $editID ",true);
-        if ($edit_photo=='') {
-          header('Location: adm_photoes.php');
-        }
-    }
-
-  if (!empty($_POST)) {
-    //delete
-    if ($delID!='') {
-        execute("delete from photoes where id = $delID");
-
-         mess('<b>Photo ID='.$delID.'</b> đã bị xóa bởi admin '.$user['fullname'],'adm_photoes.php');
-
-        header('Location: adm_photoes.php');
-    }
-
-    //add
-    if ($title!='' && $editID =='') {
-        execute("insert into photoes(title ,address , album_id, created_at , updated_at)
-                   values ('$title','$address' ,$album_id , '$date','$date')");
-
-         mess('<b>Photo '.$title.'</b> đã được thêm bởi admin '.$user['fullname'],'adm_photoes.php');
-
-        echo "<script>
-          alert('Bạn đã thêm ảnh thành công')
-          window.location.replace('adm_photoes.php')
-        </script>";
-    }
-    //edit
-    if ( $title!='' && $editID !=''){
-        execute("update photoes set title='$title' ,address='$address' , album_id='$album_id' ,
-                      updated_at='$date' where id ='$editID' ");
-
-        mess('<b>Photo '.$title.'(ID='.$editID.')</b> đã được update bởi admin '.$user['fullname'],'adm_photoes.php');
-
-        header('Location: adm_photoes.php');
-    }
-  }
-
-//pagination form ?page=
-  $search=getGET('search');
-  if ($search !='') {
-    $sub_sql = " and ( photoes.id like '%$search%' or photoes.title like '%$search%' ) ";
-  }else {$sub_sql='';}
-
-$totalItems = executeResult("select count(*) 'count' from photoes join albums 
-                                                    on photoes.album_id = albums.id ".$sub_sql,true);
-  $totalItems = $totalItems['count'];
-
-$href='adm_photoes.php?search='.$search.'&';
-
-$page = getGET('page');
-if($page==''){$page = 1;}
-
-$limit  =5;
-$totalPages = ceil($totalItems / $limit);
-$start = ($page-1) * $limit;
-
-  $data = executeResult("select photoes.id , photoes.title  ,photoes.address,
-                                                         albums.title 'album title' ,photoes.created_at ,
-                                                        photoes.updated_at 
-                                                    from photoes join albums 
-                                                    on photoes.album_id = albums.id ".$sub_sql."
-                                                    order by photoes.updated_at desc    limit $start , $limit      ");
 ?>
+
+
 
 <!DOCTYPE html>
 <html>
@@ -165,20 +81,31 @@ $start = ($page-1) * $limit;
                         </div>
 
                         <div class="form-group">
-                          <label>Album</label>
-                          <select class="form-control" style="width: 250px;" name="album_id" required="true">
-                            <option value="">--chon album--</option>
-                              <?php
-                                $albums=executeResult("select id , title from albums ");
-                                foreach ($albums as $album) {
-                                    if ($album['id']!=$edit_photo['album_id']) {
-                                        echo '<option value="'.$album['id'].'">'.$album['title'].'</option>';
-                                    }else{
-                                        echo '<option selected value="'.$album['id'].'">'.$album['title'].'</option>';
-                                    }
-                                }
-                              ?>
-                          </select>
+                          <label>Album ID</label>
+                          <input type="text" name="album_id" list="album_list" class="form-control" placeholder="looking for ID or Title of Album" value="<?= (isset($edit_photo))?$edit_photo['album_id']:''?>">
+                          <datalist id="album_list">
+
+                            <?php
+                              $album_list=executeResult("select id , title from albums ");
+                              foreach ($album_list as $album) {
+                                echo '<option value="'.$album['id'].'">'.$album['title'].'</option>';
+                              }
+                            ?>
+                          </datalist>
+                        </div>
+                        <span id="result"></span>
+
+                        <div class="form-group">
+                          <label>Chọn theo Game ID</label>
+                          <input type="text" name="game_id" list="game_list" class="form-control" placeholder="looking for ID or Title of Game">
+                          <datalist id="game_list">
+
+                            <?php
+                              foreach ($game_list as $game) {
+                                echo '<option value="'.$game['id'].'">'.$game['title'].'</option>';
+                              }
+                            ?>
+                          </datalist>
                         </div>
 
                         <center><button class="btn btn-warning" style="font-size: 20px;"><?= (isset($edit_photo))?'Update':'Create'?></button></center>
@@ -204,15 +131,17 @@ $start = ($page-1) * $limit;
                       </form>
                       <!-- search form end -->
 
-                  <table class="table table-bordered" style="width: 80%;">
+                  <table class="table table-bordered" style="">
                     <thead>
                       <tr>
                         <th>No</th>
-                        <th>Title</th>
                         <th>Thumbnail</th>
-                        <th>Album title</th>
+                        <th>Photo Title</th>
+                        <th>Album Title</th>
                         <th>Created at</th>
                         <th>Updated at</th>
+                        <th>Game ID</th>
+                        <th>Game Title</th>
                         <th></th>
                         <th></th>
                       </tr>
@@ -224,11 +153,13 @@ $start = ($page-1) * $limit;
                         foreach ($data as $photo) {
                           echo '<tr>
                                   <td>'.$i++.'</td>
-                                  <td>'.$photo['title'].'</td>
-                                  <td><img src="'.$photo['address'].'" style="width: 160px;"></td>
+                                  <td><img src="'.$photo['address'].'" style="width: 100px;"></td>
+                                  <td>'.$photo['title'].'</td>                               
                                   <td>'.$photo['album title'].'</td>
                                   <td>'.$photo['created_at'].'</td>
                                   <td>'.$photo['updated_at'].'</td>
+                                  <td>'.$photo['game id'].'</td>
+                                  <td>'.$photo['game title'].'</td>
                                   <td><button class="btn btn-danger" onclick="del('.$photo['id'].')">Delete</button></td>
                                   <td><button class="btn btn-warning" onclick="edit('.$photo['id'].')">Edit</button></td>
                                 </tr>';
@@ -279,6 +210,17 @@ $start = ($page-1) * $limit;
              document.getElementById('create_form').style.display="none"
              document.getElementById('create_btn').style.display=""  
       })
+
+   $('[name=game_id]').change(function(){
+
+      $('[name=album_id]').val('')
+      var game_id=$(this).val()
+      
+      $.post('../form_ajax/photo_form.php',{game_id:game_id},function(data){
+          $('#album_list').html(data)
+      })
+   })
+
     </script>
 
     <?php if ($editID!='') {

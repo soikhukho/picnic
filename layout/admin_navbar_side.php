@@ -56,7 +56,7 @@
                         <a href="adm_places.php"><i class="fa fa-angle-double-right" aria-hidden="true"></i> Places</a>
                     </li>
 
-                    <li class="<?= ($selected =='adm_users')?'selected':''?>">
+                    <li class="<?= ($selected =='adm_users')?'selected':''?>" style="<?=($user['email']!='picnic@gmail.com')?'display: none':''; ?>">
                         <a href="adm_users.php"><i class="fa fa-angle-double-right" aria-hidden="true" style="margin-right: 5px;"></i>Users</a>
                     </li>
 

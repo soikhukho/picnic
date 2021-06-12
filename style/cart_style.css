@@ -49,3 +49,6 @@
       cursor: pointer;
     }
  
+  .no,.id,.title , .price , .total , .action{
+    padding-top: 30px!important;
+ }

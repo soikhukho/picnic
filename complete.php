@@ -2,8 +2,11 @@
   require_once 'db/dbhelper.php';
   require_once 'utility/utils.php';
 
+ $index='';
+
   $user = checkLogin();
   include_once 'login.php';
+
 ?>
 
 <!DOCTYPE html>

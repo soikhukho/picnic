@@ -10,15 +10,26 @@
 
     }
     .game-inner .thumbnail{
-      border-radius: 4px 4px 0px 0px;
+      border-radius: 10px 10px 0px 0px;
       height: 225px;
       border: none;
       margin-bottom: 0px!important;
       padding: 0px !important;
+      overflow: hidden;
       
     }
 
-
+    .thumbnail .img-hidden {
+      overflow: hidden;
+    }
+    .img-hidden img{
+      max-height: 225px;
+       transition: all .8s ease;
+       display: block;
+    }
+    .img-hidden img:hover {
+      transform: scale(1.1);
+    }
     .game-inner .content{
       border: 1px solid #d9d9d9;
       border-radius: 0 0 10px 10px;

@@ -72,7 +72,7 @@
       function loadmore(page) {
         $('#btn'+page).hide()
         page++
-        $.post('pagination_place.php',{page:page},function(data){
+        $.post('form_ajax/pagination_place.php',{page:page},function(data){
           $('#content').append(data);
         })
       }

@@ -2,43 +2,7 @@
   require_once 'db/dbhelper.php';
   require_once 'utility/utils.php';
 
-  $index="games";
-
-  $user = checkLogin();
-  include_once 'login.php';
-
-  $cate=getGET('cate');
-  $search=getGet('search');
-
- if ($cate !='') {
-    $sub_sql1=' and cate_id ='.$cate;
- }else{ 
-        $sub_sql1='';
-      }
-
-if ($search !='') {
-    $sub_sql2=" and (games.id like '%$search%' or games.title like '%$search%' ) ";
- }else{ 
-        $sub_sql2='';
-      }
-
-  $totalItems = executeResult("select count(*) 'count' from games join category where 
-                            games.cate_id = category.id ".$sub_sql1.$sub_sql2,true);
-
-
-  $totalItems = $totalItems['count'];
-
-  $href='games.php?cate='.$cate.'&search='.$search.'&';
-
-  $page = getGET('page');
-  if($page==''){$page = 1;}
-
-  $limit  =6;
-  $totalPages = ceil($totalItems / $limit);
-  $start = ($page-1) * $limit;
-
-  $data = executeResult("select games.*,category.title 'cate title' from games join category where 
-                            games.cate_id = category.id ".$sub_sql1.$sub_sql2." order by updated_at DESC limit $start , $limit ");
+  require_once 'php_form/php_games.php';
 
 ?>
 
@@ -59,6 +23,8 @@ if ($search !='') {
 
 <link rel="stylesheet" type="text/css" href="style/style_header2.css">
   <link rel="stylesheet" type="text/css" href="style/game_style.css">
+
+<script type="text/javascript" src="js/utils"></script>
 </head>
 <body>
     <?php
@@ -95,7 +61,7 @@ if ($search !='') {
                       <div class="game-inner">
                         <div class="thumbnail" style="position: relative;">
                           <a href="games_detail.php?id='.$game['id'].'">
-                            <img src="'.$game['thumbnail'].'" style=" position: absolute;bottom:0px;max-height:225px;width:100%;border-radius:10px 10px 0 0;">
+                            <div class="img-hidden"><img src="'.$game['thumbnail'].'" style=" position: absolute;bottom:0px;max-height:225px;width:100%;border-radius:10px 10px 0 0;"></div>
                           </a>
                         </div>
 
@@ -119,7 +85,7 @@ if ($search !='') {
                                 <div style="width:100%; height: 40px; display: flex;text-align: justify;">
 
                                     <div class="price col-md-6">
-                                        <p>'.$game['price'].'<u>đ</u></p>
+                                        <p>'.number_format($game['price']).'<u>đ</u></p>
                                          <span>/ ticket</span>
                                      </div>
 
@@ -169,81 +135,9 @@ if ($search !='') {
         <div style="text-align: center;"> <?php include_once 'utility/pagination_multi.php'; ?> </div>
 
 
+  <?php include 'layout/footer.php'; ?>
 
-    <?php include 'layout/footer.php'; ?>
-<script type="text/javascript">
+<script type="text/javascript" src="js/change_quantity_games_page.js"></script>
 
-      $('[name=btn_minus]').click(function(){
-
-          var quantity =parseInt( $(this).parent().children('input').val() );
-          var min=parseInt( $(this).parent().children('input').attr('min') );
-
-          if (quantity<=min) {
-                alert('quantity must be more than 1');
-              
-                return false
-              
-            }else{
-              $(this).parent().children('input').val( quantity*1-1 )
-            }
-
-      })
-
-      $('[name=btn_add]').click(function(){
-
-          var quantity =parseInt( $(this).parent().children('input').val() );
-          var max=parseInt( $(this).parent().children('input').attr('max') );
-
-          if (quantity>=max) {
-                alert('quantity must be less than 50');
-              
-                return false
-              
-            }else{
-              $(this).parent().children('input').val( quantity*1+1 )
-            }
-
-      })
-
-      //quantity must be > min and < max
-      $('.quantity_area input').change(function(){
-
-          var quantity =  $(this).val() 
-          var min=parseInt( $(this).attr('min') );
-          var max=parseInt( $(this).attr('max') );
-
-          if (quantity !='' && quantity< min ) {
-            alert('quantity must be >0')
-            $(this).val(min)
-          }
-
-          if (quantity >max ) {
-            alert('quantity must be <50')
-            $(this).val(max)
-          }
-
-          $(this).blur(function(){
-            if ($(this).val()=='') {
-              $(this).val(min)
-            }
-          })
-      })
-
-
-       $('.btn_addToCart').click(function(){
-          var id= $(this).attr('id')
-          var quantity=$(this).parent().parent().parent().parent().children('#price_area').children().children('.quantity_area').children('input').val()
-
-          addToCart(id,quantity)
-       })
-
-       function addToCart(id,quantity){
-        alert('Them vao gio hang thanh cong')
-        $.post('add_to_cart.php',{game_id:id,quantity:quantity},function(data){
-          $('[name=total_item_in_cart]').val(data)
-        })
-       }
-
-    </script>
 </body>
 </html>
