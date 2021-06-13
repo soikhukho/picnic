@@ -154,7 +154,7 @@
 
                               echo '<tr>
                                       <td>'.$i++.'</td>
-                                      <td>'.$album['albums title'].'</td>
+                                      <td><a href="adm_album_details.php?album_id='.$album['id'].'"><b>'.$album['albums title'].'</b></a></td>
                                       <td>'.$album['id'].'</td>
                                       <td><img src="'.$album['thumbnail'].'" style="width: 150px;"></td>
                                       <td>'.$album['games title'].'</td>

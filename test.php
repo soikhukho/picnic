@@ -7,12 +7,40 @@
   $user = checkLogin();
   include_once 'login.php';
 
+  $file_name=[];
   if (isset($_FILES['photo_file']) ) {
-    $address=upload_photo("photo_file","uploads/");
-    
-    $address=removeSpecialCharacter($address);
+
+       $files = $_FILES['photo_file'];
+
+        $names      = $files['name'];
+        $types      = $files['type'];
+        $tmp_names  = $files['tmp_name'];
+        $errors     = $files['error'];
+        $sizes      = $files['size'];
+
+
+        $numitems = count($names);
+        $numfiles = 0;
+        for ($i = 0; $i < $numitems; $i ++) {
+            //Kiểm tra file thứ $i trong mảng file, up thành công không
+            if ($errors[$i] == 0)
+            {
+                $numfiles++;
+                
+                move_uploaded_file($tmp_names[$i], 'uploads/'.$names[$i]);
+
+                 $file_name[]=$names[$i];
+
+            }
+        } 
 
   }
+ 
+  foreach ($file_name as $address) {
+    echo $address;
+  }
+
+
 
 ?>
 
@@ -34,21 +62,20 @@
 <body>
     <?php
         include_once 'layout/header2.php';
-        include_once 'layout/carosell.php';
+        // include_once 'layout/carosell.php';
         include_once 'layout/popup_login.php';
 
      ?>
      <div class="container" style="min-height: 500px;">
        <form enctype="multipart/form-data" method="POST">
-          <label>Chọn ảnh</label>
-          <input type="file" name="photo_file" />
 
-            <?php
-                echo (strpos("asdfsdf.pjg", "."));
-             ?>
+            <label>Chọn File ảnh</label>
+            <input id="photo_file" required="true" type="file" multiple="multiple" name="photo_file[]" >
 
           <button class="btn btn-primary" type="submit">Upload</button>
       </form>
+
+      <span><?php  var_dump($_FILES['photo_file']);  ?></span>
 
      </div>
     <?php include 'layout/footer.php'; ?>
