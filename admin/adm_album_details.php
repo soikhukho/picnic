@@ -193,7 +193,7 @@
 
         if (option=="upload") {
           $('#group_upload').html(`<label>Chọn File ảnh</label>
-                            <input id="photo_file" required="true" type="file" multiple="multiple" name="photo_file[]" >`) ;
+                            <input id="photo_file" required="true" type="file" multiple="multiple" name="photo_file[]" >(***Nếu chọn upload nhiều ảnh thì tất cả ảnh được lưu đều có chung một Title)`) ;
           $('#group_url').empty() ;
 
         }else{
