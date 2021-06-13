@@ -59,7 +59,7 @@
                       Create / Update</h5>
                   </button>
 
-                  <div id="create_form"  class="panel panel-primary" style="display: none;">
+                  <div id="create_form"  class="panel panel-primary" style="display:none ;">
                     <div class="panel-heading">
                       <div style="text-align:right;">
                         <button id="close" class="btn btn-primary " style="font-size: 20px;padding: 10px;">X</button>
@@ -67,22 +67,35 @@
                       <h2 class="text-center" style="margin-top:-30px;"><?= (isset($edit_photo))?'Update this photoes':'Create new photoes'?></h2>
                     </div>
                     <div class="panel-body">
-                      <form method="post">
-                        <span style="color: red"><?= $alert ?></span>
-                        
+                      <form method="post" enctype="multipart/form-data">
+                        <span style="color: red"></span>
+
+                        <div class="form-group">
+                            <label>Chọn phương thức nhập : </label><br>
+
+                            <input type="radio" name="option" value="url" checked style="height: 20px; width: 20px;"> Url  
+                            <input type="radio" name="option" value="upload"  style = "height: 20px; width: 20px;margin-left: 20px;"> Upload file
+                          
+                        </div>
+
+                        <div id="group_upload" class="form-group" >
+                            <!-- <label>Chọn File ảnh</label>
+                            <input id="photo_file" required="true" type="file" name="photo_file" > -->
+                        </div>
+
+                        <div id="group_url" class="form-group"  style="display: ">
+                          <label for="address">URL :</label>
+                          <input id="address" required="true" type="text" class="form-control" name="address" value="<?= (isset($edit_photo))?$edit_photo['address']:''?>">
+                        </div>
+
                         <div class="form-group">
                           <label for="title">Title:</label>
                           <input required="true" type="text" class="form-control" id="title" name="title" value="<?= (isset($edit_photo))?$edit_photo['title']:''?>">
                         </div>
 
                         <div class="form-group">
-                          <label for="address">address link:</label>
-                          <input required="true" type="text" class="form-control" id="address" name="address" value="<?= (isset($edit_photo))?$edit_photo['address']:''?>">
-                        </div>
-
-                        <div class="form-group">
                           <label>Album ID</label>
-                          <input type="text" name="album_id" list="album_list" class="form-control" placeholder="looking for ID or Title of Album" value="<?= (isset($edit_photo))?$edit_photo['album_id']:''?>">
+                          <input required="true" type="text" name="album_id" list="album_list" class="form-control" placeholder="looking for ID or Title of Album" value="<?= (isset($edit_photo))?$edit_photo['album_id']:''?>">
                           <datalist id="album_list">
 
                             <?php
@@ -96,7 +109,7 @@
                         <span id="result"></span>
 
                         <div class="form-group">
-                          <label>Chọn theo Game ID</label>
+                          <label>Lọc theo Game ID</label>
                           <input type="text" name="game_id" list="game_list" class="form-control" placeholder="looking for ID or Title of Game">
                           <datalist id="game_list">
 
@@ -113,6 +126,7 @@
                     </div>
                   </div>
                 </div>
+
                 
                 <!-- show photoes -->
                 <div id="show_cate" style=" width: 100% ;margin-top: 50px;margin-bottom: 50px;">
@@ -151,9 +165,10 @@
                         
                         $i=$limit*($page-1)+1;
                         foreach ($data as $photo) {
+
                           echo '<tr>
                                   <td>'.$i++.'</td>
-                                  <td><img src="'.$photo['address'].'" style="width: 100px;"></td>
+                                  <td><img src="'.plus_path($photo['address'],'../uploads/').'" style="width: 100px;"></td>
                                   <td>'.$photo['title'].'</td>                               
                                   <td>'.$photo['album title'].'</td>
                                   <td>'.$photo['created_at'].'</td>
@@ -180,6 +195,23 @@
     <!-- end wrapper -->
 
     <script type="text/javascript">
+      $('[name=option]').change(function(){
+        var option = $(this).val() ;
+
+        if (option=="upload") {
+          $('#group_upload').html(`<label>Chọn File ảnh</label>
+                            <input id="photo_file" required="true" type="file" name="photo_file" >`) ;
+          $('#group_url').empty() ;
+
+        }else{
+
+          $('#group_upload').empty() ;
+          $('#group_url').html(`<label for="address">URL:</label>
+                          <input id="address" required="true" type="text" class="form-control" name="address" value="<?= (isset($edit_photo))?$edit_photo['address']:''?>">`) ;
+
+        }
+      })
+
       function del(id){
         if (confirm('Ban co chắc chắc muốn xóa sp này ?') ) {
           $.post('adm_photoes.php',

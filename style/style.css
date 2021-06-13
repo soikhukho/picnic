@@ -7,6 +7,11 @@
     box-sizing: border-box;
 }
 
+.container{
+  width: 86%;
+  margin: auto;
+}
+
 #header{
     background-color: rgb(83, 163, 163);
 }

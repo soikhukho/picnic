@@ -145,14 +145,14 @@ function showAlbum_slide($album_id){
 
         //in ra list wrapper
         echo "<div class='item active'>
-                        <img src='".$data[0]['address']."' alt='' />
+                        <img src='".plus_path($data[0]['address'],'uploads/')."' alt='' />
                     </div>";
 
         if (count($data)>1) {
             for ($i=1; $i <count($data) ; $i++) { 
             
                 echo "<div class='item'>
-                        <img src='".$data[$i]['address']."' alt='' />
+                        <img src='".plus_path($data[$i]['address'],'uploads/')."' alt='' />
                     </div>";
                 
              }
@@ -177,13 +177,13 @@ function showAlbum_slide($album_id){
 
         //list các indicator
         echo "<li id='indicator1' data-target='#carousel-custom' data-slide-to='0' class='active'>
-                    <img src='".$data[0]['address']."' alt='' />
+                    <img src='".plus_path($data[0]['address'],'uploads/')."' alt='' />
                 </li>";
         if (count($data)>1){
 
             for ($i=1; $i <count($data) ; $i++){
                 echo "<li id='indicator".($i+1)."' data-target='#carousel-custom' data-slide-to='".$i."' >
-                        <img src='".$data[$i]['address']."' alt='' />
+                        <img src='".plus_path($data[$i]['address'],'uploads/')."' alt='' />
                     </li>";
             }
         }
@@ -215,7 +215,7 @@ function showAlbum_represent($album_id){
         echo '<div class="album_present" style="display: flex; width: 100% ;margin-top:20px; margin-bottom:30px;">
 
                 <div class="colum" style="width:100%; " >
-                  <img src="'.$data[0]['address'].'" onclick="OpenModal('.$album_id.');currentSlide(1)" style="width: 100%;">
+                  <img src="'.plus_path($data[0]['address'],'uploads/').'" onclick="OpenModal('.$album_id.');currentSlide(1)" style="width: 100%;">
                 </div>
 
             </div>';
@@ -225,12 +225,12 @@ function showAlbum_represent($album_id){
         echo '<div class="album_present" style="display: flex; width: 100% ; margin-bottom:20px;">
 
                 <div class="colum" style="width:50%; margin-right: 5px;" >
-                  <img src="'.$data[0]['address'].'" onclick="OpenModal('.$album_id.');currentSlide(1)"  style="width: 100%;">
+                  <img src="'.plus_path($data[0]['address'],'uploads/').'" onclick="OpenModal('.$album_id.');currentSlide(1)"  style="width: 100%;">
                 </div>
 
                 <div class="colum" style="width:50%;margin-left: 5px;">
 
-                    <img src="'.$data[1]['address'].'" style="width:100%;" onclick="OpenModal('.$album_id.');currentSlide(2)" >
+                    <img src="'.plus_path($data[1]['address'],'uploads/').'" style="width:100%;" onclick="OpenModal('.$album_id.');currentSlide(2)" >
 
                 </div>
             </div>';
@@ -240,16 +240,116 @@ function showAlbum_represent($album_id){
         echo '<div class="album_present" style="display: flex; width: 100% ; margin-bottom:20px;">
 
                 <div class="colum" style="width:66%; margin-right: 5px;" >
-                  <img src="'.$data[0]['address'].'" onclick="OpenModal('.$album_id.');currentSlide(1)"  style="width: 100%;">
+                  <img src="'.plus_path($data[0]['address'],'uploads/').'" onclick="OpenModal('.$album_id.');currentSlide(1)"  style="width: 100%;">
                 </div>
 
                 <div class="colum" style="width:34%;margin-left: 10px;">
 
-                    <img src="'.$data[1]['address'].'" style="width:100%;margin-bottom: 5px;" onclick="OpenModal('.$album_id.');currentSlide(2)" >
+                    <img src="'.plus_path($data[1]['address'],'uploads/').'" style="width:100%;margin-bottom: 5px;" onclick="OpenModal('.$album_id.');currentSlide(2)" >
 
-                    <img src="'.$data[2]['address'].'" style="width:100%;margin-top: 10px;" onclick="OpenModal('.$album_id.');currentSlide(3)" >
+                    <img src="'.plus_path($data[2]['address'],'uploads/').'" style="width:100%;margin-top: 10px;" onclick="OpenModal('.$album_id.');currentSlide(3)" >
 
                 </div>
             </div>';
     }
+}
+
+function upload_photo($file , $target_dir){
+
+  //Vị trí file lưu tạm trong server (file sẽ lưu trong uploads, với tên giống tên ban đầu)
+    $file_name = basename($_FILES[$file]["name"]);
+
+  $target_file   = $target_dir . basename($_FILES[$file]["name"]);
+
+  $allowUpload   = true;
+
+  //Lấy phần mở rộng của file (jpg, png, ...)
+  $imageFileType = pathinfo($target_file,PATHINFO_EXTENSION);
+
+  // Cỡ lớn nhất được upload (bytes)
+  $maxfilesize   = 800000;
+
+  ////Những loại file được phép upload
+  $allowtypes    = array('jpg', 'png', 'jpeg', 'gif');
+
+
+  if(isset($_POST["submit"])) {
+      //Kiểm tra xem có phải là ảnh bằng hàm getimagesize
+      $check = getimagesize($_FILES["fileupload"]["tmp_name"]);
+      if($check !== false)
+      {
+          $allowUpload = true;
+      }
+      else
+      {
+            echo '<script type="text/javascript">
+                    alert("File upload không phải file ảnh")
+                </script>';
+         
+          $allowUpload = false;
+      }
+  }
+
+  // Kiểm tra nếu file đã tồn tại thì không cho phép ghi đè
+  // if (file_exists($target_file))
+  // {
+  //       echo '<script type="text/javascript">
+  //                   alert("Tên file đã tồn tại trên server, không được phép ghi đè")
+  //               </script>';
+      
+  //     $allowUpload = false;
+  // }
+
+  // Kiểm tra kích thước file upload cho vượt quá giới hạn cho phép
+  // if ($_FILES[$file]["size"] > $maxfilesize)
+  // {     
+  //       echo '<script type="text/javascript">
+  //                   alert("Không được upload ảnh lớn hơn $maxfilesize (bytes).")
+  //               </script>';
+  //     $allowUpload = false;
+  // }
+
+
+  // Kiểm tra kiểu file
+  if (!in_array($imageFileType,$allowtypes ))
+  {
+        echo '<script type="text/javascript">
+                    alert("Chỉ được upload các định dạng JPG, PNG, JPEG, GIF")
+                </script>';
+
+      $allowUpload = false;
+  }
+
+  if ($allowUpload)
+  {
+      // Xử lý di chuyển file tạm ra thư mục cần lưu trữ, dùng hàm move_uploaded_file
+      if (move_uploaded_file($_FILES[$file]["tmp_name"], $target_file))
+      {
+            return $file_name;
+
+          //   echo '<script type="text/javascript">
+          //           alert("File '. basename( $_FILES[$file]["name"]).
+          // ' Đã upload thành công.")
+          //       </script>';
+      }
+      else
+      {
+          echo "Có lỗi xảy ra khi upload file.";
+      }
+  }
+
+}
+
+function plus_path($str,$plus){
+    //kiểm tra xem chuỗi có dấu : hay không
+    //nếu có -> là url -> thì để nguyên
+    //nếu không có -> filename -> cộng thêm đường dẫn vào 
+    // ví dụ $adress = plus_path('anh_01.jpg','../uploads/') -> $adress ='../upload/anh_01.jpg'
+    // $adress = plus_path('https://sdfasdanh_01.jpg','../uploads/') 
+    //                   ->$adress = https://sdfasdanh_01.jpg
+
+    if (strpos($str, ':')=='') {
+        $str=$plus.$str;
+    }
+    return $str;
 }

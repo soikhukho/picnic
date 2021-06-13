@@ -24,5 +24,5 @@
 				</div>';
 	}
 	if ($page<$total_page) {
-		echo '<center><button id="btn'.$page.'" class="btn btn-info" onclick="loadmore('.$page.')"><i class="fad fa-chevron-double-down"></i>Xem thêm ...</button></center>';
+		echo '<center><button style="margin-bottom:15px;" id="btn'.$page.'" class="btn btn-info" onclick="loadmore('.$page.')"><i class="fad fa-chevron-double-down"></i>Xem thêm ...</button></center>';
 	}

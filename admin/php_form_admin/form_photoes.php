@@ -6,6 +6,7 @@ $selected='adm_photoes';
       if ($user=='') {
         header('Location: index.php');
       }
+
 $active=$user['active'];
 if ($active != 1) {
   echo '<script type="text/javascript">
@@ -14,11 +15,18 @@ if ($active != 1) {
         </script>';
 }
 
-    $alert = '';
+  $alert = '';
   $date = date('Y-m-d H:i:s');
   $title = getPost('title');
   $address=getPost('address');
   $album_id=getPost('album_id');
+
+  if (isset($_FILES['photo_file']) &&$_FILES['photo_file']!='') {
+
+    $address=upload_photo("photo_file", "../uploads/");
+    
+  }
+  
 
   $delID= getPost('delID');
 
@@ -30,7 +38,8 @@ if ($active != 1) {
         }
     }
 
-  if (!empty($_POST)) {
+if (!empty($_POST)) {
+
     //delete
     if ($delID!='') {
         execute("delete from photoes where id = $delID");
@@ -41,7 +50,7 @@ if ($active != 1) {
     }
 
     //add
-    if ($title!='' && $editID =='') {
+    if ($title!='' && $editID =='' &&$address !='') {
         execute("insert into photoes(title ,address , album_id, created_at , updated_at)
                    values ('$title','$address' ,$album_id , '$date','$date')");
 
@@ -53,7 +62,7 @@ if ($active != 1) {
         </script>";
     }
     //edit
-    if ( $title!='' && $editID !=''){
+    if ( $title!='' && $editID !='' &&$address !=''){
         execute("update photoes set title='$title' ,address='$address' , album_id='$album_id' ,
                       updated_at='$date' where id ='$editID' ");
 

@@ -1,3 +1,8 @@
+.container{
+  width: 86%;
+  margin: auto;
+}
+
     .game{
       margin-top: 10px;
       margin-bottom: 50px;
@@ -37,7 +42,7 @@
       font-family: inherit;
     }
     #text_area{
-      height: 140px;
+      height: 160px;
       border-bottom: 1px solid #d9d9d9;
       padding-bottom: 8px;
       margin-bottom: 8px;

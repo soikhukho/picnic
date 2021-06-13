@@ -23,7 +23,7 @@
 			<div class="col-md-6">
 				<div id="contact" class="row" >
 
-					<div class="col-md-3" style="margin-left: 60px;">
+					<div class="col-md-3">
 						<a  href="tel: 0866759002"><i class="fas fa-phone-alt"></i> 0866759002</a>
 					</div>
 					<div class="col-md-6">
@@ -32,7 +32,7 @@
 				</div>
 			</div>
 			
-			<div class="col-md-5" style="text-align: right;height: 40px !important">
+			<div class="col-md-6" style="text-align: right;height: 40px !important">
 					<div id="login_group" >
 							<ul  style="display: inline-flex; list-style-type: none;">
 
@@ -91,7 +91,7 @@
 					<li><a href="contact.php" <?= ($index=="contact")?'class="active-header"':''?>>CONTACTS</a></li>
 
 				</ul>
-				<div id="cart" class="col-md-1">
+				<div id="cart" class="col-md-2" style="text-align: right;padding-right: 68px;">
 					<a href="cart.php">
 						<i id="icon_cart" class="fas fa-shopping-cart fa-3x" ></i>
 						<input readonly="true" type="text" name="total_item_in_cart" value="(<?= $total_item_in_cart?> sp)">

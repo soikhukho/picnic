@@ -6,6 +6,7 @@
 
   $user = checkLogin();
   include_once 'login.php';
+
 ?>
 
 <!DOCTYPE html>
@@ -20,20 +21,49 @@
   <!-- include summernote css/js -->
   <link href="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.12/summernote.css" rel="stylesheet">
   <script src="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.12/summernote.js"></script>
-  <link rel="stylesheet" type="text/css" href="style/style_header2.css">
   <script src="https://kit.fontawesome.com/3e49906220.js" crossorigin="anonymous"></script>
+
+  <link rel="stylesheet" type="text/css" href="style/style_header2.css">
+  <link rel="stylesheet" type="text/css" href="style/style_body.css">
 </head>
+
 <body>
-    <?php
-        include_once 'layout/header2.php';
-        include_once 'layout/carosell.php';
-        include_once 'layout/popup_login.php';
+  <?php
+    include_once 'layout/header2.php';
+    include_once 'layout/carosell.php';
+    include_once 'layout/popup_login.php';
+  ?>
 
-     ?>
-     <div class="container" style="min-height: 500px;">
-       
-     </div>
-    <?php include 'layout/footer.php'; ?>
+   <section class="container" >
 
+      <div class="icon">
+          <button><i class="fas fa-thumbs-up"></i> Thích</button>
+          <button>Chia sẻ</button>
+      </div>
+
+      <div class="content">
+
+          <!-- Begin left -->
+          <div class="content__left" >
+            <div class="main-content">
+              
+
+
+
+
+
+
+              
+            </div>
+          </div>
+          <!-- End left -->
+
+          <!-- Begin right -->
+          <?php include_once 'layout/content-right.php'; ?>
+          <!-- End right -->
+      </div>
+  </section>
+
+  <?php include 'layout/footer.php'; ?>
 </body>
 </html>

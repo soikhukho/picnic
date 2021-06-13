@@ -22,8 +22,7 @@
   <script src="https://kit.fontawesome.com/3e49906220.js" crossorigin="anonymous"></script>
 
 <link rel="stylesheet" type="text/css" href="style/style_header2.css">
-  <link rel="stylesheet" type="text/css" href="style/game_style.css">
-
+<link rel="stylesheet" type="text/css" href="style/game_style.css">
 <script type="text/javascript" src="js/utils"></script>
 </head>
 <body>
@@ -38,8 +37,8 @@
 
         <div style="font-size: 35px; font-weight: bold;text-align: center;margin-top: 30px;">- TOP GAMES MỚI -</div>
 
+        <!-- search start -->
         <div style="">
-          <!-- search form start -->
           <form method="get">
             <div class="input-group custom-search-form" style="margin-bottom: 8px;">
                 <input type="text" class="form-control" name="search" placeholder="Search id or title..." value="<?= $search ?>">
@@ -50,8 +49,8 @@
                 </span>
             </div>
           </form>
-          <!-- search form end -->
         </div>
+        <!-- search form end -->
 
         <div id="main-content" class="row">
           <!--  item start -->
