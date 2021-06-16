@@ -160,3 +160,7 @@
     top: 0;
     align-self: auto;
 }
+
+.hidden{
+    display: none;
+}

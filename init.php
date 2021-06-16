@@ -60,7 +60,8 @@ require_once 'utility/utils.php';
 						    updated_at datetime,
 
 						    cate_id int references category(id),
-						    user_id int references users(id)
+						    user_id int references users(id),
+						    views int default 1000
     						)';
 		execute($games_table);
 
@@ -98,7 +99,8 @@ require_once 'utility/utils.php';
 							description varchar(500),
 							created_at datetime,
 						    updated_at datetime,
-							game_id int references games(id)
+							game_id int references games(id),
+							views int DEFAULT 1000
 						)';
 		execute($albums_table);
 
@@ -119,6 +121,24 @@ require_once 'utility/utils.php';
 							    href varchar(100),
 							    status tinyint default 0)';
 		execute($message_table);
+
+		$comments_table = 'create table if not exists comments (
+							id int primary key auto_increment ,
+							page_code varchar(50) not null,
+							guest_name varchar(100) default "Khuyết Danh",
+							content varchar(500) not null,						
+							created_at datetime,
+							avatar varchar(500) DEFAULT "https://icdn.dantri.com.vn/images/no-avatar.png" )';
+		execute($comments_table);
+
+		$sub_comments_table = 'create table if not exists sub_comments (
+							id int primary key auto_increment ,
+							guest_name varchar(100) default "Khuyết Danh",
+							content varchar(500) not null,
+							father_id int references comments(id),					
+							created_at datetime ,
+							avatar varchar(500) DEFAULT "https://icdn.dantri.com.vn/images/no-avatar.png" )';
+		execute($sub_comments_table);
 
 		$create_first_admin= "INSERT INTO `users` (`id`, `fullname`, `email`, `birthday`, `address`, `created_at`, `updated_at`, `password`, `token`, `phone_no`, `avatar`, `active`) VALUES (NULL, 'Picnic Team', 'picnic@gmail.com', '2021-06-23 00:00:00', 'Hai Phong', '2021-06-06 15:48:50', '2021-06-06 15:48:50', '8aabc57e58ea34cf54bbc0a6c00061bb', NULL, '0865698896', 'https://scontent-hkg4-2.xx.fbcdn.net/v/t1.6435-9/54514819_2121950994761484_2297120214103359488_n.jpg?_nc_cat=109&ccb=1-3&_nc_sid=174925&_nc_ohc=Zz0gF1ubXwgAX8WE0Yn&_nc_ht=scontent-hkg4-2.xx&oh=4d0720d02591c4740153042bfb7c87f3&oe=60E34D5E', '1')";
 		execute($create_first_admin);

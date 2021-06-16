@@ -1,6 +1,7 @@
 <?php
   require_once 'db/dbhelper.php';
   require_once 'utility/utils.php';
+  require_once 'utility/utils_file.php';
 
   $index ="games";
 
@@ -11,12 +12,33 @@
 
   $sql="select * from games where id = $id";
 
+
   $detail=executeResult($sql,true);
   if ($detail==null ) {
     header('Location: games.php');
   }
 
+  $views=$detail['views']+1;
+  execute("update games set views  ='$views' where id = '$id' ");
+
+
   $albums_id_list = executeResult("select albums.id 'albums id' from albums where  albums.game_id = $id");
+
+//for comment
+  if ($user !='') {
+    $admin_name=$user['fullname'].' (admin)';
+    $avatar=$user['avatar'];
+
+  }else{
+    $admin_name='';
+    $avatar='https://icdn.dantri.com.vn/images/no-avatar.png';
+  }
+  
+  $cmt=getGet('cmt');
+  $page_code = 'games_detail.php?id='.$id;
+  $comments = executeResult("select * from comments where page_code= '$page_code' order by created_at desc ");
+
+
 
 ?>
 
@@ -61,7 +83,12 @@
 
                   <p><?=$detail['description'] ?></p>
 
-                  <h2><?=$detail['title'] ?></h2>
+                  <h2>
+                    <?=$detail['title'] ?>
+                    <span style="font-size: 14px; font-weight: normal;font-style: italic;">
+                      ( <?=$views ?> views )
+                    </span> 
+                  </h2>
 
                   <div id="thumbnail">
                     <img src="<?=$detail['thumbnail'] ?>" style="width: 100%;">
@@ -80,14 +107,42 @@
                  ?>
 
                  <!-- modal start -->
-                 <div id="myModal" class="modal_box" >
-                    
-
+                 <div id="myModal" class="modal_box" >                   
+                      <!-- chỗ này để đổ data  ajax-->
                   </div>
                   <!-- modal end -->
 
+                  <!-- cmt area start -->
+                  <div name="comments_area" id="<?= $page_code ?>" style="margin-top: 50px;margin-bottom: 50px;">
+
+                      <!-- form cmt -->
+                      <?php include_once 'layout/comments_form.php' ?>
+                      <!-- form cmt -->
+
+                      <!-- list cm start -->
+                      <input type="number" name="rep_comment_id" value="<?=$cmt ?>" style="display: none;">
+                      <input type="text" id="admin_name" value="<?=$admin_name?>" style="display:none;">
+                      <input type="text" id="avatar" value="<?=$avatar?>" style="display:none;">
+
+                      <div id="list_comment" style="border:solid 1px #eee;margin-top:;padding-bottom: 15px;">
+                        <?php
+                          load_comments($page_code);
+                        ?>
+                      </div>
+                      <!-- list cm end -->
+
+                  </div>
+                  <!-- cmt area end -->
+
               </div>
           </div>
+
+          <!-- cmt start -->
+          <div>
+            
+          </div>
+          <!-- cmt end -->
+
           <!-- End left -->
 
           <!-- Begin right -->
@@ -97,5 +152,7 @@
   </section>
 
   <?php include 'layout/footer.php'; ?>
+
+<script type="text/javascript" src="js/comments.js"> </script>
 </body>
 </html>

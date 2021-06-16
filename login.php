@@ -15,11 +15,13 @@ $password= getMd5($pwd);
 				//tạo token 
 				$token = getMd5($user['email'].time());
 				//luu token lên cookie
-				setcookie("token", $token ,0, "/");
+				setcookie("token", $token ,time() +60*60*24*7, "/");
 				//update lên db
 				execute("update users set token = '$token' where email='$email' ");
 
-				header('Location: admin/adm_message.php');
+				$_POST='';
+				header("Refresh:0");
+				die();
 			}else{
 				$alert_login='Email hoặc password không đúng !';
 			}		

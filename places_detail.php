@@ -16,6 +16,21 @@
       header('Location: places.php');
     }
 
+//for comments area
+  if ($user !='') {
+    $admin_name=$user['fullname'].' (admin)';
+    $avatar=$user['avatar'];
+
+  }else{
+    $admin_name='';
+    $avatar='https://icdn.dantri.com.vn/images/no-avatar.png';
+  }
+
+$cmt=getGET('cmt');
+$page_code = 'places_detail.php?id='.$id;
+$comments = executeResult("select * from comments where page_code= '$page_code' order by created_at desc ");
+
+
 ?>
 
 <!DOCTYPE html>
@@ -61,8 +76,31 @@
                         '.$place['content'].'
                       </div>';
               ?>
+
+              <!-- cmt area start -->
+              <div name="comments_area" id="<?= $page_code ?>" style="margin-top: 50px;margin-bottom: 50px;">
+
+                  <!-- form cmt -->
+                  <?php include_once 'layout/comments_form.php' ?>
+                  <!-- form cmt -->
+
+                  <!-- list cm start -->
+                  <input type="number" name="rep_comment_id" value="<?=$cmt ?>" style="display:none ;">
+                  <input type="text" id="admin_name" value="<?=$admin_name?>" style="display:none;">
+                  <input type="text" id="avatar" value="<?=$avatar?>" style="display:none;">
+                  
+                  <div id="list_comment" style="border:solid 1px #eee;margin-top:;padding-bottom: 15px;">
+                    <?php
+                      load_comments($page_code);
+                    ?>
+                  </div>
+                  <!-- list cm end -->
+
+              </div>
+              <!-- cmt area end -->
    
             </div>
+
           </div>
           <!-- End left -->
 
@@ -73,5 +111,8 @@
   </section>
 
   <?php include 'layout/footer.php'; ?>
+
+
+<script type="text/javascript" src="js/comments.js"> </script>
 </body>
 </html>

@@ -1,6 +1,7 @@
 <?php
   require_once 'db/dbhelper.php';
   require_once 'utility/utils.php';
+  require_once 'utility/utils_file.php';
 
   $index="albums";
 
@@ -8,6 +9,20 @@
   include_once 'login.php';
 
   $data=executeResult("select id from albums");
+
+//for comments area
+if ($user !='') {
+    $admin_name=$user['fullname'].' (admin)';
+    $avatar=$user['avatar'];
+
+  }else{
+    $admin_name='';
+    $avatar='https://icdn.dantri.com.vn/images/no-avatar.png';
+  }
+  
+$cmt=getGET('cmt');
+$page_code = 'albums.php?';
+$comments = executeResult("select * from comments where page_code= '$page_code' order by created_at desc ");
 
 
 ?>
@@ -52,10 +67,34 @@
             <div class="main-content">
               <?php
                 foreach ($data as $item) {
+                  //a function in utils.php
                   showAlbum_represent($item['id']);
                 }
               ?>
       
+            </div>
+            <div style="width: 92%">
+                <!-- cmt area start -->
+                <div name="comments_area" id="<?= $page_code ?>" style="margin-top: 50px;margin-bottom: 50px;">
+
+                    <!-- form cmt -->
+                    <?php include_once 'layout/comments_form.php' ?>
+                    <!-- form cmt -->
+
+                    <!-- list cm start -->
+                    <input type="number" name="rep_comment_id" value="<?=$cmt ?>" style="display: none;">
+                    <input type="text" id="admin_name" value="<?=$admin_name?>" style="display:none;">
+                    <input type="text" id="avatar" value="<?=$avatar?>" style="display:none;">
+
+                    <div id="list_comment" style="border:solid 1px #eee;margin-top:;padding-bottom: 15px;">
+                      <?php
+                        load_comments($page_code);
+                      ?>
+                    </div>
+                    <!-- list cm end -->
+
+                </div>
+                <!-- cmt area end -->
             </div>
           </div>
           <!-- End left -->
@@ -85,15 +124,20 @@
 
     }
 
-    function closeModal() {
+    function closeModal(id) {
       $('#myModal').empty() ;
       document.getElementById("myModal").style.display = "none";
+
+      var views=parseInt( $('#views'+id).text() )*1 + 1 ;
+      $('#views'+id).html(views);
     }
 
     $(document).ready(function() {
         $(".mCustomScrollbar").mCustomScrollbar({axis:"x"});
     });
 </script>
+
+<script type="text/javascript" src="js/comments.js"> </script>
 
 </body>
 </html>

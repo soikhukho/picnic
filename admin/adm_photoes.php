@@ -1,6 +1,7 @@
 <?php
   require_once '../db/dbhelper.php';
   require_once '../utility/utils.php';
+  require_once '../utility/utils_file.php';
 
   require_once 'php_form_admin/form_photoes.php';
 

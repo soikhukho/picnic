@@ -131,10 +131,16 @@ function timeAgo($time_ago)
 
 function showAlbum_slide($album_id){
     $data=executeResult("select * from photoes where album_id = '$album_id'");
+
+    //mỗi lần show thì tăng 1 views cho albums
+    $views=executeResult("select views from albums where id = '$album_id' ",true);
+    $views = $views['views']+1;
+    execute("update albums set views ='$views' where id='$album_id' ");
+
     if ($data!=null) {
         
         //mở slide
-        echo '<span class="close_modal cursor" onclick="closeModal()">&times;</span>';
+        echo '<span class="close_modal cursor" onclick="closeModal('.$album_id.')">&times;</span>';
         echo "<!-- slide start --> 
             <div id='carousel-custom' class='carousel slide' data-ride='carousel'>
 
@@ -200,14 +206,14 @@ function showAlbum_slide($album_id){
 };
 
 function showAlbum_represent($album_id){
-    $data=executeResult("select photoes.*,albums.title 'album title' from photoes join albums 
+    $data=executeResult("select photoes.*,albums.title 'album title', albums.views from photoes join albums 
                                 where photoes.album_id = albums.id and album_id = '$album_id'");
     $count = count($data);
 
     if ($count > 0) {
         echo '<div style="margin-bottom:2px;font-size:22px;font-weight:bold;">
                     Album: '.$data[0]['album title'].'
-                    <i style="font-size:14px!important;">('.$count.' ảnh)</i>
+                    <i style="font-size:14px!important;">('.$count.' ảnh - <span id="views'.$album_id.'">'.$data[0]['views'].'</span> views)</i>
             </div>';
     }
 
@@ -254,206 +260,97 @@ function showAlbum_represent($album_id){
     }
 }
 
-function upload_photo($file , $target_dir){
 
-  //Vị trí file lưu tạm trong server (file sẽ lưu trong uploads, với tên giống tên ban đầu)
-    $file_name = basename($_FILES[$file]["name"]);
+function look_for_subs($comment_id){
 
-  $target_file   = $target_dir . basename($_FILES[$file]["name"]);
-
-  $allowUpload   = true;
-
-  //Lấy phần mở rộng của file (jpg, png, ...)
-  $imageFileType = pathinfo($target_file,PATHINFO_EXTENSION);
-
-  // Cỡ lớn nhất được upload (bytes)
-  $maxfilesize   = 800000;
-
-  ////Những loại file được phép upload
-  $allowtypes    = array('jpg', 'png', 'jpeg', 'gif');
-
-
-  if(isset($_POST["submit"])) {
-      //Kiểm tra xem có phải là ảnh bằng hàm getimagesize
-      $check = getimagesize($_FILES["fileupload"]["tmp_name"]);
-      if($check !== false)
-      {
-          $allowUpload = true;
-      }
-      else
-      {
-            echo '<script type="text/javascript">
-                    alert("File upload không phải file ảnh")
-                </script>';
-         
-          $allowUpload = false;
-      }
-  }
-
-  // Kiểm tra nếu file đã tồn tại thì không cho phép ghi đè
-  if (file_exists($target_file))
-  {
-        echo '<script type="text/javascript">
-                    alert("Tên file đã tồn tại trên server, không được phép ghi đè")
-                </script>';
-      
-      $allowUpload = false;
-  }
-
-  //Kiểm tra kích thước file upload cho vượt quá giới hạn cho phép
-  if ($_FILES[$file]["size"] > $maxfilesize)
-  {     
-        echo '<script type="text/javascript">
-                    alert("Không được upload ảnh lớn hơn $maxfilesize (bytes).")
-                </script>';
-      $allowUpload = false;
-  }
-
-
-  // Kiểm tra kiểu file
-  if (!in_array($imageFileType,$allowtypes ))
-  {
-        echo '<script type="text/javascript">
-                    alert("Chỉ được upload các định dạng JPG, PNG, JPEG, GIF")
-                </script>';
-
-      $allowUpload = false;
-  }
-
-  if ($allowUpload)
-  {
-      // Xử lý di chuyển file tạm ra thư mục cần lưu trữ, dùng hàm move_uploaded_file
-      if (move_uploaded_file($_FILES[$file]["tmp_name"], $target_file))
-      {
-            return $file_name;
-
-          //   echo '<script type="text/javascript">
-          //           alert("File '. basename( $_FILES[$file]["name"]).
-          // ' Đã upload thành công.")
-          //       </script>';
-      }
-      else
-      {
-          echo "Có lỗi xảy ra khi upload file.";
-      }
-  }
-
+  $subs=executeResult("select * from sub_comments where father_id='$comment_id' order by id asc " );
+  return $subs;
 }
 
-function plus_path($str,$plus){
-    //kiểm tra xem chuỗi có dấu : hay không
-    //nếu có -> là url -> thì để nguyên
-    //nếu không có -> filename -> cộng thêm đường dẫn vào 
-    // ví dụ $adress = plus_path('anh_01.jpg','../uploads/') -> $adress ='../upload/anh_01.jpg'
-    // $adress = plus_path('https://sdfasdanh_01.jpg','../uploads/') 
-    //                   ->$adress = https://sdfasdanh_01.jpg
-
-    if (strpos($str, ':')=='') {
-        $str=$plus.$str;
+function load_comments($page_code){
+    $user = checkLogin();
+    $check='';
+    if ($user=='') {
+        $check='hidden';
     }
-    return $str;
-}
 
-function output_file($Source_File, $Download_Name, $mime_type='')
-{
-/*
-$Source_File = path to a file to output
-$Download_Name = filename that the browser will see
-$mime_type = MIME type of the file (Optional)
-*/
-if(!is_readable($Source_File)) die('File not found or inaccessible!');
-  
-$size = filesize($Source_File);
-$Download_Name = rawurldecode($Download_Name);
-  
-/* Figure out the MIME type (if not specified) */
-$known_mime_types=array(
-    "pdf" => "application/pdf",
-    "csv" => "application/csv",
-    "txt" => "text/plain",
-    "html" => "text/html",
-    "htm" => "text/html",
-    "exe" => "application/octet-stream",
-    "zip" => "application/zip",
-    "doc" => "application/msword",
-    "xls" => "application/vnd.ms-excel",
-    "ppt" => "application/vnd.ms-powerpoint",
-    "gif" => "image/gif",
-    "png" => "image/png",
-    "jpeg"=> "image/jpg",
-    "jpg" =>  "image/jpg",
-    "php" => "text/plain"
-);
-  
-if($mime_type==''){
-     $file_extension = strtolower(substr(strrchr($Source_File,"."),1));
-     if(array_key_exists($file_extension, $known_mime_types)){
-        $mime_type=$known_mime_types[$file_extension];
-     } else {
-        $mime_type="application/force-download";
-     };
-};
-  
-@ob_end_clean(); //off output buffering to decrease Server usage
-  
-// if IE, otherwise Content-Disposition ignored
-if(ini_get('zlib.output_compression'))
-  ini_set('zlib.output_compression', 'Off');
-  
-header('Content-Type: ' . $mime_type);
-header('Content-Disposition: attachment; filename="'.$Download_Name.'"');
-header("Content-Transfer-Encoding: binary");
-header('Accept-Ranges: bytes');
-  
-header("Cache-control: private");
-header('Pragma: private');
-header("Expires: Thu, 26 Jul 2012 05:00:00 GMT");
-  
-// multipart-download and download resuming support
-if(isset($_SERVER['HTTP_RANGE']))
-{
-    list($a, $range) = explode("=",$_SERVER['HTTP_RANGE'],2);
-    list($range) = explode(",",$range,2);
-    list($range, $range_end) = explode("-", $range);
-    $range=intval($range);
-    if(!$range_end) {
-        $range_end=$size-1;
-    } else {
-        $range_end=intval($range_end);
-    }
-  
-    $new_length = $range_end-$range+1;
-    header("HTTP/1.1 206 Partial Content");
-    header("Content-Length: $new_length");
-    header("Content-Range: bytes $range-$range_end/$size");
-} else {
-    $new_length=$size;
-    header("Content-Length: ".$size);
-}
-  
-/* output the file itself */
-$chunksize = 1*(1024*1024); //you may want to change this
-$bytes_send = 0;
-if ($Source_File = fopen($Source_File, 'r'))
-{
-    if(isset($_SERVER['HTTP_RANGE']))
-    fseek($Source_File, $range);
-  
-    while(!feof($Source_File) &&
-        (!connection_aborted()) &&
-        ($bytes_send<$new_length)
-          )
-    {
-        $buffer = fread($Source_File, $chunksize);
-        print($buffer); //echo($buffer); // is also possible
-        flush();
-        $bytes_send += strlen($buffer);
-    }
-fclose($Source_File);
-} else die('Error - can not open file.');
-  
-die();
-}
+    $comments = executeResult("select * from comments where page_code= '$page_code' order by created_at desc ");
 
+foreach ($comments as $comment){
+    $father_id=$comment['id'];
+    echo '<div>';
 
+    echo '<div class="comment" id="comment'.$comment['id'].'" style="margin-left: 12px;margin-right: 12px; display: flex;border-top: solid 1px #d6d6d6;">
+            <div class="cmt_avatar" style="width: 60px;">
+              <img src="'.$comment['avatar'].'" style="width: 38px!important; height: 38px!important;border-radius: 50%;margin-top: 15px;">
+            </div>
+            <div class="cmt_content" style="width:100%;">
+              <!--content-header start-->
+              <div style="font-weight: bold;font-size: 15px;color: #009EE5;margin-top: 15px;width: 100%;">
+                <div class="col-md-9" style="padding-left: 0px;">
+                  '.$comment['guest_name'].'
+                  <span style="color: #A3B0B9;font-weight: normal;font-size: 11px;">'.$comment['created_at'].'</span>
+                </div>
+                  
+                <div class="col-md-3" style="text-align: right;padding-right: 0px;">
+                  <button onclick="del_comment('.$comment['id'].')" style="border: none;background: transparent;padding-right: 0px;text-align: right;" title="xóa bình luận" class="'.$check.'"><i class="fa fa-trash" aria-hidden="true" style="margin-right: 0px;"></i></button>
+                </div>
+              </div>
+              <!-- content header end -->
+              <div style="clear: both;" ></div>
+
+              <div style="margin-top:5px;">'.$comment['content'].'</div> 
+
+              <div style="margin-top: 10px;line-height: 19px;    font-size: 12px;color: #38aee3;">
+                <button style="border:none;background:transparent;">Thích</button>
+                <span style="padding:0 5px;margin-top: 5px!important;">.</span>
+                <button style="border:none;background:transparent;" name="rep" id="'.$comment['id'].'">Trả lời</button>
+                <span style="padding:0 5px;">.</span>
+                <button style="border:none;background:transparent;">Chia sẻ</button>
+              </div>                      
+            </div>
+          </div>';
+
+      $sons = look_for_subs($comment['id']);
+      foreach ($sons as $comment){
+          echo '<div class="sub_comment" style="margin-left: 72px;margin-right: 12px; display: flex;border-top: solid 1px #eee;">
+            
+            <div class="cmt_avatar" style="width: 60px;">
+              <img src="'.$comment['avatar'].'" style="width: 38px!important; height: 38px!important;border-radius: 50%;margin-top: 15px;">
+            </div>
+
+            <div class="cmt_content" style="width:100%;">
+              <!--content-header start-->
+              <div style="font-weight: bold;font-size: 15px;color: #009EE5;margin-top: 15px;width: 100%;">
+                <div class="col-md-9" style="padding-left: 0px;">
+                  '.$comment['guest_name'].'
+                  <span class="" style="color: #A3B0B9;font-weight: normal;font-size: 11px;">'.$comment['created_at'].'</span>
+                </div>
+                  
+                <div class="col-md-3" style="text-align: right;padding-right: 0px;">
+                  <button onclick="del_sub_comment('.$comment['id'].')" style="border: none;background: transparent;padding-right: 0px;text-align: right;" title="xóa bình luận" class="'.$check.'"><i class="fa fa-trash" aria-hidden="true" style="margin-right: 0px;"></i></button>
+                </div>
+              </div>
+              <!-- content header end -->
+            <div style="clear: both;" ></div>
+
+              <div style="margin-top:5px;">'.$comment['content'].'</div> 
+
+              <div style="margin-top: 10px;line-height: 19px;    font-size: 12px;color: #38aee3;">
+                <button style="border:none;background:transparent;">Thích</button>
+                <span style="padding:0 5px;margin-top: 5px!important;">.</span>
+                <button style="border:none;background:transparent;" name="rep" id="'.$father_id.'">Trả lời</button>
+                <span style="padding:0 5px;">.</span>
+                <button style="border:none;background:transparent;">Chia sẻ</button>
+              </div>                         
+            </div>
+          </div>';
+      }
+
+      echo '<span ></span>';
+
+      echo '</div>';
+
+    }            
+}
 

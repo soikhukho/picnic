@@ -1,6 +1,7 @@
 <?php
   require_once 'db/dbhelper.php';
   require_once 'utility/utils.php';
+  require_once 'utility/utils_file.php';
 
   $index="index";
 
@@ -42,6 +43,36 @@
 
 
 
+
+$page_code = 'games-2';
+  $comments = executeResult("select * from comments where page_code= '$page_code' order by id desc ");
+
+$father_id = getPost('father_id');
+$content = getPost('content');
+$table = getPost('table');
+$date = date('Y-m-d H:i:s');
+
+if (!empty($_POST)) {
+
+  if ($table=='comments' && $content!='') {
+    execute("insert into comments(page_code,content,created_at)
+               values('$page_code','$content','$date')" );
+    $_POST='';
+    header("Refresh:0");
+    die();
+  }
+
+  if ($table =='sub_comments' && $content!= '') {
+    execute("insert into sub_comments(content,father_id , created_at)
+               values('$content','$father_id' , '$date')" );
+    $_POST='';
+    header("Refresh:0");
+    die();
+  }
+
+}
+
+
 ?>
 
 <!DOCTYPE html>
@@ -61,9 +92,9 @@
 </head>
 <body>
     <?php
-        include_once 'layout/header2.php';
+        // include_once 'layout/header2.php';
         // include_once 'layout/carosell.php';
-        include_once 'layout/popup_login.php';
+        // include_once 'layout/popup_login.php';
 
      ?>
      <div class="container" style="min-height: 500px;">
@@ -75,12 +106,100 @@
           <button class="btn btn-primary" type="submit">Upload</button>
       </form>
 
-      <span><?php  var_dump($_FILES['photo_file']);  ?></span>
+      <span><?php  if (isset($_FILES['photo_file'])) {
+        var_dump($_FILES['photo_file']);
+      }   ?></span>
+
+      
+      <!-- <span >
+        <form>
+          <input type="text" name="full_name">
+          <textarea name="content"></textarea>
+          <input type="number" name="father_id" value="">
+        </form>
+      </span> -->
+
+      <div id="cm" style="margin-top:20px;">
+
+        <div>
+          <button class="btn btn-warning" id="btn_cmt">Bình luận </button>
+          <span></span>
+        </div>
+
+        <?php
+
+         foreach ($comments as $comment) {
+          
+             echo '<div>
+             <div class="row" style="border: 1px solid grey;margin-top:10px; margin-bottom:10px;">
+                      <div class="col-md-2">
+                        <img src="https://static2.yan.vn/YanNews/2167221/202003/dan-mang-du-trend-thiet-ke-avatar-du-kieu-day-mau-sac-tu-anh-mac-dinh-b0de2bad.jpg" style="height: 60px; width 60px;">
+                      </div>
+                      <div class="col-md-9">
+                        <p>'.$comment['content'].'</p>
+                      </div>
+                      <div class="col-md-1">
+                        <button name="rep" class="btn btn-warning" id="'.$comment['id'].'">trả lời</button>
+                      </div>
+                    </div>';
+
+                $sons = look_for_subs($comment['id']);
+                foreach ($sons as $comment) {
+                  echo '<div class="row" style="border: 1px solid green;margin-top:10px; margin-bottom:10px; margin-left:50px;">
+                      <div class="col-md-2">
+                        <img src="https://static2.yan.vn/YanNews/2167221/202003/dan-mang-du-trend-thiet-ke-avatar-du-kieu-day-mau-sac-tu-anh-mac-dinh-b0de2bad.jpg" style="height: 60px; width 60px;">
+                      </div>
+                      <div class="col-md-10">
+                        <p>'.$comment['content'].'</p>
+                      </div>
+                    </div>';
+                }
+
+                echo '<span >
+                        
+                      </span>';
+                echo '</div>';
+          
+          }
+
+        ?>
+
 
      </div>
+
+     </div>
+
     <?php include 'layout/footer.php'; ?>
 
-    
+<script type="text/javascript">
+
+  $('#btn_cmt').click(function(){
+     $(this).parent().children('span').html(`<form method = post>
+                          <input type="text" name="table" value="comments">
+                          <input type="text" name="full_name">
+                          <textarea name="content"></textarea>
+                          <button class="btn btn-warning">Reply</button>
+                        </form>`) ;
+     $(this).parent().children('span').children().children('[name=content]').focus()
+
+  })
+
+
+  $('[name=rep]').click(function(){
+      var father_id = $(this).attr('id');
+
+      $(this).parent().parent().parent().children('span').html(`<form method = post>
+                          <input type="text" name="table" value="sub_comments">
+                          <input type="text" name="full_name">
+                          <textarea name="content"></textarea>
+                          <input type="number" name="father_id" >
+                          <button class="btn btn-warning">Reply</button>
+                        </form>`);
+      $(this).parent().parent().parent().children('span').children().children('[name=father_id]').val(father_id) 
+      $(this).parent().parent().parent().children('span').children().children('[name=content]').focus()
+  })
+
+</script>
 
 </body>
 </html>
