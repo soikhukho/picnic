@@ -104,6 +104,18 @@ require_once 'utility/utils.php';
 						)';
 		execute($albums_table);
 
+		$videos_table = 'create table if not exists videos (
+							id int primary key auto_increment,
+							title varchar (200) ,
+							
+							address varchar(200) not null,
+							created_at datetime,
+						    updated_at datetime,
+							game_id int references games(id),
+							views int DEFAULT 1000
+						)';
+		execute($videos_table);
+
 		$photoes_table = 'create table if not exists photoes (
 							id int primary key auto_increment,
 							title varchar (200) ,

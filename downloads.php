@@ -1,10 +1,11 @@
 <?php
   require_once 'db/dbhelper.php';
   require_once 'utility/utils.php';
+  require_once 'utility/utils_file.php';
 
   $user = checkLogin();
       if ($user=='') {
-        header('Location: index.php');
+        header('Location: games.php');
       }
 
  // output_file(file nguồn , tên sẽ lưu về , kiểu file)
@@ -25,11 +26,10 @@
   //   "jpg" =>  "image/jpg",
   //   "php" => "text/plain"
 
-  $file= getGET('file');
+  $file_name= getGET('file_name');
 
-  if($file ==1) {
-
-	  	set_time_limit(0); 
-		output_file("pictures/beauty.jpg", 'ảnhđẹp.jpg', "image/jpg");
-
+  if (!empty($_GET)) {
+   
+      set_time_limit(0); 
+      output_file("uploads/".$file_name, $file_name, "image/jpg");
   }

@@ -24,6 +24,9 @@
 
   $albums_id_list = executeResult("select albums.id 'albums id' from albums where  albums.game_id = $id");
 
+//for videos
+  $videos=executeResult("select * from videos where game_id = '$id' ");
+
 //for comment
   if ($user !='') {
     $admin_name=$user['fullname'].' (admin)';
@@ -58,6 +61,7 @@
 
   <link rel="stylesheet" type="text/css" href="style/style_header2.css">
   <link rel="stylesheet" type="text/css" href="style/style_body.css">
+   <link rel="stylesheet" type="text/css" href="style/style_album.css">
 </head>
 
 <body>
@@ -106,11 +110,21 @@
                     }
                  ?>
 
-                 <!-- modal start -->
-                 <div id="myModal" class="modal_box" >                   
-                      <!-- chỗ này để đổ data  ajax-->
-                  </div>
-                  <!-- modal end -->
+                 <?php
+                    foreach ($videos as $video) {
+                       if (strpos($video['address'],':')=='' ){
+
+                        echo '<video height="" width="100%" src="uploads/'.$video['address'].'"  controls></video>';
+
+                        echo '<a href="downloads.php?file_name='.$video['address'].'">Download this video (upper) </a>';
+
+                       } else{
+
+                        echo '<iframe  width="687" height="360" src="'.$video['address'].'"></iframe>';
+                       }
+                    }
+                 ?>
+                 
 
                   <!-- cmt area start -->
                   <div name="comments_area" id="<?= $page_code ?>" style="margin-top: 50px;margin-bottom: 50px;">
@@ -148,10 +162,41 @@
           <!-- Begin right -->
           <?php include_once 'layout/content-right.php'; ?>
           <!-- End right -->
+          
+        <!-- modal start -->
+       <div id="myModal" class="modal_box" >                   
+            <!-- chỗ này để đổ data  ajax-->
+        </div>
+        <!-- modal end -->
+
       </div>
   </section>
 
   <?php include 'layout/footer.php'; ?>
+
+<script>
+  function OpenModal(id) {
+      $.post('form_ajax/show_album.php',{id:id},function(data){
+          $('#myModal').html(data) ;
+      })
+
+      document.getElementById("myModal").style.display = "block";
+
+    }
+
+    function closeModal(id) {
+      $('#myModal').empty() ;
+      document.getElementById("myModal").style.display = "none";
+
+      var views=parseInt( $('#views'+id).text() )*1 + 1 ;
+      $('#views'+id).html(views);
+    }
+
+    $(document).ready(function() {
+        $(".mCustomScrollbar").mCustomScrollbar({axis:"x"});
+    });
+</script>
+
 
 <script type="text/javascript" src="js/comments.js"> </script>
 </body>

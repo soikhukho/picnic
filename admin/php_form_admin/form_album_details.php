@@ -14,6 +14,7 @@ $selected='adm_albums';
     $album_title=$album['title'];
 
     $data=executeResult("select photoes.* , albums.title 'album title' from photoes,albums where albums.id = photoes.album_id and albums.id = '$album_id' order by photoes.updated_at desc ");
+
 //pagination form ?page=
   $search=getGET('search');
   if ($search !='') {
@@ -50,11 +51,6 @@ $alert = '';
   $address=getPost('address');
 
 
-  // if (isset($_FILES['photo_file']) &&$_FILES['photo_file']!='') {
-
-  //   $address=upload_photo("photo_file", "../uploads/");
-    
-  // }
   $file_name=[];
   if (isset($_FILES['photo_file']) ) {
 
@@ -75,7 +71,7 @@ $alert = '';
             {
                 $numfiles++;
 
-                $allowtypes    = array('jpg', 'png', 'jpeg', 'gif');
+                $allowtypes    = array('jpg', 'png', 'jpeg', 'gif','JPG', 'PNG', 'JPEG', 'GIF' );
                 $imageFileType = pathinfo($names[$i],PATHINFO_EXTENSION);
                 //nếu tên file chưa tồn tại và đúng kiểu 
                 if (file_exists('../uploads/'.$names[$i]) ==false && in_array($imageFileType,$allowtypes ) )
@@ -143,7 +139,10 @@ if (!empty($_POST)) {
         
     }
     //edit
-    if ( $title!='' && $editID !='' &&$address !=''){
+    if ( $title!='' && $editID !=''){
+      if ($address =='') {
+        $address = $file_name[0];
+      }
         execute("update photoes set title='$title' ,address='$address' , album_id='$album_id' ,
                       updated_at='$date' where id ='$editID' ");
 

@@ -48,6 +48,10 @@
                         <a href="adm_albums.php"><i class="fa fa-angle-double-right" aria-hidden="true" style="margin-right: 5px;"></i> Albums</a>
                     </li>
 
+                    <li class="<?= ($selected =='adm_videos')?'selected':''?>">
+                        <a href="adm_videos.php"><i class="fa fa-angle-double-right" aria-hidden="true" style="margin-right: 5px;"></i> Videos</a>
+                    </li>
+
                     <li class="<?= ($selected =='adm_photoes')?'selected':''?>">
                         <a href="adm_photoes.php"><i class="fa fa-angle-double-right" aria-hidden="true" style="margin-right: 5px;"></i> Photoes</a>
                     </li>

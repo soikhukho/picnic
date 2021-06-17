@@ -27,19 +27,25 @@
             if ($errors[$i] == 0)
             {
                 $numfiles++;
-                
-                move_uploaded_file($tmp_names[$i], 'uploads/'.$names[$i]);
 
-                 $file_name[]=$names[$i];
+                $allowtypes    = array('jpg', 'png', 'jpeg', 'gif');
+                $imageFileType = pathinfo($names[$i],PATHINFO_EXTENSION);
+                //nếu tên file chưa tồn tại và đúng kiểu 
+                if (file_exists('uploads/'.$names[$i]) ==false && in_array($imageFileType,$allowtypes ) )
+                {
+
+                  move_uploaded_file($tmp_names[$i], 'uploads/'.$names[$i]);
+
+                   $file_name[]=$names[$i];
+
+                 }
 
             }
         } 
 
   }
- 
-  foreach ($file_name as $address) {
-    echo $address;
-  }
+
+  var_dump($file_name);
 
 
 
@@ -97,18 +103,7 @@ if (!empty($_POST)) {
         // include_once 'layout/popup_login.php';
 
      ?>
-     <div class="container" style="min-height: 500px;">
-       <form enctype="multipart/form-data" method="POST">
-
-            <label>Chọn File ảnh</label>
-            <input id="photo_file" required="true" type="file" multiple="multiple" name="photo_file[]" >
-
-          <button class="btn btn-primary" type="submit">Upload</button>
-      </form>
-
-      <span><?php  if (isset($_FILES['photo_file'])) {
-        var_dump($_FILES['photo_file']);
-      }   ?></span>
+     
 
       
       <!-- <span >
@@ -166,6 +161,23 @@ if (!empty($_POST)) {
 
 
      </div>
+
+     <a href="downloads.php?file=1"><button class="btn btn-danger">Download file 1</button></a>
+     <a href="downloads.php?file=2">Download file 2</a>
+     <a href="downloads.php?file=3">Download file 3</a>
+
+
+     <form method="post" enctype="multipart/form-data">
+       
+       <label>Chọn File video</label>
+            <input id="video_file" required="true" type="file" multiple="multiple" name="photo_file[]" > -->
+            (***Nếu chọn upload nhiều video thì tất cả video được lưu đều có chung một Title)
+            <button class="btn btn-warning">send</button>
+     </form>
+
+
+
+
 
      </div>
 
