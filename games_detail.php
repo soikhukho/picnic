@@ -162,7 +162,7 @@
           <!-- Begin right -->
           <?php include_once 'layout/content-right.php'; ?>
           <!-- End right -->
-          
+
         <!-- modal start -->
        <div id="myModal" class="modal_box" >                   
             <!-- chỗ này để đổ data  ajax-->
@@ -175,6 +175,7 @@
   <?php include 'layout/footer.php'; ?>
 
 <script>
+  //for modal and slide
   function OpenModal(id) {
       $.post('form_ajax/show_album.php',{id:id},function(data){
           $('#myModal').html(data) ;
@@ -198,6 +199,6 @@
 </script>
 
 
-<script type="text/javascript" src="js/comments.js"> </script>
+<script type="text/javascript" src="js/comments.js">//for comments </script>
 </body>
 </html>

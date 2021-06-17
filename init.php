@@ -104,6 +104,16 @@ require_once 'utility/utils.php';
 						)';
 		execute($albums_table);
 
+		$photoes_table = 'create table if not exists photoes (
+							id int primary key auto_increment,
+							title varchar (200) ,
+							address varchar(200) not null,
+							created_at datetime,
+						    updated_at datetime,
+							album_id int references albums (id)
+						)';
+		execute($photoes_table);
+
 		$videos_table = 'create table if not exists videos (
 							id int primary key auto_increment,
 							title varchar (200) ,
@@ -116,16 +126,6 @@ require_once 'utility/utils.php';
 						)';
 		execute($videos_table);
 
-		$photoes_table = 'create table if not exists photoes (
-							id int primary key auto_increment,
-							title varchar (200) ,
-							address varchar(200) not null,
-							created_at datetime,
-						    updated_at datetime,
-							album_id int references albums (id)
-						)';
-		execute($photoes_table);
-
 		$message_table = 'create table message(
 								id int PRIMARY key AUTO_INCREMENT,
 							    content varchar(200) not null,
@@ -137,7 +137,7 @@ require_once 'utility/utils.php';
 		$comments_table = 'create table if not exists comments (
 							id int primary key auto_increment ,
 							page_code varchar(50) not null,
-							guest_name varchar(100) default "Khuyết Danh",
+							guest_name varchar(100) ,
 							content varchar(500) not null,						
 							created_at datetime,
 							avatar varchar(500) DEFAULT "https://icdn.dantri.com.vn/images/no-avatar.png" )';
@@ -145,7 +145,7 @@ require_once 'utility/utils.php';
 
 		$sub_comments_table = 'create table if not exists sub_comments (
 							id int primary key auto_increment ,
-							guest_name varchar(100) default "Khuyết Danh",
+							guest_name varchar(100),
 							content varchar(500) not null,
 							father_id int references comments(id),					
 							created_at datetime ,

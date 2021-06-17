@@ -1,5 +1,5 @@
 
-
+//khi nhấp link , vào page sẽ focus vào ô trả lời cmt
   $(document).ready(function(){
     var rep_comment_id = $('[name=rep_comment_id').val()
       $('#'+rep_comment_id).click()
@@ -11,8 +11,12 @@
       var admin_name= $('#admin_name').val();
       var avatar = $('#avatar').val();
 
+      //nếu có ô trả lời nào đang mở thì sẽ bị empty để mở ô mới
+      $('.rep_comment_div').empty()
+
+      //mở một ô rep cmt mới
       $(this).parent().parent().parent().parent().children('span').html(`<!-- div cm start -->
-                    <div class="comment_div" style="border-bottom: 1px solid #e5e5e5;margin-left:72px;margin-right:12px;">
+                    <div class="rep_comment_div" style="border-bottom: 1px solid #e5e5e5;margin-left:72px;margin-right:12px;">
 
                       <div style="background:#ededed;">
                         <div method="post" style="padding: 8px;padding-bottom: 0px;">

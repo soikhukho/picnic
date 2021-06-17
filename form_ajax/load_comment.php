@@ -38,6 +38,10 @@ if (!empty($_POST)) {
   }
 
   if ($del_comment_id!='') {
+    //xóa cmt con
+    execute("delete from sub_comments where father_id = '$del_comment_id' ");
+
+    //xóa cmt gốc
   	execute("delete from comments where id = '$del_comment_id'");
   }
 
