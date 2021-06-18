@@ -50,17 +50,17 @@
             <div  class="row">
 
                 <!-- form create -->
-                <div style=" width:500px;margin-left: 50px;">
+                <div style=" margin-left: 50px;margin-right: 50px;margin-top: 30px;">
 
                   <button id="create_btn" class="btn" style="background: #04B173;"><h5 style="color: white ;font-weight: bold;">Create / Update</h5>
                   </button>
 
-                  <div id="create_form"  class="panel panel-primary" style="display: none;">
+                  <div id="create_form"  class="panel panel-primary" style="display:none ;">
                     <div class="panel-heading">
                       <div style="text-align:right;">
                         <button id="close" class="btn btn-primary " style="font-size: 20px;padding: 10px;">X</button>
                       </div>
-                      <h2 class="text-center" style="margin-top:-30px;"><?= (isset($edit_cate))?'Update this Category':'Create new Category'?></h2>
+                      <h3 class="text-center" style="margin-top:-30px;"><?= (isset($edit_cate))?'Update this Category':'Add new Category'?></h3>
                     </div>
                     <div class="panel-body">
                       <form method="post">
@@ -71,7 +71,7 @@
                           <input required="true" type="text" class="form-control" id="title" name="title" value="<?= (isset($edit_cate))?$edit_cate['title']:''?>">
                         </div>
 
-                        <center><button class="btn btn-warning" style="font-size: 20px;"><?= (isset($edit_cate))?'Update':'Create'?></button></center>
+                        <center><button class="btn btn-warning" style="font-size: 20px;"><?= (isset($edit_cate))?'Update':'Add new'?></button></center>
                       </form>
                     </div>
                   </div>
@@ -96,11 +96,13 @@
                       </form>
                       <!-- search form end -->
 
-                  <table class="table table-bordered" style="width: 60%;">
+                  <table class="table table-bordered" style="width: 100%;">
                     <thead>
                       <tr>
                         <th>No</th>
                         <th>Title</th>
+                        <th>Created At</th>
+                        <th>Updated At</th>
                         <th></th>
                         <th></th>
                       </tr>
@@ -112,7 +114,9 @@
                         foreach ($cate as $item) {
                           echo '<tr>
                                   <td>'.$i++.'</td>
-                                  <td>'.$item['title'].'</td>
+                                  <td><b>'.$item['title'].'</b></td>
+                                  <td>'.$item['created_at'].'</td>
+                                  <td>'.$item['updated_at'].'</td>
                                   <td><button class="btn btn-danger" onclick="del('.$item['id'].')">Delete</button></td>
                                   <td><button class="btn btn-warning" onclick="edit('.$item['id'].')">Edit</button></td>
                                 </tr>';

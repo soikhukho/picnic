@@ -55,9 +55,9 @@
                 <div style="margin-left: 50px;margin-right: 50px;">
                     
                   <!-- form create start-->
-                  <div style=" width:800px;">
+                  <div style="">
 
-                      <button id="creat_btn" class="btn btn-warning"><h5 style="color: grey ;font-weight: bold;">Create / Update</h5>
+                      <button id="creat_btn" class="btn btn-warning"><h4 style="color: grey ;font-weight: bold;">Add new / Update</h5>
                       </button>
 
                       <div id="creat_form" class="panel panel-primary" style="display:none; ;">
@@ -65,7 +65,7 @@
                           <div style="text-align:right;">
                             <button id="close" class="btn btn-primary " style="font-size: 20px;padding: 10px;">X</button>
                           </div>
-                          <h3 class="text-center" style="margin-top:-30px;"><?= (isset($edit_album))?'Update this Album':'Create a new Album'?></h3>
+                          <h3 class="text-center" style="margin-top:-30px;"><?= (isset($edit_album))?'Update this Album':'Add a new Album'?></h3>
                         </div>
                         <div class="panel-body">
                           <form id="album_form" method="post">
@@ -104,7 +104,7 @@
                                       value="<?=(isset($edit_album))?$edit_album['description']:'' ?>" >
                             </div>
 
-                            <center><button class="btn btn-warning" style="font-size: 20px;"><?= (isset($edit_album))?'Update':'Create'?></button></center>
+                            <center><button class="btn btn-warning" style="font-size: 20px;"><?= (isset($edit_album))?'Update':'Add new'?></button></center>
                           </form>
                         </div>
                       </div>
@@ -113,7 +113,7 @@
         
                     <!-- show albums start -->
                     <div id="show_albums" style="margin-top: 50px;margin-bottom: 50px;">
-                      <h2 >List of Albums </h2>
+                      <h2 >Albums List :</h2>
 
                       <!-- search form start -->
                       <form method="get">
@@ -136,7 +136,7 @@
                             <th>Album ID</th>
                             <th>Thumbnail</th>
                             <th>Game Title</th>
-                            <th>Category of Game </th>
+                            <th>Game Category</th>
                             <th>Updated at</th>
                             <th>Total photoes</th>
                             <th></th>

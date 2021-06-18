@@ -29,7 +29,7 @@ $limit  =5;
 $totalPages = ceil($totalItems / $limit);
 $start = ($page-1) * $limit;
 
-$sql="select videos.* , games.id 'game id' from videos,games where videos.game_id = games.id ".$sub_sql." 
+$sql="select videos.* , games.id 'game id' , games.title 'game title' from videos,games where videos.game_id = games.id ".$sub_sql." 
             order by updated_at desc    
             limit $start , $limit      ";
 

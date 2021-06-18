@@ -4,7 +4,6 @@
 
   require_once 'php_form_admin/form_games.php';
 ?>
-?>
 
 <!DOCTYPE html>
 <html>
@@ -52,8 +51,8 @@
                 <div style="margin-left: 50px;margin-right: 50px;">
 
                 <!-- form create -->
-                <div style=" width:800px;">
-                  <button id="create_btn" class="btn" style="background: #04B173;"><h5 style="color: white ;font-weight: bold;">Create / Update</h5>
+                <div style="">
+                  <button id="create_btn" class="btn" style="background: #04B173;"><h5 style="color: white ;font-weight: bold;">Add new / Update</h5>
                   </button>
 
                   <div id="create_form" class="panel panel-primary" style="display: none;">
@@ -61,7 +60,7 @@
                       <div style="text-align:right;">
                         <button id="close" class="btn btn-primary " style="font-size: 20px;padding: 10px;">X</button>
                       </div>
-                      <h3 class="text-center" style="margin-top:-30px;"><?= (isset($edit_game))?'Update this create_forms':'Create new create_forms'?></h3>
+                      <h3 class="text-center" style="margin-top:-30px;"><?= (isset($edit_game))?'Update this Game':'Add a new Game'?></h3>
                     </div>
                     <div class="panel-body">
                       <form id="create_forms_form" method="post">
@@ -113,7 +112,7 @@
                           <textarea class="form-control" id="content" name="content"><?=(isset($edit_game))?$edit_game['content']:'' ?></textarea>
                         </div>
 
-                        <center><button class="btn btn-warning" style="font-size: 20px;"><?= (isset($edit_game))?'Update':'Create'?></button></center>
+                        <center><button class="btn btn-warning" style="font-size: 20px;"><?= (isset($edit_game))?'Update':'Add'?></button></center>
                       </form>
                     </div>
                   </div>
@@ -146,6 +145,8 @@
                         <th>Category</th>
                         <th>Ticket Price</th>
                         <th>Created by</th>
+                        <th>Created At</th>
+                        <th>Updated At</th>
                         <th></th>
                         <th></th>
                       </tr>
@@ -157,11 +158,13 @@
                         foreach ($data as $item) {
                           echo '<tr>
                                   <td>'.$i++.'</td>
-                                  <td><img src="'.$item['thumbnail'].'" style="width: 150px;"></td>
-                                  <td>'.$item['game title'].'</td>
+                                  <td><img src="'.$item['thumbnail'].'" style="width: 120px;"></td>
+                                  <td><b>'.$item['game title'].'</b></td>
                                   <td>'.$item['category title'].'</td>
-                                  <td>'.$item['price'].'</td>
+                                  <td><b>'.number_format($item['price']).'</b></td>
                                   <td>'.$item['fullname'].'</td>
+                                  <td>'.$item['created_at'].'</td>
+                                  <td>'.$item['updated_at'].'</td>
                                   <td><button class="btn btn-danger" onclick="del('.$item['id'].')">Delete</button></td>
                                   <td><button class="btn btn-warning" onclick="edit('.$item['id'].')">Edit</button></td>
                                 </tr>';

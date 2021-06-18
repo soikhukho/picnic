@@ -50,8 +50,8 @@
             <div class="row" style="margin-left: 50px;margin-right: 50px;">
 
                   <!-- form create -->
-                  <div style=" width:800px;">
-                    <button id="create_btn" class="btn" style="background: #04B173;"><h5 style="color: white ;font-weight: bold;">Create / Update</h5>
+                  <div >
+                    <button id="create_btn" class="btn" style="background: #04B173;"><h5 style="color: white ;font-weight: bold;">Add new / Update</h5>
                     </button>
 
                     <div id="place" class="panel panel-primary" style="display: none;">
@@ -59,7 +59,7 @@
                         <div style="text-align:right;">
                           <button id="close" class="btn btn-primary " style="font-size: 20px;padding: 10px;">X</button>
                         </div>
-                        <h3 class="text-center" style="margin-top:-30px;"><?= (isset($edit_place))?'Update this places':'Create new places'?></h3>
+                        <h3 class="text-center" style="margin-top:-30px;"><?= (isset($edit_place))?'Update this places':'Add a new places'?></h3>
                       </div>
                       <div class="panel-body">
                         <form id="places_form" method="post">
@@ -88,14 +88,14 @@
                             <textarea class="form-control" id="content" name="content"><?=(isset($edit_place))?$edit_place['content']:'' ?></textarea>
                           </div>
 
-                          <center><button class="btn btn-warning" style="font-size: 20px;"><?= (isset($edit_place))?'Update':'Create'?></button></center>
+                          <center><button class="btn btn-warning" style="font-size: 20px;"><?= (isset($edit_place))?'Update':'Add'?></button></center>
                         </form>
                       </div>
                     </div>
                   </div>
                   
                   <!-- show places -->
-                  <div id="show_cate" style="margin-top:10px;margin-bottom: 50px;">
+                  <div id="show_places" style="width: 100%; margin-top:10px;margin-bottom: 50px;">
                     <h2 >List of Beauty places</h2>
 
                     <!-- search form start -->
@@ -111,12 +111,15 @@
                       </form>
                       <!-- search form end -->
 
-                    <table class="table table-bordered" style="width: 800px;">
+                    <table class="table table-bordered" >
                       <thead>
                         <tr>
                           <th>No</th>
                           <th>Title</th>
                           <th>Thumbnail</th>
+                          
+                          <th>Created At</th>
+                          <th>Updated At</th>
                           <th></th>
                           <th></th>
                         </tr>
@@ -128,8 +131,10 @@
                           foreach ($data as $item) {
                             echo '<tr>
                                     <td>'.$i++.'</td>
-                                    <td>'.$item['title'].'</td>
+                                    <td><b><i>'.$item['title'].'</b></i></td>
                                     <td><img src="'.$item['thumbnail'].'" style="width: 150px;"></td>
+                                    <td>'.$item['created_at'].'</td>
+                                    <td>'.$item['updated_at'].'</td>
                                     <td><button class="btn btn-danger" onclick="del('.$item['id'].')">Delete</button></td>
                                     <td><button class="btn btn-warning" onclick="edit('.$item['id'].')">Edit</button></td>
                                   </tr>';

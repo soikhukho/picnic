@@ -50,7 +50,7 @@
             </div>
 
         <!-- main content start-->
-            <div class="row" style="margin-left: 50px;">
+            <div class="row" style="margin-left: 50px;margin-right: 50px;">
                 <h3>Album số : <?= $album_id ?> - Title : <?= $album_title ?></h3>
 
                 <!-- search form start -->
@@ -67,7 +67,7 @@
                   </form>
                   <!-- search form end -->
 
-                <table class="table table-bordered" style="width: 800px;">
+                <table class="table table-bordered" style="">
                     <thead>
                         <tr>
                             <th>No</th>
@@ -114,12 +114,12 @@
 
 
                 <!--hidden form  -->
-                <div id="create_form"  class="panel panel-primary" style="width: 800px; margin-top: 20px; display:none ;">
+                <div id="create_form"  class="panel panel-primary" style=" margin-top: 20px; display:none ;">
                     <div class="panel-heading">
                       <div style="text-align:right;">
                         <button id="close" class="btn btn-primary " style="font-size: 20px;padding: 10px;">X</button>
                       </div>
-                      <h2 class="text-center" style="margin-top:-30px;"><?= (isset($edit_photo))?'Update this photoes':'Create new photoes'?></h2>
+                      <h3 class="text-center" style="margin-top:-30px;"><?= (isset($edit_photo))?'Update this photoes':'Add new photoes'?></h3>
                     </div>
                     <div class="panel-body">
                       <form method="post" enctype="multipart/form-data">
@@ -129,7 +129,7 @@
                             <label>Chọn phương thức nhập : </label><br>
 
                             <input type="radio" name="option" value="url" checked style="height: 20px; width: 20px;"> Url  
-                            <input type="radio" name="option" value="upload"  style = "height: 20px; width: 20px;margin-left: 20px;"> Upload file
+                            <input type="radio" name="option" value="upload"  style = "height: 20px; width: 20px;margin-left: 20px;"> Upload (one or more files)
                           
                         </div>
 

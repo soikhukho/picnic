@@ -83,20 +83,20 @@
                 </div>
 
                 <!-- search form start -->
-                      <form method="get">
-                        <div class="input-group custom-search-form" style="margin-bottom: 8px;width: 350px;">
-                            <input type="text" class="form-control" name="search" placeholder="Search order_id or Customer name..." value="<?= $search ?>">
-                            <span class="input-group-btn">
-                                <button class="btn btn-default" type="submit">
-                                    <i class="fa fa-search"></i>
-                                </button>
-                            </span>
-                        </div>
-                      </form>
-                      <!-- search form end -->
+              <form method="get">
+                <div class="input-group custom-search-form" style="margin-bottom: 8px;width: 350px;">
+                    <input type="text" class="form-control" name="search" placeholder="Search order_id or Customer name..." value="<?= $search ?>">
+                    <span class="input-group-btn">
+                        <button class="btn btn-default" type="submit">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </span>
+                </div>
+              </form>
+              <!-- search form end -->
 
                 <!-- <div><?= $sql ?></div> -->
-                <table class="table table-bordered">
+                <table class="table table-bordered" style="width: 100%">
                     <thead>
                         <tr>
                             <th>No</th>
@@ -118,25 +118,25 @@
                                     <tr>
                                         <td>'.$count++.'</td>
                                         <td>'.$order['id'].'</td>
-                                        <td>'.$order['fullname'].'</td>
+                                        <td><b><i>'.$order['fullname'].'</i></b></td>
                                         <td>'.$order['created_at'].'</td>
-                                        <td>'.$order['total'].'</td>';
+                                        <td>'.number_format($order['total']).'</td>';
 
                                 switch ($order['status']) {
                                     case '0':
-                                        echo '<td> New </td>';
+                                        echo '<td><b><i> New </i></b></td>';
                                         break;
 
                                     case '1':
-                                        echo '<td>Shipping</td>';
+                                        echo '<td><b><i>Shipping </i></b></td>';
                                         break;
 
                                     case '2':
-                                        echo '<td>Arrived</td>';
+                                        echo '<td><b><i>Arrived </i></b></td>';
                                         break;
 
                                     case '-1':
-                                        echo '<td>Returned</td>';
+                                        echo '<td><b><i>Returned </i></b></td>';
                                         break;
 
                                     default:
@@ -144,7 +144,7 @@
                                         break;
                                 }
 
-                                    echo '      <td><a href="adm_orders_details.php?id='.$order['id'].'"><button class="btn btn-info">View details</button></a></td>
+                                    echo '      <td><a href="adm_orders_details.php?id='.$order['id'].'"><button class="btn btn-warning">View details</button></a></td>
                                             </tr>';
                                         
                             }
@@ -154,7 +154,7 @@
                 </table>
 
                 <!-- pagination -->
-                <div style="width:600px;text-align:;"> <?php include_once '../utility/pagination_multi.php'; ?> </div>
+                <div style="text-align:;"> <?php include_once '../utility/pagination_multi.php'; ?> </div>
 
 
             </div>

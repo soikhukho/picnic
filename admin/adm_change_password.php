@@ -48,7 +48,7 @@
             </div>
 
             <div class="row">
-                <div style=" width:600px;margin-left: 50px;">
+                <div style=" margin-left: 50px;margin-right: 50px;">
 
                     <button id="show_btn" class="btn btn-warning" ><h5 style="color: grey ;font-weight: bold;">Update your Password</h5>
                     </button>
@@ -58,7 +58,7 @@
                           <div style="text-align:right;">
                             <button id="close" class="btn btn-primary " style="font-size: 20px;padding: 10px;">X</button>
                           </div>
-                          <h2 class="text-center" style="margin-top:-30px;">Update your password</h2>
+                          <h3 class="text-center" style="margin-top:-30px;">Update your password</h3>
                         </div>
                         <div class="panel-body">
                           <form id="update_pass_form" method="post">

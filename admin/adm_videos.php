@@ -50,19 +50,19 @@
             </div>
 
         <!-- main content start-->
-            <div class="row" style="margin-left: 50px;">
+            <div class="row" style="margin-left: 50px;margin-right: 50px;">
 
                 <!--hidden form  -->
                 <button id="create_btn" class="btn btn-warning" style="margin-right: 20px;margin-bottom: 30px;">
                   Add Videos / Update
                 </button>
 
-                <div id="create_form"  class="panel panel-primary" style="width: 800px; margin-top: 20px; display:none ;">
+                <div id="create_form"  class="panel panel-primary" style=" margin-top: 20px; display:none ;">
                     <div class="panel-heading">
                       <div style="text-align:right;">
                         <button id="close" class="btn btn-primary " style="font-size: 20px;padding: 10px;">X</button>
                       </div>
-                      <h2 class="text-center" style="margin-top:-30px;"><?= (isset($edit_video))?'Update this video':'Add new'?></h2>
+                      <h3 class="text-center" style="margin-top:-30px;"><?= (isset($edit_video))?'Update this video':'Add new'?></h3>
                     </div>
                     <div class="panel-body">
                       <form method="post" enctype="multipart/form-data">
@@ -125,7 +125,7 @@
                   </form>
                   <!-- search form end -->
 
-                <table class="table table-bordered" style="width: 800px;">
+                <table class="table table-bordered" style="">
                     <thead>
                         <tr>
                             <th>No</th>
@@ -136,6 +136,7 @@
                             <th>Created at</th>
                             <th>Updated at</th>
                             <th>Game ID</th>
+                            <th>Game Title</th>
                             <th></th>
                             <th></th>
                         </tr>
@@ -158,6 +159,7 @@
                                         <td>'.$video['created_at'].'</td>
                                         <td>'.$video['updated_at'].'</td>
                                          <td>'.$video['game id'].'</td>
+                                         <td><i>'.$video['game title'].'</i></td>
 
                                         <td><button class="btn btn-danger" onclick="del('.$video['id'].')">Delete</button></td>
 
@@ -176,6 +178,7 @@
                                         <td>'.$video['created_at'].'</td>
                                         <td>'.$video['updated_at'].'</td>
                                          <td>'.$video['game id'].'</td>
+                                         <td>'.$video['game title'].'</td>
 
                                         <td><button class="btn btn-danger" onclick="del('.$video['id'].')">Delete</button></td>
 

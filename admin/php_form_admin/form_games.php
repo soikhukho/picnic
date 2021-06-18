@@ -93,7 +93,7 @@ $start = ($page-1) * $limit;
 
 $data = executeResult(" select games.id ,games.title 'game title',
                                                         category.title 'category title' ,
-                                                        games.thumbnail ,games.price , users.fullname
+                                                        games.thumbnail ,games.price , users.fullname , games.created_at , games.updated_at 
                                                     from games ,  category , users
                                                     where games.cate_id = category.id 
                                                     and  games.user_id = users.id ".$sub_sql."

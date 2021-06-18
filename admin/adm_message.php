@@ -56,9 +56,9 @@
                 <!--End Page Header -->
             </div>
 
-            <div class="row">
+            <div class="row" style="margin-left: 50px;margin-right: 50px;">
 
-                <div style="margin-left: 50px;">
+                <div >
                     <!-- search form start -->
                       <form method="get">
                         <div class="input-group custom-search-form" style="margin-bottom: 8px;width: 300px;">
@@ -74,7 +74,7 @@
                 </div>
 
                 <!-- <div><?= $sql ?></div> -->
-                <table class="table  table-bordered" style="width: 800px;margin-left: 50px;">
+                <table class="table  table-bordered" style="font-size: 15px;" >
                     <thead>
                         <tr>
                             <th>No</th>
@@ -92,7 +92,7 @@
                                 if ($item['status']==0) {
                                     echo '<tr>
                                             <td>'.$i++.'</td>
-                                            <td><a onclick="status_change_dont_reload('.$item['id'].')" href="'.$item['href'].'">'.$item['content'].'</a></td>
+                                            <td><a onclick="status_change_dont_reload('.$item['id'].')" href="'.$item['href'].'"><i>'.$item['content'].'</i></a></td>
                                             <td>'.timeAgo($item['created_at']).'</td>
                                             <td><input  type="checkbox" name="status" onclick="status_change('.$item['id'].')"></td>
                                         </tr>';

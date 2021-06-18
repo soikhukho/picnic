@@ -54,7 +54,7 @@
             <div  class="row" style="margin-left: 50px;margin-right: 50px;">
 
                 <!-- form create -->
-                <div style=" width: 600px;">
+                <div style="">
 
                   <button id="create_btn" class="btn" style="background: #04B173;"><h5 style="color: white ;font-weight: bold;">
                       Create / Update</h5>
@@ -65,7 +65,7 @@
                       <div style="text-align:right;">
                         <button id="close" class="btn btn-primary " style="font-size: 20px;padding: 10px;">X</button>
                       </div>
-                      <h2 class="text-center" style="margin-top:-30px;"><?= (isset($edit_photo))?'Update this photoes':'Create new photoes'?></h2>
+                      <h3 class="text-center" style="margin-top:-30px;"><?= (isset($edit_photo))?'Update this photoes':'Add new photoes'?></h3>
                     </div>
                     <div class="panel-body">
                       <form method="post" enctype="multipart/form-data">
@@ -122,7 +122,7 @@
                           </datalist>
                         </div>
 
-                        <center><button class="btn btn-warning" style="font-size: 20px;"><?= (isset($edit_photo))?'Update':'Create'?></button></center>
+                        <center><button class="btn btn-warning" style="font-size: 20px;"><?= (isset($edit_photo))?'Update':'Add'?></button></center>
                       </form>
                     </div>
                   </div>
