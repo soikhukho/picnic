@@ -43,9 +43,9 @@
                     <!-- div cm end -->`);
 
     $('#span_rep'+father_id).children().children().children().children('[name=father_id]').val(father_id)
-     $('#span_rep'+father_id).children().children().children().children('[name=content_rep]').focus() 
-     $('#span_rep'+father_id).children().children().children().children('[name=avatar]').val(avatar)
-      $('#span_rep'+father_id).children().children().children().children('[name=guest_name_rep]').val(admin_name) 
+    $('#span_rep'+father_id).children().children().children().children('[name=content_rep]').focus() 
+    $('#span_rep'+father_id).children().children().children().children('[name=avatar]').val(avatar)
+    $('#span_rep'+father_id).children().children().children().children('[name=guest_name_rep]').val(admin_name) 
 
   }
 
@@ -64,8 +64,10 @@
         alert('Ban chưa điền tên')
       }
       if (content!='' && guest_name!='' ) {
+          var admin_name= $('#admin_name').val();
+
           $(this).parent().parent().parent().parent().children('textarea').val('')
-          $(this).parent().parent().parent().parent().children('[name=guest_name]').val('')
+          $(this).parent().parent().parent().parent().children('[name=guest_name]').val(admin_name)
 
           $.post('form_ajax/load_comment.php',{page_code:page_code,guest_name:guest_name ,avatar:avatar, content:content,table:'comments'},function(data){
             $('#list_comment').html(data) ;
