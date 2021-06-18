@@ -267,6 +267,7 @@ function look_for_subs($comment_id){
   return $subs;
 }
 
+
 function load_comments($page_code){
     $user = checkLogin();
     $check='';
@@ -276,7 +277,7 @@ function load_comments($page_code){
 
     $comments = executeResult("select * from comments where page_code= '$page_code' order by created_at desc ");
 
-foreach ($comments as $comment){
+foreach ($comments as $comment) {
     $father_id=$comment['id'];
     echo '<div>';
 
@@ -305,7 +306,7 @@ foreach ($comments as $comment){
               <div style="margin-top: 10px;line-height: 19px;    font-size: 12px;color: #38aee3;">
                 <button style="border:none;background:transparent;">Thích</button>
                 <span style="padding:0 5px;margin-top: 5px!important;">.</span>
-                <button style="border:none;background:transparent;" name="rep" id="'.$comment['id'].'">Trả lời</button>
+                <button style="border:none;background:transparent;" name="rep" id="'.$comment['id'].'" onclick="rep('.$father_id.')" >Trả lời</button>
                 <span style="padding:0 5px;">.</span>
                 <button style="border:none;background:transparent;">Chia sẻ</button>
               </div>                      
@@ -340,7 +341,7 @@ foreach ($comments as $comment){
               <div style="margin-top: 10px;line-height: 19px;    font-size: 12px;color: #38aee3;">
                 <button style="border:none;background:transparent;">Thích</button>
                 <span style="padding:0 5px;margin-top: 5px!important;">.</span>
-                <button style="border:none;background:transparent;" name="rep" id="'.$father_id.'">Trả lời</button>
+                <button style="border:none;background:transparent;" name="rep" id="'.$father_id.'" onclick="rep('.$father_id.')">Trả lời</button>
                 <span style="padding:0 5px;">.</span>
                 <button style="border:none;background:transparent;">Chia sẻ</button>
               </div>                         
@@ -348,7 +349,7 @@ foreach ($comments as $comment){
           </div>';
       }
 
-      echo '<span ></span>';
+      echo '<span id="span_rep'.$father_id.'"></span>';
 
       echo '</div>';
 

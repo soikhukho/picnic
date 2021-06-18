@@ -144,13 +144,13 @@ if (!empty($_POST)) {
       if ($address =='') {
         $address = $file_name[0];
       }
-        //trường hợp dùng url
+       
         execute("update videos set title='$title' ,address='$address' , game_id='$game_id' ,
                       updated_at='$date' where id ='$editID' ");
 
         mess('<b>Video '.$title.'(ID='.$editID.')</b> đã được update bởi admin '.$user['fullname'],'adm_videos.php');
 
-        header("Location: adm_videos.php");
+        // header("Location: adm_videos.php");
 
     }
 

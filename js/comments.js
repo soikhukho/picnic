@@ -5,17 +5,15 @@
       $('#'+rep_comment_id).click()
   })
 
-  //khi nhấn nút trả lời -> hiện form
-  $('[name=rep]').click(function(){
-      var father_id = $(this).attr('id');
-      var admin_name= $('#admin_name').val();
-      var avatar = $('#avatar').val();
+  
 
-      //nếu có ô trả lời nào đang mở thì sẽ bị empty để mở ô mới
-      $('.rep_comment_div').empty()
+//onclick 
+  function rep(father_id){
 
-      //mở một ô rep cmt mới
-      $(this).parent().parent().parent().parent().children('span').html(`<!-- div cm start -->
+    var admin_name= $('#admin_name').val();
+    var avatar = $('#avatar').val();
+
+    $('#span_rep'+father_id).html(`<!-- div cm start -->
                     <div class="rep_comment_div" style="border-bottom: 1px solid #e5e5e5;margin-left:72px;margin-right:12px;">
 
                       <div style="background:#ededed;">
@@ -42,39 +40,43 @@
                       </div>
                     </div>
                     <div style="clear: both;" ></div>
-                    <!-- div cm end -->`)
+                    <!-- div cm end -->`);
 
-     $(this).parent().parent().parent().parent().children('span').children().children().children().children('[name=father_id]').val(father_id) ;
+    $('#span_rep'+father_id).children().children().children().children('[name=father_id]').val(father_id)
+     $('#span_rep'+father_id).children().children().children().children('[name=content_rep]').focus() 
+     $('#span_rep'+father_id).children().children().children().children('[name=avatar]').val(avatar)
+      $('#span_rep'+father_id).children().children().children().children('[name=guest_name_rep]').val(admin_name) 
 
-      $(this).parent().parent().parent().parent().children('span').children().children().children().children('[name=content_rep]').focus()  ;
-
-      $(this).parent().parent().parent().parent().children('span').children().children().children().children('[name=guest_name_rep]').val(admin_name)  ;
-      $(this).parent().parent().parent().parent().children('span').children().children().children().children('[name=avatar]').val(avatar)  ;
-  })
+  }
 
 
   //khi nhấn nút submit cmt
   $('[name=btn_comments]').click(function(){
-    var content = $(this).parent().parent().parent().parent().children('textarea').val()
-    var guest_name = $(this).parent().parent().parent().parent().children('[name=guest_name]').val()
-    var avatar = $(this).parent().parent().parent().parent().children('[name=avatar]').val()
-    var page_code = $('[name=comments_area]').attr('id');
+      var content = $(this).parent().parent().parent().parent().children('textarea').val()
+      var guest_name = $(this).parent().parent().parent().parent().children('[name=guest_name]').val()
+      var avatar = $(this).parent().parent().parent().parent().children('[name=avatar]').val()
+      var page_code = $('[name=comments_area]').attr('id');
     
-  if (content=='') {
-    alert('Ban chưa viết bình luận')
-  }
-  if (guest_name=='') {
-    alert('Ban chưa điền tên')
-  }
-  if (content!='' && guest_name!='' ) {
-      $.post('form_ajax/load_comment.php',{page_code:page_code,guest_name:guest_name ,avatar:avatar, content:content,table:'comments'},function(data){
-        $('#list_comment').html(data) ;
-      })
+      if (content=='') {
+        alert('Ban chưa viết bình luận')
+      }
+      if (guest_name=='') {
+        alert('Ban chưa điền tên')
+      }
+      if (content!='' && guest_name!='' ) {
+          $(this).parent().parent().parent().parent().children('textarea').val('')
+          $(this).parent().parent().parent().parent().children('[name=guest_name]').val('')
 
-     window.location.reload()
-     // $(this).parent().parent().parent().parent().children('[name=guest_name]').val('') ;
-     // $(this).parent().parent().parent().parent().children('textarea').val('')
-  }
+          $.post('form_ajax/load_comment.php',{page_code:page_code,guest_name:guest_name ,avatar:avatar, content:content,table:'comments'},function(data){
+            $('#list_comment').html(data) ;
+
+
+          })
+
+         // window.location.reload()
+         
+        
+      }
    
 })
 
@@ -94,9 +96,11 @@ function sub_comments(){
   }
 
   if (content!='' && guest_name!='' ) {
+
      $.post('form_ajax/load_comment.php',{page_code:page_code,avatar:avatar,father_id:father_id , guest_name:guest_name , content:content,table:'sub_comments'},function(data){
         $('#list_comment').html(data) ;
-        window.location.reload()
+
+        // window.location.reload()
       })
   }  
 }

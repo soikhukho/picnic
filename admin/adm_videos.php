@@ -51,7 +51,7 @@
 
         <!-- main content start-->
             <div class="row" style="margin-left: 50px;margin-right: 50px;">
-
+                
                 <!--hidden form  -->
                 <button id="create_btn" class="btn btn-warning" style="margin-right: 20px;margin-bottom: 30px;">
                   Add Videos / Update
@@ -92,7 +92,7 @@
 
                         <div class="form-group">
                           <label>Game ID</label>
-                          <input required="true" type="text" name="game_id" list="game_list" class="form-control" placeholder="looking for ID or Title of game" value="<?= (isset($edit_video))?$edit_video['id']:''?>">
+                          <input required="true" type="text" name="game_id" list="game_list" class="form-control" placeholder="looking for ID or Title of game" value="<?= (isset($edit_video))?$edit_video['game_id']:''?>">
                           <datalist id="game_list">
 
                             <?php

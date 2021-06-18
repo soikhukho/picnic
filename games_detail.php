@@ -82,9 +82,10 @@
 
           <!-- Begin left -->
           <div class="content__left" >
-              
+                
                 <div class="main-content" >
 
+                  <!-- push data game detail -->
                   <p><?=$detail['description'] ?></p>
 
                   <h2>
@@ -102,6 +103,7 @@
                    <?=$detail['content'] ?>
                  </div>
 
+                 <!-- push ảnh bìa albums -->
                  <?php
                   if ($albums_id_list!=null) {
                       foreach ($albums_id_list as $id) {
@@ -110,6 +112,7 @@
                     }
                  ?>
 
+                 <!-- push video -->
                  <?php
                     foreach ($videos as $video) {
                        if (strpos($video['address'],':')=='' ){
@@ -149,6 +152,7 @@
                   <!-- cmt area end -->
 
               </div>
+              <!-- main content end -->
           </div>
 
           <!-- cmt start -->
@@ -163,9 +167,9 @@
           <?php include_once 'layout/content-right.php'; ?>
           <!-- End right -->
 
-        <!-- modal start -->
+        <!-- modal start :show album slide -->
        <div id="myModal" class="modal_box" >                   
-            <!-- chỗ này để đổ data  ajax-->
+            <!-- chỗ này để đổ data  ajax : show album slide -->
         </div>
         <!-- modal end -->
 
