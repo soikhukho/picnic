@@ -111,7 +111,7 @@ function del_comment(id){
   if (confirm('Bạn có chắc chắn muốn xóa bình luận này ?')) {
     $.post('form_ajax/load_comment.php',{page_code:page_code,del_comment_id:id },function(data){
         $('#list_comment').html(data) ;
-        window.location.reload()
+        // window.location.reload()
       })
   }
 }
@@ -122,7 +122,7 @@ function del_sub_comment(id){
   if (confirm('Bạn có chắc chắn muốn xóa bình luận này ?')) {
     $.post('form_ajax/load_comment.php',{page_code:page_code,del_sub_comment_id:id },function(data){
         $('#list_comment').html(data) ;
-        window.location.reload()
+        // window.location.reload()
       })
   }
 }
