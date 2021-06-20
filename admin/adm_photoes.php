@@ -1,7 +1,6 @@
 <?php
   require_once '../db/dbhelper.php';
   require_once '../utility/utils.php';
-  require_once '../utility/utils_file.php';
 
   require_once 'php_form_admin/form_photoes.php';
 
@@ -130,6 +129,7 @@
 
                 
                 <!-- show photoes -->
+
                 <div id="show_cate" style=" width: 100% ;margin-top: 50px;margin-bottom: 50px;">
                   <h2>List of Photoes</h2>
 
@@ -146,6 +146,7 @@
                       </form>
                       <!-- search form end -->
 
+                  <span style="color: red;font-style:italic;"><?= $alert ?></span>
                   <table class="table table-bordered" style="">
                     <thead>
                       <tr>
@@ -186,7 +187,10 @@
                 </div>
 
                 <!-- pagination -->
-                <div style="text-align: center;"> <?php include_once '../utility/pagination_multi.php'; ?> </div>
+                <div style="text-align: center;">
+                  <?php include_once '../utility/pagination_multi.php'; ?>
+                </div>
+                
              </div>
 
         </div>

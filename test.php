@@ -95,6 +95,8 @@ if (!empty($_POST)) {
   <script src="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.12/summernote.js"></script>
   <link rel="stylesheet" type="text/css" href="style/style_header2.css">
   <script src="https://kit.fontawesome.com/3e49906220.js" crossorigin="anonymous"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.min.js"></script>
 </head>
 <body>
     <?php
@@ -176,7 +178,67 @@ if (!empty($_POST)) {
      </form>
 
 
+    <div id="chart-container">
+        <canvas id="graph"></canvas>
+    </div>
 
+    <script>
+        $(document).ready(function () {
+            showGraph();
+        });
+
+
+        function showGraph(){
+                $.post("admin/php_form_admin/chart.php",
+                function (data){
+                    console.log(data);
+                    var formStatusVar = [];
+                    var total = []; 
+
+                    for (var i in data) {
+                        formStatusVar.push(data[i].status);
+                        total.push(data[i].size_status);
+                    }
+
+                    var options = {
+                        legend: {
+                            display: false
+                        },
+                        scales: {
+                            xAxes: [{
+                                display: true
+                            }],
+                        yAxes: [{
+                                ticks: {
+                                    beginAtZero: true
+                                }
+                            }]
+                        }
+                    };
+
+                    var myChart = {
+                        labels: formStatusVar,
+                        datasets: [
+                            {
+                                label: 'Tổng số',
+                                backgroundColor: '#17cbd1',
+                                borderColor: '#46d5f1',
+                                hoverBackgroundColor: '#0ec2b6',
+                                hoverBorderColor: '#42f5ef',
+                                data: total
+                            }
+                        ]
+                    };
+
+                    var bar = $("#graph"); 
+                    var barGraph = new Chart(bar, {
+                        type: 'bar',
+                        data: myChart,
+                        options: options
+                    });
+                });
+        }
+        </script>
 
 
      </div>

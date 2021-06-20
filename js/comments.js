@@ -52,17 +52,31 @@
 
   //khi nhấn nút submit cmt
   $('[name=btn_comments]').click(function(){
+
+      var re= /^[a-zA-Z '.-]*$/;
+
       var content = $(this).parent().parent().parent().parent().children('textarea').val()
       var guest_name = $(this).parent().parent().parent().parent().children('[name=guest_name]').val()
       var avatar = $(this).parent().parent().parent().parent().children('[name=avatar]').val()
       var page_code = $('[name=comments_area]').attr('id');
-    
-      if (content=='') {
-        alert('Ban chưa viết bình luận')
-      }
+      
       if (guest_name=='') {
         alert('Ban chưa điền tên')
+        $(this).parent().parent().parent().parent().children('[name=guest_name]').focus()
       }
+
+      if (content=='') {
+        alert('Ban chưa viết bình luận')
+        $(this).parent().parent().parent().parent().children('textarea').focus()
+      }
+
+      check=re.test(guest_name)
+      if (check==false) {
+        alert ('Đây không phải tên người')
+        $(this).parent().parent().parent().parent().children('[name=guest_name]').focus()
+        return false;
+      }
+
       if (content!='' && guest_name!='' ) {
           var admin_name= $('#admin_name').val();
 
@@ -90,12 +104,24 @@ function sub_comments(){
     var avatar = $('[name=avatar]').val()
     var content = $('[name=content_rep]').val()
 
+    if (guest_name=='') {
+      alert('Ban chưa điền tên')
+      $('[name=guest_name_rep]').focus()
+    }
+
     if (content=='') {
-    alert('Ban chưa viết bình luận')
-  }
-  if (guest_name=='') {
-    alert('Ban chưa điền tên')
-  }
+      alert('Ban chưa viết bình luận')
+      $('[name=content_rep]').focus()
+    }
+
+     var re= /^[a-zA-Z '.-]*$/;
+     check=re.test(guest_name) ;
+
+     if (check==false) {
+        alert ('Đây không phải tên người')
+        $('[name=guest_name_rep]').focus()
+        return false;
+      }
 
   if (content!='' && guest_name!='' ) {
 

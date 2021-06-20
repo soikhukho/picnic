@@ -1,7 +1,6 @@
 <?php
   require_once 'db/dbhelper.php';
   require_once 'utility/utils.php';
-  require_once 'utility/utils_file.php';
 
   $index ="games";
 
@@ -29,7 +28,7 @@
 
 //for comment
   if ($user !='') {
-    $admin_name=$user['fullname'].' (admin)';
+    $admin_name=$user['fullname'].' - admin';
     $avatar=$user['avatar'];
 
   }else{
@@ -136,11 +135,12 @@
                       <?php include_once 'layout/comments_form.php' ?>
                       <!-- form cmt -->
 
-                      <!-- list cm start -->
+                      <!-- data ẩn để sử dụng cho js -->
                       <input type="number" name="rep_comment_id" value="<?=$cmt ?>" style="display: none;">
                       <input type="text" id="admin_name" value="<?=$admin_name?>" style="display:none;">
                       <input type="text" id="avatar" value="<?=$avatar?>" style="display:none;">
 
+                      <!-- list cm start -->
                       <div id="list_comment" style="border:solid 1px #eee;margin-top:;padding-bottom: 15px;">
                         <?php
                           load_comments($page_code);

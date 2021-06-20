@@ -149,7 +149,7 @@ function showAlbum_slide($album_id){
                 <!-- Wrapper for slides -->
                 <div class='carousel-inner'>";
 
-        //in ra list wrapper
+        //in ra list wrapper - ảnh phía trên
         echo "<div class='item active'>
                         <img src='".plus_path($data[0]['address'],'uploads/')."' alt='' />
                     </div>";
@@ -181,7 +181,7 @@ function showAlbum_slide($album_id){
                 <!-- Indicators start -->
                 <ol class='carousel-indicators mCustomScrollbar'>";
 
-        //list các indicator
+        //list các indicator - list ảnh phía dưới chân
         echo "<li id='indicator1' data-target='#carousel-custom' data-slide-to='0' class='active'>
                     <img src='".plus_path($data[0]['address'],'uploads/')."' alt='' />
                 </li>";
@@ -206,6 +206,7 @@ function showAlbum_slide($album_id){
 };
 
 function showAlbum_represent($album_id){
+  //show ra 1-2-3 ảnh bìa làm đại diện
     $data=executeResult("select photoes.*,albums.title 'album title', albums.views from photoes join albums 
                                 where photoes.album_id = albums.id and album_id = '$album_id'");
     $count = count($data);
@@ -349,6 +350,7 @@ foreach ($comments as $comment) {
           </div>';
       }
 
+      //in ra chỗ để đổ form rep cmt
       echo '<span id="span_rep'.$father_id.'"></span>';
 
       echo '</div>';
@@ -357,12 +359,16 @@ foreach ($comments as $comment) {
 }
 
 
-function upload_photo($file , $target_dir){
+function upload($FILE,$array_allowtypes){
+  $alert=''; //cái này lưu lại báo cáo 
+
+  //đường dẫn đến nơi lưu trữ
+  $target_dir = '../uploads/';
 
   //Vị trí file lưu tạm trong server (file sẽ lưu trong uploads, với tên giống tên ban đầu)
-    $file_name = basename($_FILES[$file]["name"]);
+    $file_name = basename($FILE["name"]);
 
-  $target_file   = $target_dir . basename($_FILES[$file]["name"]);
+  $target_file   = $target_dir . basename($FILE["name"]);
 
   $allowUpload   = true;
 
@@ -370,10 +376,8 @@ function upload_photo($file , $target_dir){
   $imageFileType = pathinfo($target_file,PATHINFO_EXTENSION);
 
   // Cỡ lớn nhất được upload (bytes)
-  $maxfilesize   = 800000;
-
-  ////Những loại file được phép upload
-  $allowtypes    = array('jpg', 'png', 'jpeg', 'gif');
+  $maxfilesize  = 1048576; //bytes
+  $maxfilesize_MB = $maxfilesize/1048576; //MB
 
 
   if(isset($_POST["submit"])) {
@@ -385,9 +389,6 @@ function upload_photo($file , $target_dir){
       }
       else
       {
-            echo '<script type="text/javascript">
-                    alert("File upload không phải file ảnh")
-                </script>';
          
           $allowUpload = false;
       }
@@ -396,139 +397,35 @@ function upload_photo($file , $target_dir){
   // Kiểm tra nếu file đã tồn tại thì không cho phép ghi đè
   if (file_exists($target_file))
   {
-        echo '<script type="text/javascript">
-                    alert("Tên file đã tồn tại trên server, không được phép ghi đè")
-                </script>';
-      
+      $alert= $alert.' Error: file <b>uploads/'.$file_name.'</b> đã tồn tại ,không được phép ghi đè ;<br>';   
       $allowUpload = false;
   }
 
   //Kiểm tra kích thước file upload cho vượt quá giới hạn cho phép
-  if ($_FILES[$file]["size"] > $maxfilesize)
+  if ($FILE["size"] > $maxfilesize)
   {     
-        echo '<script type="text/javascript">
-                    alert("Không được upload ảnh lớn hơn $maxfilesize (bytes).")
-                </script>';
+      $alert= $alert.' Error: file <b>'.$file_name.'</b> vượt giới hạn cho phép . Hãy chọn file có dung lượng nhỏ hơn '.$maxfilesize_MB.'MB ;<br>';
       $allowUpload = false;
   }
 
 
   // Kiểm tra kiểu file
-  if (!in_array($imageFileType,$allowtypes ))
+  if (!in_array($imageFileType,$array_allowtypes ))
   {
-        echo '<script type="text/javascript">
-                    alert("Chỉ được upload các định dạng JPG, PNG, JPEG, GIF")
-                </script>';
-
+      $alert= $alert.' Error: file <b>'.$file_name.'</b> không thuộc kiểu file được cho phép upload ;<br>';
       $allowUpload = false;
   }
 
   if ($allowUpload)
   {
       // Xử lý di chuyển file tạm ra thư mục cần lưu trữ, dùng hàm move_uploaded_file
-      if (move_uploaded_file($_FILES[$file]["tmp_name"], $target_file))
-      {
-            return $file_name;
-
-          //   echo '<script type="text/javascript">
-          //           alert("File '. basename( $_FILES[$file]["name"]).
-          // ' Đã upload thành công.")
-          //       </script>';
-      }
-      else
-      {
-          echo "Có lỗi xảy ra khi upload file.";
-      }
+      move_uploaded_file($FILE["tmp_name"], $target_file) ;
   }
 
-}
+  return [$file_name ,$alert];
 
+} ;
 
-function upload_video($file , $target_dir){
-
-  //Vị trí file lưu tạm trong server (file sẽ lưu trong uploads, với tên giống tên ban đầu)
-    $file_name = basename($_FILES[$file]["name"]);
-
-  $target_file   = $target_dir . basename($_FILES[$file]["name"]);
-
-  $allowUpload   = true;
-
-  //Lấy phần mở rộng của file (jpg, png, ...)
-  $imageFileType = pathinfo($target_file,PATHINFO_EXTENSION);
-
-  // Cỡ lớn nhất được upload (bytes)
-  $maxfilesize   = 800000;
-
-  ////Những loại file được phép upload
-  $allowtypes    = array('avi', 'flv', 'wmv', 'mov', 'mp4');
-
-
-  if(isset($_POST["submit"])) {
-      //Kiểm tra xem có phải là ảnh bằng hàm getimagesize
-      $check = getimagesize($_FILES["fileupload"]["tmp_name"]);
-      if($check !== false)
-      {
-          $allowUpload = true;
-      }
-      else
-      {
-            echo '<script type="text/javascript">
-                    alert("File upload không phải file ảnh")
-                </script>';
-         
-          $allowUpload = false;
-      }
-  }
-
-  // Kiểm tra nếu file đã tồn tại thì không cho phép ghi đè
-  if (file_exists($target_file))
-  {
-        echo '<script type="text/javascript">
-                    alert("Tên file đã tồn tại trên server, không được phép ghi đè")
-                </script>';
-      
-      $allowUpload = false;
-  }
-
-  //Kiểm tra kích thước file upload cho vượt quá giới hạn cho phép
-  if ($_FILES[$file]["size"] > $maxfilesize)
-  {     
-        echo '<script type="text/javascript">
-                    alert("Không được upload ảnh lớn hơn $maxfilesize (bytes).")
-                </script>';
-      $allowUpload = false;
-  }
-
-
-  // Kiểm tra kiểu file
-  if (!in_array($imageFileType,$allowtypes ))
-  {
-        echo '<script type="text/javascript">
-                    alert("Chỉ được upload các định dạng JPG, PNG, JPEG, GIF")
-                </script>';
-
-      $allowUpload = false;
-  }
-
-  if ($allowUpload)
-  {
-      // Xử lý di chuyển file tạm ra thư mục cần lưu trữ, dùng hàm move_uploaded_file
-      if (move_uploaded_file($_FILES[$file]["tmp_name"], $target_file))
-      {
-            return $file_name;
-
-          //   echo '<script type="text/javascript">
-          //           alert("File '. basename( $_FILES[$file]["name"]).
-          // ' Đã upload thành công.")
-          //       </script>';
-      }
-      else
-      {
-          echo "Có lỗi xảy ra khi upload file.";
-      }
-  }
-
-}
 
 function plus_path($str,$plus){
     //kiểm tra xem chuỗi có dấu : hay không

@@ -43,25 +43,28 @@ $sql="select photoes.id , photoes.title  ,photoes.address,albums.title 'album ti
 
 $data = executeResult($sql);
 
-    
-//
-$alert = '';
+  
+  $alert='';
+
+
   $date = date('Y-m-d H:i:s');
   $title = getPost('title');
   $address=getPost('address');
 
 
   $file_name=[];
+
   if (isset($_FILES['photo_file']) ) {
 
-       $files = $_FILES['photo_file'];
+        $names      = $_FILES['photo_file']['name'];
+        $types      = $_FILES['photo_file']['type'];
+        $tmp_names  = $_FILES['photo_file']['tmp_name'];
+        $errors     = $_FILES['photo_file']['error'];
+        $sizes      = $_FILES['photo_file']['size'];
 
-        $names      = $files['name'];
-        $types      = $files['type'];
-        $tmp_names  = $files['tmp_name'];
-        $errors     = $files['error'];
-        $sizes      = $files['size'];
+        $maxfilesize  = 1048576*5;
 
+        $maxfilesize_MB = $maxfilesize/1048576;
 
         $numitems = count($names);
         $numfiles = 0;
@@ -72,18 +75,34 @@ $alert = '';
                 $numfiles++;
 
                 $allowtypes    = array('jpg', 'png', 'jpeg', 'gif','JPG', 'PNG', 'JPEG', 'GIF' );
-                $imageFileType = pathinfo($names[$i],PATHINFO_EXTENSION);
+                $fileType = pathinfo($names[$i],PATHINFO_EXTENSION);
+
+                if (file_exists('../uploads/'.$names[$i]) ==true ) {
+                  $alert=$alert.'Error : file <b>'.$names[$i].'</b> đã tồn tại trên thư mục uploads/ ; <br>';
+                }
+
+                if (!in_array($fileType,$allowtypes) ) {
+                  $alert=$alert.'Error : file <b>'.$names[$i].'</b> có định dạng không phù hợp để uploads ; <br>' ;
+                }
+
+                if ($sizes[$i] > $maxfilesize) {
+                  $alert=$alert.'Error : file <b>'.$names[$i].'</b> có kích thước lớn hơn giới hạn là '.$maxfilesize_MB.'MB ; <br>';
+                }
+
                 //nếu tên file chưa tồn tại và đúng kiểu 
-                if (file_exists('../uploads/'.$names[$i]) ==false && in_array($imageFileType,$allowtypes ) )
+                if (!file_exists('../uploads/'.$names[$i]) && in_array($fileType,$allowtypes) && $sizes[$i] <= $maxfilesize )
                 {
 
 	                move_uploaded_file($tmp_names[$i], '../uploads/'.$names[$i]);
 
 	                 $file_name[]=$names[$i];
 
+                   $alert=$alert.'<span style="color:green">Success: upload thành công file '.$names[$i].' vào thư mục uploads/</span><br>';
+
                  }
 
             }
+
         } 
 
   }
@@ -97,6 +116,7 @@ $alert = '';
         $edit_photo = executeResult("select * from photoes where id = $editID ",true);
         if ($edit_photo=='') {
           header("Location: adm_album_details.php?album_id=".$album_id);
+          die();
         }
     }
 
@@ -107,7 +127,7 @@ if (!empty($_POST)) {
         execute("delete from photoes where id = $delID");
 
          mess('<b>Photo ID='.$delID.'</b> đã bị xóa bởi admin '.$user['fullname'],'adm_photoes.php');
-
+         die();
     }
 
     //add
@@ -122,7 +142,8 @@ if (!empty($_POST)) {
 	          alert('Bạn đã thêm ảnh thành công')
 	          window.location.replace('adm_album_details.php?album_id=".$album_id.")
 	        </script>";
-	        header("Location: adm_album_details.php?album_id=".$album_id);
+	        // header("Location: adm_album_details.php?album_id=".$album_id);
+          // die();
     	}
     	else{
 
@@ -134,7 +155,8 @@ if (!empty($_POST)) {
 		         mess('<b>Photo '.$title.'</b> đã được thêm bởi admin '.$user['fullname'],'adm_photoes.php');
 		        
 	    	}
-	    	header("Location: adm_album_details.php?album_id=".$album_id);
+	    	// header("Location: adm_album_details.php?album_id=".$album_id);
+        // die();
     	}
         
     }
@@ -149,5 +171,7 @@ if (!empty($_POST)) {
         mess('<b>Photo '.$title.'(ID='.$editID.')</b> đã được update bởi admin '.$user['fullname'],'adm_photoes.php');
 
         header("Location: adm_album_details.php?album_id=".$album_id);
+        die();
     }
   }
+

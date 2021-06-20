@@ -1,4 +1,5 @@
 <?php
+$selected='adm_orders';
 
 $user = checkLogin();
       if ($user=='') {
@@ -60,7 +61,7 @@ $href='adm_orders.php?task='.$task.'&search='.$search.'&';
 $page = getGET('page');
 if($page==''){$page = 1;}
 
-$limit  =2;
+$limit  =10;
 $totalPages = ceil($totalItems / $limit);
 $start = ($page-1) * $limit;
 
@@ -72,7 +73,7 @@ $data = executeResult($sql);
 $user_id=$user['id'];
 $user_email=$user['email'];
 
-$selected='adm_orders';
+
 
 $checkedID=getPost('checkedID');
 $cancellID=getPost('cancellID');

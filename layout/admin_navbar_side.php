@@ -36,6 +36,10 @@
                         <a href="../index.php"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
                     </li>
 
+                    <li class="<?= ($selected =='adm_statistic')?'selected':''?>">
+                        <a href="adm_statistic.php"><i class="fa fa-angle-double-right" aria-hidden="true" style="margin-right: 5px;"></i> Statistic</a>
+                    </li>
+
                     <li class="<?= ($selected =='adm_orders')?'selected':''?>">
                         <a href="adm_orders.php"><i class="fa fa-angle-double-right" aria-hidden="true" style="margin-right: 5px;"></i> Orders</a>
                     </li>
@@ -44,17 +48,17 @@
                         <a href="adm_games.php"><i class="fa fa-angle-double-right" aria-hidden="true" style="margin-right: 5px;"></i> Games</a>
                     </li>
 
+                    <li class="<?= ($selected =='adm_photoes')?'selected':''?>">
+                        <a href="adm_photoes.php"><i class="fa fa-angle-double-right" aria-hidden="true" style="margin-right: 5px;"></i> Photoes</a>
+                    </li>
+
                     <li class="<?= ($selected =='adm_albums')?'selected':''?>">
                         <a href="adm_albums.php"><i class="fa fa-angle-double-right" aria-hidden="true" style="margin-right: 5px;"></i> Albums</a>
                     </li>
 
                     <li class="<?= ($selected =='adm_videos')?'selected':''?>">
                         <a href="adm_videos.php"><i class="fa fa-angle-double-right" aria-hidden="true" style="margin-right: 5px;"></i> Videos</a>
-                    </li>
-
-                    <li class="<?= ($selected =='adm_photoes')?'selected':''?>">
-                        <a href="adm_photoes.php"><i class="fa fa-angle-double-right" aria-hidden="true" style="margin-right: 5px;"></i> Photoes</a>
-                    </li>
+                    </li> 
 
                     <li class="<?= ($selected =='adm_places')?'selected':''?>">
                         <a href="adm_places.php"><i class="fa fa-angle-double-right" aria-hidden="true"></i> Places</a>

@@ -44,11 +44,6 @@ $alert = '';
   $game_id = getPost('game_id');
 
 
-  // if (isset($_FILES['video_file']) &&$_FILES['video_file']!='') {
-
-  //   $address=upload_photo("video_file", "../uploads/");
-    
-  // }
   $file_name=[];
   if (isset($_FILES['video_file']) ) {
 
@@ -63,6 +58,10 @@ $alert = '';
 
         $numitems = count($names);
         $numfiles = 0;
+
+        $maxfilesize  = 1048576*30;
+        $maxfilesize_MB = $maxfilesize/1048576;
+
         for ($i = 0; $i < $numitems; $i ++) {
             //Kiểm tra file thứ $i trong mảng file, up thành công không
             if ($errors[$i] == 0)
@@ -70,14 +69,30 @@ $alert = '';
                 $numfiles++;
 
                 $allowtypes    = array('JPG','avi', 'flv', 'wmv', 'mov', 'mp4','AVI', 'FLV', 'WMV', 'MOV', 'MP4',);
-                $imageFileType = pathinfo($names[$i],PATHINFO_EXTENSION);
+                
+                $fileType = pathinfo($names[$i],PATHINFO_EXTENSION);
+
+                if (file_exists('../uploads/'.$names[$i]) ==true ) {
+                  $alert=$alert.'Error : file <b>'.$names[$i].'</b> đã tồn tại trên thư mục uploads/ ; <br>';
+                }
+
+                if (!in_array($fileType,$allowtypes) ) {
+                  $alert=$alert.'Error : file <b>'.$names[$i].'</b> có định dạng không phù hợp để uploads ; <br>' ;
+                }
+
+                if ($sizes[$i] > $maxfilesize) {
+                  $alert=$alert.'Error : file <b>'.$names[$i].'</b> có kích thước lớn hơn giới hạn là '.$maxfilesize_MB.'MB ; <br>';
+                }
+
                 //nếu tên file chưa tồn tại và đúng kiểu 
-                if (file_exists('../uploads/'.$names[$i]) ==false && in_array($imageFileType,$allowtypes ) )
+                if (!file_exists('../uploads/'.$names[$i]) && in_array($fileType,$allowtypes) && $sizes[$i] <= $maxfilesize )
                 {
 
-	                move_uploaded_file($tmp_names[$i], '../uploads/'.$names[$i]);
+                  move_uploaded_file($tmp_names[$i], '../uploads/'.$names[$i]);
 
-	                 $file_name[]=$names[$i];
+                   $file_name[]=$names[$i];
+
+                   $alert=$alert.'<span style="color:green">Success: upload thành công file '.$names[$i].' vào thư mục uploads/</span><br>';
 
                  }
 
@@ -96,6 +111,7 @@ $alert = '';
 
         if ($edit_video=='') {
           header("Location: adm_videos.php");
+          die();
         }
     }
 
@@ -118,8 +134,8 @@ if (!empty($_POST)) {
 	         mess('<b>Video '.$title.'</b> đã được thêm bởi admin '.$user['fullname'],'adm_videos.php');
 
 	     $_POST='';
-        header("Refresh:0");
-        die();
+        // header("Refresh:0");
+        // die();
     	}
     	else{
 
@@ -134,8 +150,8 @@ if (!empty($_POST)) {
 	    	}
 
 	    	$_POST='';
-        header("Refresh:0");
-        die();
+        // header("Refresh:0");
+        // die();
     	}
         
     }

@@ -1,7 +1,6 @@
 <?php
   require_once 'db/dbhelper.php';
   require_once 'utility/utils.php';
-  require_once 'utility/utils_file.php';
 
   $index="albums";
 
@@ -12,7 +11,7 @@
 
 //for comments area
 if ($user !='') {
-    $admin_name=$user['fullname'].' (admin)';
+    $admin_name=$user['fullname'].' - admin';
     $avatar=$user['avatar'];
 
   }else{

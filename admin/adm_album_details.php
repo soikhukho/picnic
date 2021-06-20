@@ -1,7 +1,6 @@
 <?php
   require_once '../db/dbhelper.php';
   require_once '../utility/utils.php';
-  require_once '../utility/utils_file.php';
 
   require_once 'php_form_admin/form_album_details.php';
 
@@ -50,6 +49,8 @@
             </div>
 
         <!-- main content start-->
+       
+
             <div class="row" style="margin-left: 50px;margin-right: 50px;">
                 <h3>Album số : <?= $album_id ?> - Title : <?= $album_title ?></h3>
 
@@ -66,6 +67,11 @@
                     </div>
                   </form>
                   <!-- search form end -->
+
+                  <span style="color: red ; font-style: italic;display: <?=($alert=='')?'none':'' ?>">
+                    <?= $alert ?>
+                    
+                  </span>
 
                 <table class="table table-bordered" style="">
                     <thead>
@@ -122,7 +128,7 @@
                       <h3 class="text-center" style="margin-top:-30px;"><?= (isset($edit_photo))?'Update this photoes':'Add new photoes'?></h3>
                     </div>
                     <div class="panel-body">
-                      <form method="post" enctype="multipart/form-data">
+                      <form method="post" enctype="multipart/form-data" id="my_form">
                         <span style="color: red"></span>
 
                         <div class="form-group">
@@ -189,6 +195,7 @@
 
 
 <script type="text/javascript">
+
       $('[name=option]').change(function(){
         var option = $(this).val() ;
 

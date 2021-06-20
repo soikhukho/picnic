@@ -18,7 +18,7 @@
 
 //for comments area
   if ($user !='') {
-    $admin_name=$user['fullname'].' (admin)';
+    $admin_name=$user['fullname'].' - admin';
     $avatar=$user['avatar'];
 
   }else{

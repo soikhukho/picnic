@@ -1,7 +1,6 @@
 <?php
   require_once 'db/dbhelper.php';
   require_once 'utility/utils.php';
-  require_once 'utility/utils_file.php';
 
   $user = checkLogin();
       if ($user=='') {

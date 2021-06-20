@@ -63,15 +63,15 @@ if (isset($_COOKIE['cart_picnic'])) {
 
 
 //b3 đồng bộ lên cookie
-	setcookie('cart_picnic',json_encode($cart),0,'/');
+	setcookie('cart_picnic',json_encode($cart),time() +60*60*24*7,'/');
 
 	$total_item_in_cart=0;
 	foreach ($cart as $item) {
 		$total_item_in_cart+=$item['quantity'];
 	}
 
-	//echo để trả về result số lượng trong giỏ hàng
-	echo '('.$total_item_in_cart.' sp)';
+//echo để trả về result số lượng trong giỏ hàng
+echo '('.$total_item_in_cart.' sp)';
 
 
 

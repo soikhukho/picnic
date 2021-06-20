@@ -10,7 +10,7 @@
 
                           <input type="text" name="table" value="comments" style="display: none;">
 
-                          <input type="text" name="guest_name" style="width: 100%;border-radius: 3px;height: 30px;border: 1px solid #e5e5e5;" placeholder="Nhập tên bạn" required="true" value="<?=$admin_name?>" >
+                          <input type="text" name="guest_name" style="width: 100%;border-radius: 3px;height: 30px;border: 1px solid #e5e5e5;" pattern="/^[a-zA-Z '.-]*$/" placeholder="Nhập tên bạn" required="true" value="<?=$admin_name?>">
 
                           <input type="text" name="avatar" style="width: 100%;display: none;" value="<?=$avatar?>" >
 

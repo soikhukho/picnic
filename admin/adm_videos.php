@@ -1,7 +1,6 @@
 <?php
   require_once '../db/dbhelper.php';
   require_once '../utility/utils.php';
-  require_once '../utility/utils_file.php';
 
   require_once 'php_form_admin/form_videos.php';
 
@@ -110,7 +109,7 @@
                     </div>
                   </div>
 
-                <span><?= '' ?></span>
+                
                 <!-- search form start -->
                   <form method="get">
                     <input type="" name="album_id" value="<?= $album_id ?>" style="display: none;">
@@ -124,6 +123,11 @@
                     </div>
                   </form>
                   <!-- search form end -->
+
+                <span id="alert area" style="color: red;font-style: italic;padding-bottom: 10px; display: <?=($alert=='')?'none':'' ?>">
+                  <?= $alert ?>
+                    
+                </span>
 
                 <table class="table table-bordered" style="">
                     <thead>

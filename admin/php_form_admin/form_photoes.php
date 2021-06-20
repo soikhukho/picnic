@@ -23,7 +23,13 @@ if ($active != 1) {
 
   if (isset($_FILES['photo_file']) &&$_FILES['photo_file']!='') {
 
-    $address=upload_photo("photo_file", "../uploads/");
+    $result=upload($_FILES['photo_file'],array('jpg', 'png', 'jpeg', 'gif','JPG', 'PNG', 'JPEG', 'GIF') );
+
+    $alert= $result[1];
+    if ($alert=='') {
+      //lấy tên file nếu ko có báo cáo lỗi
+      $address=$result[0];
+    }
     
   }
   
@@ -35,6 +41,7 @@ if ($active != 1) {
         $edit_photo = executeResult("select * from photoes where id = $editID ",true);
         if ($edit_photo=='') {
           header('Location: adm_photoes.php');
+          die();
         }
     }
 
@@ -47,6 +54,7 @@ if (!empty($_POST)) {
          mess('<b>Photo ID='.$delID.'</b> đã bị xóa bởi admin '.$user['fullname'],'adm_photoes.php');
 
         header('Location: adm_photoes.php');
+        die();
     }
 
     //add
@@ -69,6 +77,7 @@ if (!empty($_POST)) {
         mess('<b>Photo '.$title.'(ID='.$editID.')</b> đã được update bởi admin '.$user['fullname'],'adm_photoes.php');
 
         header('Location: adm_photoes.php');
+        die();
     }
   }
 
