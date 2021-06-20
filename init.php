@@ -7,8 +7,12 @@ require_once 'utility/utils.php';
 
 	if ($init==1){
 
-		$sql = 'create database if not exists '.DATABASE;
-		echo $sql;
+		$sql = 'drop database if exists '.DATABASE;
+		// echo $sql;
+		createDB($sql);
+
+		$sql = 'create database '.DATABASE;
+		// echo $sql;
 		createDB($sql);
 
 		$users_table = 'create table if not exists users (
@@ -164,6 +168,45 @@ require_once 'utility/utils.php';
 		$sql="INSERT INTO `places` (`id`, `title`, `content`, `created_at`, `updated_at`, `user_id`, `thumbnail`, `description`) VALUES (NULL, 'Milford Soundd', '<p style=\"font-family: Verdana, Geneva, sans-serif; font-size: 15px; line-height: 26px; margin-bottom: 26px; overflow-wrap: break-word; color: rgb(34, 34, 34);\">Milford Sound là một trong các <strong>phong cảnh đẹp nhất thế giới</strong> ở phía tây nam của Đảo Nam của New Zealand. Nó được biết đến với Đỉnh Mitre cao chót vót. Cộng với rừng nhiệt đới và thác nước như thác Stirling và thác Bowen, đổ xuống các mặt tuyệt đẹp của nó. </p><p style=\"font-family: Verdana, Geneva, sans-serif; font-size: 15px; line-height: 26px; margin-bottom: 26px; overflow-wrap: break-word; color: rgb(34, 34, 34);\"><img src=\"https://1hot.vn/wp-content/uploads/2020/10/phong-canh-dep-nhat-the-gioi-4.jpg\" style=\"width: 546px;\"><br></p><p style=\"font-family: Verdana, Geneva, sans-serif; font-size: 15px; line-height: 26px; margin-bottom: 26px; overflow-wrap: break-word; color: rgb(34, 34, 34);\">Fiord là nơi sinh sống của các đàn hải cẩu lông, chim cánh cụt và cá heo. Trung tâm Khám phá Milford và Đài quan sát dưới nước có tầm nhìn ra san hô đen quý hiếm và các sinh vật biển khác. Các chuyến tham quan bằng thuyền là một cách phổ biến để khám phá cảnh đẹp nơi đây. </p><p style=\"font-family: Verdana, Geneva, sans-serif; font-size: 15px; line-height: 26px; margin-bottom: 26px; overflow-wrap: break-word; color: rgb(34, 34, 34);\">Milford Sound thu hút từ 550.000 đến 1 triệu du khách mỗi năm. Điều này làm cho Sound trở thành một trong những điểm du lịch được ghé thăm nhiều nhất của New Zealand. Đây còn là một trong những điểm đến tốt nhất thế giới để nhảy dù. Nhiều du khách tham gia một trong những chuyến tham quan bằng thuyền thường kéo dài từ một đến hai giờ.</p><p style=\"font-family: Verdana, Geneva, sans-serif; font-size: 15px; line-height: 26px; margin-bottom: 26px; overflow-wrap: break-word; color: rgb(34, 34, 34);\">Đặc trưng:</p><ul style=\"padding: 0px; margin-bottom: 26px; color: rgb(34, 34, 34); font-family: Verdana, Geneva, sans-serif; font-size: 15px;\"><li style=\"line-height: 26px; margin-left: 21px;\">Cảnh quan: Cửa biển ở Thung lũng Gal Justice</li><li style=\"line-height: 26px; margin-left: 21px;\">Địa điểm: Fiordland, New Zealand</li><li style=\"line-height: 26px; margin-left: 21px;\">Độ cao: 1.692 mét (5.551 ft)</li><li style=\"line-height: 26px; margin-left: 21px;\">Thời gian tốt nhất để ghé thăm: tháng 11 đến tháng 3</li><li style=\"line-height: 26px; margin-left: 21px;\">Diện tích vùng vịnh: 25 km² </li></ul>', '2021-05-25 22:26:38', '2021-05-30 13:39:59', '1', 'https://1hot.vn/wp-content/uploads/2020/10/phong-canh-dep-nhat-the-gioi-4.jpg', 'Milford Sound là một trong các phong cảnh đẹp nhất thế giới ở phía tây nam của Đảo Nam của New Zealand. Nó được biết đến với Đỉnh Mitre cao chót vót. Cộng với rừng nhiệt đới và thác nước như thác Stirling và thác Bowen, đổ xuống các mặt tuyệt đẹp của nó...')
 			";
 		execute($sql);
+
+
+		execute("INSERT INTO `customers` (`id`, `fullname`, `phone`, `address`, `created_at`) VALUES ('1', 'Khách 1', '0911111111', 'Hà Nội', '2021-01-20 00:00:00') ");
+
+		execute("INSERT INTO `customers` (`id`, `fullname`, `phone`, `address`, `created_at`) VALUES ('2', 'Khách 2', '0911111112', 'Hà Nội', '2021-02-20 00:00:00') ");
+
+		execute("INSERT INTO `customers` (`id`, `fullname`, `phone`, `address`, `created_at`) VALUES ('3', 'Khách 3', '0911111113', 'Hà Nội', '2021-03-20 00:00:00') ");
+
+		execute("INSERT INTO `customers` (`id`, `fullname`, `phone`, `address`, `created_at`) VALUES ('4', 'Khách 4', '0911111114', 'Hà Nội', '2021-04-20 00:00:00') ");
+
+		execute("INSERT INTO `customers` (`id`, `fullname`, `phone`, `address`, `created_at`) VALUES ('5', 'Khách 5', '0911111115', 'Hà Nội', '2021-05-20 00:00:00') ");
+
+		execute("INSERT INTO `customers` (`id`, `fullname`, `phone`, `address`, `created_at`) VALUES ('6', 'Khách 6', '0911111116', 'Hà Nội', '2021-06-20 00:00:00') ");
+
+
+		execute("INSERT INTO `orders` (`id`, `cus_id`, `created_at`, `status`) VALUES ('1', '1', '2021-01-20 00:00:00', '2')");
+
+		execute("INSERT INTO `orders` (`id`, `cus_id`, `created_at`, `status`) VALUES ('2', '2', '2021-02-20 00:00:00', '2')");
+
+		execute("INSERT INTO `orders` (`id`, `cus_id`, `created_at`, `status`) VALUES ('3', '3', '2021-03-20 00:00:00', '2')");
+
+		execute("INSERT INTO `orders` (`id`, `cus_id`, `created_at`, `status`) VALUES ('4', '4', '2021-04-20 00:00:00', '2')");
+
+		execute("INSERT INTO `orders` (`id`, `cus_id`, `created_at`, `status`) VALUES ('5', '5', '2021-05-20 00:00:00', '2')");
+
+		execute("INSERT INTO `orders` (`id`, `cus_id`, `created_at`, `status`) VALUES ('6', '6', '2021-06-20 00:00:00', '2')");
+
+
+		execute("INSERT INTO `orders_details` (`id`, `price`, `quantity`, `created_at`, `order_id`, `game_id`) VALUES ('1', '80000', '4', '2021-01-20 00:00:00', '1', '1')" );
+
+		execute("INSERT INTO `orders_details` (`id`, `price`, `quantity`, `created_at`, `order_id`, `game_id`) VALUES ('2', '80000', '6', '2021-02-20 00:00:00', '2', '1')" );
+
+		execute("INSERT INTO `orders_details` (`id`, `price`, `quantity`, `created_at`, `order_id`, `game_id`) VALUES ('3', '80000', '5', '2021-03-20 00:00:00', '3', '1')" );
+
+		execute("INSERT INTO `orders_details` (`id`, `price`, `quantity`, `created_at`, `order_id`, `game_id`) VALUES ('4', '80000', '7', '2021-04-20 00:00:00', '4', '1')" );
+
+		execute("INSERT INTO `orders_details` (`id`, `price`, `quantity`, `created_at`, `order_id`, `game_id`) VALUES ('5', '80000', '4', '2021-05-20 00:00:00', '5', '1')" );
+
+		execute("INSERT INTO `orders_details` (`id`, `price`, `quantity`, `created_at`, `order_id`, `game_id`) VALUES ('6', '80000', '3', '2021-06-20 00:00:00', '6', '1')" );
 
 }
 

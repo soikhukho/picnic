@@ -35,7 +35,8 @@ if (!empty($_POST) && $new_pwd!='') {
 
             execute("update users set password = '$new_pwd' where email= '$email' and password ='$cr_pwd' ");
             mess('<b>Admin '.$email.'</b> đã thay đổi mật khẩu','adm_users.php');
-            header('Location: admin.php');
+            header('Location: statistic.php');
+            die();
         }
     }
 }
