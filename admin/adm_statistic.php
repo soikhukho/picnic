@@ -49,7 +49,7 @@ $current_month= date('m');
     <script type="text/javascript" src="../js/chart.js"></script>
 
     <style type="text/css">
-        #chart-container {
+        .chart-container {
             width: 100%;
             
         }
@@ -79,8 +79,10 @@ $current_month= date('m');
 
             <!-- main content start-->
             <div class="row" style="margin-left: 50px;margin-right: 50px;">
-                <div class="each-chart" style="padding-bottom: 30px; border-bottom: 1px solid grey; width: 80%">
-                    <h2 style="margin-left: 50px;margin-bottom: 20px;">Doanh thu trong tháng</h2>
+
+                <div class="each-chart" id="status" style="padding-bottom: 30px; border-bottom: 1px solid grey; width: 80%">
+                    <h2 style="margin-left: 50px;margin-bottom: 20px;">Tình hình Doanh thu theo trạng thái đơn hàng </h2>
+
                      <!-- month and type start -->
                     <div class="row" style="margin-left: 50px;" >
                         <div class="col-md-3">
@@ -109,18 +111,87 @@ $current_month= date('m');
                     <!-- month and type end -->
 
                     <!-- chart start -->
-                    <div id="chart-container">
+                    <div class ="chart-container">
+
                         <canvas id="revenue_moth"></canvas>
                     </div>
                     <!-- chart end -->
 
                 </div>
 
-                <div class="each-chart" style="margin-bottom: 50px;">
-                    <h2 style="margin-left: 50px;margin-bottom: 20px;">Đồ thị Doanh thu (đã nhận) từ đầu năm đến hiện tại</h2>
+                
+
+                <div class="each-chart" style="margin-bottom: 50px; border-bottom: 1px solid grey;" >
+                    <div class="row">
+                        <div class="col-md-3" style="padding-left: 50px;">
+                            <h2 style="margin-top: 50px;">Doanh thu theo game</h2>
+                            <span>(New + Shipping + Delivered)</span>
+                            <!-- row selct month start -->
+                            <div class="row" style="margin-top: 30px;">
+
+                                Từ :
+                                <select class="month_start_end" id="month_start" style="width: 100px;height: 30px;background: #04B173;color: white">
+                                
+                                    <?php
+
+                                        for ($i=1; $i < $current_month ; $i++) { 
+                                            echo '<option value="'.$i.'">Tháng '.$i.'</option>';
+                                        }
+                                        echo '<option value="'.$current_month.'" selected >Tháng '.$current_month.'</option>';
+
+                                    ?>
+                                </select>
+                            </div>  
+
+                            <div class="row" style="margin-top: 20px;">
+                                Đến :
+                                <select class="month_start_end" id="month_end" style="width: 100px;height: 30px;background: #04B173;color: white">
+                                
+                                    <?php
+
+                                        for ($i=1; $i < $current_month ; $i++) { 
+                                            echo '<option value="'.$i.'">Tháng '.$i.'</option>';
+                                        }
+                                        echo '<option value="'.$current_month.'" selected >Tháng '.$current_month.'</option>';
+
+                                    ?>
+                                </select>
+                            </div>
+
+                            <!-- row select end -->
+                            
+                             <div class="row" style="margin-top: 30px;">
+                                <input type="radio"  name="type_chart_game" value="bar" style = "height: 25px; width: 25px;">Bar
+                            </div>
+                            <div class="row">
+                                <input type="radio" checked="true" name="type_chart_game" value="pie" style = "height: 30px; width: 25px;">pie
+                            </div>
+                            <div class="row">
+                                <input type="radio" name="type_chart_game" value="horizontalBar" style = "height: 25px; width: 25px; ">horizontalBar
+                            </div>
+                                <!-- <input type="radio" name="type_chart" value="line" style = "height: 25px; width: 25px; margin-left: 10px;">line -->
+                                <!-- <input type="radio" name="type_chart" value="doughnut" style = "height: 25px; width: 25px; margin-left: 10px;">doughnut -->
+
+                        </div>
+
+                        <div class="col-md-9">
+                            <!-- chart start -->
+                            <div class="chart-container">
+                                <canvas id="revenue_game" style="max-height: 500px;width: 90%" ></canvas>
+                            </div>
+                            <!-- chart end -->
+                        </div>
+                    </div>
+
+                </div>
+
+
+                <div class="each-chart" style="margin-bottom: 50px; border-bottom: 1px solid grey;width: 80%">
+                    <h2 style="margin-left: 50px;margin-bottom: 20px;">Doanh thu (đã nhận) theo từng tháng </h2>
+
                     <!-- chart start -->
-                    <div id="chart-container">
-                        <canvas id="revenue_all"></canvas>
+                    <div class="chart-container">
+                        <canvas id="revenue_all" style="max-height: 500px;"></canvas>
                     </div>
                     <!-- chart end -->
 
@@ -139,10 +210,14 @@ $current_month= date('m');
                     $(document).ready(function () {
 
                         var month = $('#month').val()
+                        var month_start = $('#month_start').val()
+                        var month_end = $('#month_end').val()
 
                         push_chart_revenue_moth('bar',month,'revenue_moth');
 
                         push_chart_revenue_all('line','revenue_all')
+
+                        push_chart_revenue_game('pie' ,month_start,month_end, 'revenue_game')
                     });
                     
 
@@ -162,6 +237,21 @@ $current_month= date('m');
 
                     })
 
+                    $('.month_start_end').change(function(){
+                        var type_chart_game=$('[name=type_chart_game]').val()
+                        var month_start = $('#month_start').val()
+                        var month_end = $('#month_end').val()
+
+                        push_chart_revenue_game(type_chart_game,month_start,month_end, 'revenue_game')
+                    })
+
+                    $('[name=type_chart_game]').change(function(){
+                        var type_chart_game=$(this).val()
+                        var month_start = $('#month_start').val()
+                        var month_end = $('#month_end').val()
+
+                        push_chart_revenue_game(type_chart_game ,month_start,month_end, 'revenue_game')
+                    })
                
                 
 

@@ -5,6 +5,9 @@
   $mess=executeResult("select * from message where status = 0 order by created_at desc");
   $number=count($mess);
 
+  $user = checkLogin();
+  $active = $user['active'];
+
 ?>
 
 <nav class="navbar navbar-default navbar-fixed-top" role="navigation" id="navbar">
@@ -47,7 +50,7 @@
                     <!-- end dropdown-messages -->
                 </li>
 <!--  -->
-                <li class="dropdown">
+                <li class="dropdown" style="display: <?= ($active==0)?'none':'' ?>">
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#">
                         <span class="top-label label label-warning"><?=$number?></span><i class="fa fa-bell fa-3x"></i>
                     </a>
