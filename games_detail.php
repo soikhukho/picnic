@@ -105,8 +105,8 @@
                  <!-- push ảnh bìa albums -->
                  <?php
                   if ($albums_id_list!=null) {
-                      foreach ($albums_id_list as $id) {
-                        showAlbum_represent($id['albums id']);
+                      foreach ($albums_id_list as $item) {
+                        showAlbum_represent($item['albums id']);
                       }
                     }
                  ?>
@@ -135,12 +135,15 @@
                       <?php include_once 'layout/comments_form.php' ?>
                       <!-- form cmt -->
 
-                      <!-- data ẩn để sử dụng cho js -->
+                      <!-- ô này trung gian , để lấy được $GET['cmt'] ,dùng trong trường hợp nhấp vào link thông báo : value == id của nút repcmt  -->
                       <input type="number" name="rep_comment_id" value="<?=$cmt ?>" style="display: none;">
+
                       <input type="text" id="admin_name" value="<?=$admin_name?>" style="display:none;">
+
                       <input type="text" id="avatar" value="<?=$avatar?>" style="display:none;">
 
                       <!-- list cm start -->
+                      <!-- chỗ này sẽ đươc load lại sau mỗi cmt thành công -->
                       <div id="list_comment" style="border:solid 1px #eee;margin-top:;padding-bottom: 15px;">
                         <?php
                           load_comments($page_code);

@@ -182,7 +182,23 @@ if (!empty($_POST)) {
         <canvas id="graph"></canvas>
     </div>
 
+
+<input type="date" name="" id="date">
+
+
     <script>
+      $('#date').change(function(){
+        // alert ('ok')
+        var date = $(this).val()
+        var x = Date.parse(date)
+        if (x< 568024668) {
+          alert('bạn không đủ tuổi')
+        }
+        else{
+          alert('ok')
+        }
+      })
+
         $(document).ready(function () {
             showGraph();
         });
@@ -272,6 +288,8 @@ if (!empty($_POST)) {
       $(this).parent().parent().parent().children('span').children().children('[name=father_id]').val(father_id) 
       $(this).parent().parent().parent().children('span').children().children('[name=content]').focus()
   })
+
+
 
 </script>
 

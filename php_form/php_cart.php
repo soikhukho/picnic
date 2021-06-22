@@ -13,7 +13,7 @@ $index='';
   }
 
   $date= date('Y-m-d H:i:s');
-  $fullname = getPost('fullname');
+  $customer_name = getPost('customer_name');
   $address = getPost('address');
   $phone_no = getPost('phone_no');
 
@@ -26,7 +26,7 @@ $index='';
     if ($count==0) {
         //create new customer
         $sql=" insert into customers(fullname , phone , address , created_at) values 
-                    ('$fullname','$phone_no','$address','$date')";
+                    ('$customer_name','$phone_no','$address','$date')";
                     
         execute($sql);
 

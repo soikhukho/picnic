@@ -5,6 +5,7 @@ $selected='adm_albums';
   $user = checkLogin();
       if ($user=='') {
         header('Location: index.php');
+        die();
       }
 
 $active=$user['active'];
@@ -34,6 +35,7 @@ $user_id=$user['id'];
 
         if ($edit_album=='') {
           header('Location: adm_albums.php');
+          die();
         }
     }
 
@@ -46,6 +48,7 @@ $user_id=$user['id'];
         mess('<b>Album có ID='.$delID.'</b> đã bị xóa bỏi admin '.$user['fullname'],'adm_albums.php');
 
         header('Location: adm_albums.php');
+        die();
     }
 
     //add
@@ -70,6 +73,7 @@ $user_id=$user['id'];
         mess('<b>Album '.$title.'</b> đã được update bởi admin '.$user['fullname'],'adm_albums.php');
 
         header('Location: adm_albums.php');
+        die();
     }
   }
 

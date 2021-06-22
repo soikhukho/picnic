@@ -5,6 +5,7 @@ $selected='adm_users';
   $user = checkLogin();
       if ($user=='' ||$user['email']!='picnic@gmail.com') {
         header('Location: admin.php');
+        die();
       }
 $active=$user['active'];
 if ($active != 1) {

@@ -30,7 +30,7 @@
     <?php
         include_once 'layout/header2.php';
         // include_once '../layout/carosell.php';
-        // include_once '../layout/popup_login.php';
+        include_once 'layout/popup_login.php';
 
      ?>
      <div class="container" style="min-height: 1000px;">
@@ -110,13 +110,16 @@
 
                 <div <?= (count($cart)==0)?'style="display:none"':'' ?>>
                   <div class="form-group">
-                    <label for="fullName">Full name:</label>
-                    <input required="true" type="text" class="form-control" id="fullname" name="fullname" value="<?= $fullname ?>">
+                    <label for="customer_name">Full name:</label>
+                    <input required="true" type="text" class="form-control" id="customer_name" name="customer_name" value="<?= $customer_name ?>" pattern="^[^0-9_!¡?÷?¿/\\+=@#$%ˆ&*(){}|~<>;:[\]]{2,31}$" title="Tên không được chứa chữ số và kí tự đặc biệt : _!¡?÷?¿/\\+=@#$%ˆ&*(){}|~<>;:[\] . ">
                   </div>
 
                   <div class="form-group">
-                    <label for="phone_no">Phone number:</label>
-                    <input required="true" type="text" class="form-control" id="phone_no" name="phone_no" value="<?= $phone_no ?>">
+                    <label for="phone_no">
+                      Phone number:
+                      <span style="font-size: 10px;font-weight: normal;font-style: italic;">(format: 1234-567-890 hoặc +84999-999-999)</span> 
+                    </label>
+                    <input required="true" type="text" class="form-control" id="phone_no" name="phone_no" value="<?= $phone_no ?>" pattern="[+0-9]{4,6}-[0-9]{3}-[0-9]{3}">
                   </div>
 
                   <div class="form-group">

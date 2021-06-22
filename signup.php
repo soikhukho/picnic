@@ -2,20 +2,25 @@
   require_once 'db/dbhelper.php';
   require_once 'utility/utils.php';
 
-  $index="";
+  $index="signup";
 
    $user = checkLogin();
    include_once 'login.php';
 
+   if ($user!='') {
+     header('Location: games.php');
+     die();
+   }
+
   $alert = '';
   $date= date('Y-m-d H:i:s');
   $email_signup = getPost('email_signup');
-  $fullName = getPost('fullName');
-  $birthday = getPost('birthday');
-  $address = getPost('address');
-  $phone_no = getPost('phone_no');
-  $singup_pwd = getPost('singup_pwd');
-  $cf_pwd = getPost('cf_pwd');
+  $fullName_signup = getPost('fullName_signup');
+  $birthday_signup = getPost('birthday_signup');
+  $address_signup = getPost('address_signup');
+  $phone_no_signup = getPost('phone_no_signup');
+  $password_signup = getPost('password_signup');
+  $cf_password_signup = getPost('cf_password_signup');
   $action=getPost('action');
 
   if (!empty($_POST)) {
@@ -27,10 +32,10 @@
       }
 
       //nếu email hợp lệ và pass khớp nhau
-      if (count($check)==0 && $singup_pwd==$cf_pwd) {
-          $pass= getMd5($singup_pwd);
-          $sql = "insert into users(email , password, fullname, phone_no , address , birthday, created_at, updated_at) 
-            values ('$email_signup', '$pass', '$fullName', '$phone_no', '$address','$birthday', '$date','$date')";
+      if (count($check)==0 && $password_signup==$cf_password_signup) {
+          $password= getMd5($password_signup);
+          $sql = "insert into users(email , password, fullName, phone_no , address , birthday, created_at, updated_at) 
+            values ('$email_signup', '$password', '$fullName_signup', '$phone_no_signup', '$address_signup','$birthday_signup', '$date','$date')";
           execute($sql);
 
           mess('Admin với email='.$email_signup.' đã đăng kí thành công ','adm_users.php');
@@ -44,6 +49,7 @@
 
 
           header('Location: admin/adm_message.php');
+          die();
       }
     }
       
@@ -53,7 +59,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Home</title>
+  <title>Sign up</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
@@ -85,35 +91,51 @@
               
               <div class="form-group">
                 <label for="email_signup">Email:</label>
-                <input required="true" type="email" class="form-control" id="email_signup" name="email_signup" value="<?= $email_signup ?>">
+                <input required="true" type="text" class="form-control" id="email_signup" name="email_signup" value="<?= $email_signup ?>" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" >
               </div>
 
               <div class="form-group">
-                <label for="fullName">Full name:</label>
-                <input required="true" type="text" class="form-control" id="fullName" name="fullName" value="<?= $fullName ?>">
+                <label for="fullName_signup">
+                  Full name:
+                  <span style="font-size: 10px;font-weight: normal;font-style: italic;">(không được chứa chữ số hay các kí tự ngoài bảng chữ cái tiếng Việt)</span> 
+                </label>
+                <input required="true" type="text"  class="form-control" id="fullName_signup" name="fullName_signup" value="<?= $fullName_signup ?>" pattern="^[^0-9_!¡?÷?¿/\\+=@#$%ˆ&*(){}|~<>;:[\]]{2,31}$" title="Tên không được chứa chữ số và kí tự đặc biệt : _!¡?÷?¿/\\+=@#$%ˆ&*(){}|~<>;:[\] . ">
               </div>
 
               <div class="form-group">
-                <label for="phone_no">Phone number:</label>
-                <input required="true" type="text" class="form-control" id="phone_no" name="phone_no" value="<?= $phone_no ?>">
+                <label for="phone_no_signup">
+                  Phone number: 
+                  <span style="font-size: 10px;font-weight: normal;font-style: italic;">(format: 1234-567-890)</span> 
+                </label>
+
+                <input required="true" type="text" class="form-control" id="phone_no_signup" name="phone_no_signup" value="<?= $phone_no_signup ?>" pattern="[+0-9]{4,6}-[0-9]{3}-[0-9]{3}">
+                
               </div>
 
               <div class="form-group">
-                <label for="address">Address:</label>
-                <input required="true" type="text" class="form-control" id="address" name="address" value="<?= $address ?>">
+                <label for="address_signup">Address:</label>
+                <input required="true" type="text" class="form-control" id="address_signup" name="address_signup" value="<?= $address_signup ?>">
               </div>
               
               <div class="form-group">
-                <label for="birthday">Birthday:</label>
-                <input required="true" type="date" class="form-control" id="birthday" name="birthday" value="<?= $birthday ?>">
+                <label for="birthday_signup">
+                  Bỉthday:
+                  <span style="font-size: 10px;font-weight: normal;font-style: italic;">(yêu cầu trên 18 tuổi)</span> 
+                </label>
+                <input required="true" type="date" class="form-control" id="birthday_signup" name="birthday_signup" value="<?= $birthday_signup ?>">
               </div>
               <div class="form-group">
-                <label for="pwd">Password:</label>
-                <input required="true" type="password" class="form-control" id="singup_pwd" name="singup_pwd">
+                <label for="password_signup">
+                  Password:
+                  <span style="font-size: 10px;font-weight: normal;font-style: italic;">(password phải chứa ít nhât 1 kí tự thường , ít nhât một kí tự hoa ,ít nhât một chữ số , và tổng cộng từ 8 kí tự trở lên)</span> 
+                </label>
+                <input required="true" type="password" class="form-control" id="password_signup" name="password_signup" pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$" title="password phải chứa ít nhât 1 kí tự thường , ít nhât một kí tự hoa ,ít nhât một chữ số , và tổng cộng từ 8 kí tự trở lên.">
               </div>
               <div class="form-group">
-                <label for="cf_pwd">Confirmation Password:</label>
-                <input required="true" type="password" class="form-control" id="cf_pwd" name="cf_pwd">  
+                <label for="cf_password_signup">
+                  Confirm Password:
+                </label>
+                <input required="true" type="password" class="form-control" id="cf_password_signup" name="cf_password_signup">  
               </div>
 
               <div class="form-group" style="display: none;">
@@ -129,5 +151,32 @@
      </div>
     <?php include 'layout/footer.php'; ?>
 
+<script type="text/javascript">
+  //tuổi phải lớn hơn 18 (568024668 giây)
+  $('#signup_form').submit(function(){
+    var birthday_signup=$('[name=birthday_signup]').val() ;
+    
+    var limit = Date.parse(birthday_signup)
+    if (limit < 568024668) {
+      alert('Bạn chưa đủ 18 tuổi')
+      return false;
+    }
+      
+  }
+
+    var password_signup = $('[name=password_signup]').val()
+    var cf_password_signup = $('[name=cf_password_signup]').val()
+
+    if (password_signup != cf_password_signup) {
+
+      alert('Password không khớp nhau')
+      $('[name=password_signup]').val('')
+      $('[name=cf_password_signup]').val('')
+
+      $('[name=password_signup]').focus()
+      return false;
+    }
+  })
+</script>
 </body>
 </html>

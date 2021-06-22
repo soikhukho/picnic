@@ -5,6 +5,7 @@ $selected="adm_games";
   $user = checkLogin();
       if ($user=='') {
         header('Location: index.php');
+        die();
       }
 
 $user_id=$user['id'];
@@ -35,6 +36,7 @@ if ($active != 1) {
 
         if ($edit_game=='') {
           header('Location: adm_games.php');
+          die();
         }
     }
 
@@ -44,6 +46,7 @@ if ($active != 1) {
         execute("delete from games where id = $delID");
         mess('<b>Game ID='.$delID.'</b> đã bị xóa bởi admin '.$user['fullname'],'adm_games.php','adm_games.php');
         header('Location: adm_games.php');
+        die();
     }
 
     //add
@@ -67,6 +70,7 @@ if ($active != 1) {
         mess('<b>Game '.$title.'(ID='.$editID.')</b> đã được update bởi admin '.$user['fullname'],'adm_games.php');
 
         header('Location: adm_games.php');
+        die();
     }
   }
 

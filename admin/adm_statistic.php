@@ -6,7 +6,8 @@ $selected='adm_statistic';
 
 $user = checkLogin();
 if ($user=='') {
-header('Location: index.php');
+    header('Location: index.php');
+    die();
 }
 
 $user_id=$user['id'];
@@ -81,7 +82,7 @@ $current_month= date('m');
             <div class="row" style="margin-left: 50px;margin-right: 50px;">
 
                 <div class="each-chart" id="status" style="padding-bottom: 30px; border-bottom: 1px solid grey; width: 80%">
-                    <h2 style="margin-left: 50px;margin-bottom: 20px;">Tình hình Doanh thu theo trạng thái đơn hàng </h2>
+                    <h2 style="margin-left: 50px;margin-bottom: 20px;">Doanh thu theo trạng thái đơn hàng </h2>
 
                      <!-- month and type start -->
                     <div class="row" style="margin-left: 50px;" >
@@ -213,9 +214,9 @@ $current_month= date('m');
                         var month_start = $('#month_start').val()
                         var month_end = $('#month_end').val()
 
-                        push_chart_revenue_moth('bar',month,'revenue_moth');
+                        push_chart_revenue_status('bar',month,'revenue_moth');
 
-                        push_chart_revenue_all('line','revenue_all')
+                        push_chart_revenue_received('line','revenue_all')
 
                         push_chart_revenue_game('pie' ,month_start,month_end, 'revenue_game')
                     });
@@ -225,7 +226,7 @@ $current_month= date('m');
                         var month = $('#month').val()
                         var type_chart = $(this).val();
 
-                        push_chart_revenue_moth(type_chart,month,'revenue_moth')
+                        push_chart_revenue_status(type_chart,month,'revenue_moth')
 
                     })
 
@@ -233,7 +234,7 @@ $current_month= date('m');
                         var month = $('#month').val()
                         var type_chart = $('[name=type_chart]').val();
 
-                        push_chart_revenue_moth(type_chart,month,'revenue_moth')
+                        push_chart_revenue_status(type_chart,month,'revenue_moth')
 
                     })
 

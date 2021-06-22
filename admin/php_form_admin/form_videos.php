@@ -5,6 +5,7 @@ $selected='adm_videos';
   $user = checkLogin();
       if ($user=='') {
         header('Location: index.php');
+        die();
       }
     $user_id=$user['id'];
 
@@ -167,6 +168,7 @@ if (!empty($_POST)) {
         mess('<b>Video '.$title.'(ID='.$editID.')</b> đã được update bởi admin '.$user['fullname'],'adm_videos.php');
 
         // header("Location: adm_videos.php");
+        // die();
 
     }
 

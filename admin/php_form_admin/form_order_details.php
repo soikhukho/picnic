@@ -3,6 +3,7 @@
 $user = checkLogin();
       if ($user=='') {
         header('Location: index.php');
+        die();
       }
 
 $id = getGET('id');

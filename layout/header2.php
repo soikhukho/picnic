@@ -52,7 +52,7 @@
 							      	<span class="glyphicon glyphicon-user" ></span> Sign Up</a>
 							      </li>
 
-							      <li id="login" <?=($user!='' || $index=='')?'style="display: none;"':'' ?> >
+							      <li id="login" <?=($user!='' )?'style="display: none;"':'' ?> >
 							      	<a id="popup"><span class="glyphicon glyphicon-log-in"></span> Log in</a>
 							      </li>
 						    </ul>

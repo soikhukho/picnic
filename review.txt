@@ -1,0 +1,47 @@
+cấu trúc mỗi page:
+
+--- MAIN
+	- tiêu đề , số view 
+	- description
+	- thumbnail
+	- content
+
+--- ALBUMS
+	- truy vấn lấy id của những album thuộc game này
+
+	- Với mỗi album_id tìm được : show ảnh bìa  bằng hàm showAlbum_represent($album_id) : 1 /2 /3 ảnh 
+		->hàm này kiểm tra số ảnh trong album , nếu có 1 ảnh thì in 1 , 2 thì in 2 , 3 trở lên thì in ra 3 ảnh
+
+	- khi click vào ảnh bìa 
+		-> hiển thị modal trống đang ẩn 
+
+		-> gửi ajax :id của album -> show slide tương ứng -> đổ data vào modal 
+			Hàm showAlbum_slide($album_id) (utils.php - row 208 ):
+			- truy vấn lấy ra data của album
+			- khi đổ dữ liệu thì cần dùng hàm plus_path($array, $path) : cộng thêm đường dẫn nếu là file được tải lên (nhận biết bằng cách tìm dấu : trong chuỗi )
+
+		-> khi close modal :
+			- empty html trong modal rồi ẩn modal đi  (chờ cho lượt gọi tiếp theo)
+
+--- VIDEOS
+	- truy vấn lấy id của những album thuộc game này
+	- đổ dũ liệu : 
+		-> nếu chuỗi có đấu : -> đây là url -> đổ kiểu url
+		-> nếu ko có dấu : -> tên file  -> đổ kiểu file theo path
+										-> thêm mục download <a href="downloads.php?file_name='.$video['address'].'">
+
+--- COMMENTS
+	- Form cmt chính ( khi send cmt đi bằng ajax xong thì push lại cmt)
+
+	- Đổ cmt bằng hàm load_comments($page_code);
+		Hàm load_cmt (utils - 272) :
+
+				- Ứng với mỗi cmt cha : 
+					-đổ ra list cmt con (thụt vào so với cha)
+
+					- nut trả lời ở các cmt con : onclick ->rep(father id) và có id = father-cmt-id -> khi truy cập từ 1 link -> auto clik vào nút mà có id= id của cmt
+
+					- 1 thẻ span trống , chờ để đổ ra form trả lời
+
+					- khi nhấn trả lời cmt nào đó thì thẻ span trống kia sẽ được đổ vào 1 cái form ..Gửi form ->  reload cmt area
+

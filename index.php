@@ -7,6 +7,9 @@
   $user = checkLogin();
   include_once 'login.php';
 
+  header('Location: games.php');
+  die();
+
 ?>
 
 <!DOCTYPE html>

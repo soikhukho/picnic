@@ -4,6 +4,7 @@ $selected='adm_orders';
 $user = checkLogin();
       if ($user=='') {
         header('Location: index.php');
+        die();
       }
 $active=$user['active'];
 if ($active != 1) {

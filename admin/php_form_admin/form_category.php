@@ -5,6 +5,7 @@ $selected='adm_category';
   $user = checkLogin();
       if ($user=='') {
         header('Location: index.php');
+        die();
       }
   $active=$user['active'];
   if ($active != 1) {
@@ -24,6 +25,7 @@ $selected='adm_category';
         $edit_cate = executeResult("select * from category where id = $editID ",true);
         if ($edit_cate=='') {
           header('Location: adm_category.php');
+          die();
         }
     }
 
@@ -33,6 +35,7 @@ $selected='adm_category';
         execute("delete from category where id = $delID");
         mess('<b>Danh mục ID='.$delID.'</b> đã bị xóa bởi admin '.$user['fullname'],'adm_category.php');
         header('Location: adm_category.php');
+        die();
     }
 
     //add
@@ -50,6 +53,7 @@ $selected='adm_category';
         execute("update category set title='$title' , updated_at='$date' where id ='$editID' ");
         mess('<b>Danh mục '.$title.'</b> đã được update bởi admin '.$user['fullname'],'adm_category.php');
         header('Location: adm_category.php');
+        die();
     }
   }
 

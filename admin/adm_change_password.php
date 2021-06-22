@@ -76,7 +76,7 @@
 
                             <div class="form-group">
                               <label for="new_pwd"> New Password:</label>
-                              <input required="true" type="password" class="form-control" id="new_pwd" name="new_pwd">
+                              <input required="true" type="password" class="form-control" id="new_pwd" name="new_pwd" pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$" title="password phải chứa ít nhât 1 kí tự thường , ít nhât một kí tự hoa ,ít nhât một chữ số , và tổng cộng từ 8 kí tự trở lên.">
                             </div>
 
                             <div class="form-group">

@@ -5,6 +5,7 @@ $selected='adm_change_password';
   $user = checkLogin();
       if ($user=='') {
         header('Location: index.php');
+        die();
       }
 $user_id=$user['id'];
 $active=$user['active'];
@@ -35,7 +36,7 @@ if (!empty($_POST) && $new_pwd!='') {
 
             execute("update users set password = '$new_pwd' where email= '$email' and password ='$cr_pwd' ");
             mess('<b>Admin '.$email.'</b> đã thay đổi mật khẩu','adm_users.php');
-            header('Location: statistic.php');
+            header('Location: adm_statistic.php');
             die();
         }
     }

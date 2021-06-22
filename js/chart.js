@@ -1,6 +1,6 @@
 
 //label - value
-function push_chart_revenue_moth(type,month,id_result){
+function push_chart_revenue_status(type,month,id_result){
     
     $.post('php_form_admin/ajax_chart_revenue_month.php',{month:month},function (data) {
         data=JSON.parse(data);
@@ -79,7 +79,7 @@ function push_chart_revenue_moth(type,month,id_result){
 
 }
 
-function push_chart_revenue_all(type,result_id){
+function push_chart_revenue_received(type,result_id){
     
     $.post('php_form_admin/ajax_chart_revenue_all.php',function (data) {
         data=JSON.parse(data);

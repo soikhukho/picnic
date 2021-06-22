@@ -1,0 +1,45 @@
+oninvalid="this.setCustomValidity('Enter User Name Here')" oninput="this.setCustomValidity('')"
+
+ ^ 		: bắt đầu
+ $ 		: kết thúc
+ [] 	: tập hợp kí tự phù hợp
+ [^ ]	: tập hợp ngoại trừ
+ {x,y} 	: số lượng tối thiểu , tối đa
+
+ (?=.*[]): có ít nhất 1 thuộc tập hợp . ví dụ (?=.*[a-z]): ít nhất 1 kí tự bt
+
+ \w : chữ và số
+ \W = [^w] : khác chữ và số
+ \d : số
+ \D : ko phải số
+
+ 	ví dụ : ^[a-z0-9_-]{3,15}$ : bắt đầu là chữ cái hoặc số hoặc dấu - , dài 3->15 kí tự
+
+ . : tất cả , trừ kí tự xuống dòng
+
+*** pattern thường gặp
+- Pass chỉ số và chữ :
+	-> "^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$" 
+	-> dài từ 8 đổ lên, chỉ có số và chữ, ít nhất 1 chữ cái thường , 1 hoa , 1 chữ số 
+
+- Pass số-chữ-kí tự đặc biệt:
+	-> "^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$"
+	-> 1 thường ,1 hoa , 1 số , 1 đặc biệt , dài 8 đổ lên
+
+	
+- Tên tiếng việt
+	-> /^[^0-9_!¡?÷?¿/\\+=@#$%ˆ&*(){}|~<>;:[\]]{2,31}$/
+
+
+email : pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
+		->[a-z0-9._%+-] : chữ cái hoặc số  hoặc ._%+-
+		->@[a-z0-9.-] : có @ , sau @ là chữ hoặc số hoặc .-
+		->\.[a-z]{2,4} : có dấu . (phải ghi là \.) , sau dấu chấm chỉ có thể là 2-4 chữ cái
+
+pass : pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$" 
+		title="password phải chứa ít nhât 1 kí tự thường , ít nhât một kí tự hoa ,ít nhât một chữ số , và tổng cộng từ 8 kí tự trở lên."
+
+full name : pattern="^[^0-9_!¡?÷?¿/\\+=@#$%ˆ&*(){}|~<>;:[\]]{2,31}$" 
+			title="Tên không được chứa chữ số và kí tự đặc biệt : _!¡?÷?¿/\\+=@#$%ˆ&*(){}|~<>;:[\] . "
+
+phone no : pattern="[+0-9]{4,6}-[0-9]{3}-[0-9]{3}"

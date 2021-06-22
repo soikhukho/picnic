@@ -282,6 +282,7 @@ foreach ($comments as $comment) {
     $father_id=$comment['id'];
     echo '<div>';
 
+//cmt cha:
     echo '<div class="comment" id="comment'.$comment['id'].'" style="margin-left: 12px;margin-right: 12px; display: flex;border-top: solid 1px #d6d6d6;">
             <div class="cmt_avatar" style="width: 60px;">
               <img src="'.$comment['avatar'].'" style="width: 38px!important; height: 38px!important;border-radius: 50%;margin-top: 15px;">
@@ -292,7 +293,7 @@ foreach ($comments as $comment) {
               <div style="font-weight: bold;font-size: 15px;color: #009EE5;margin-top: 15px;width: 100%;">
                 <div class="col-md-9" style="padding-left: 0px;">
                   '.$comment['guest_name'].'
-                  <span style="color: #A3B0B9;font-weight: normal;font-size: 11px;">'.$comment['created_at'].'</span>
+                  <span style="color: #A3B0B9;font-weight: normal;font-size: 11px;">'.timeAgo($comment['created_at']).'</span>
                 </div>
                   
                 <div class="col-md-3" style="text-align: right;padding-right: 0px;">
@@ -314,6 +315,7 @@ foreach ($comments as $comment) {
             </div>
           </div>';
 
+//list cmt con
       $sons = look_for_subs($comment['id']);
       foreach ($sons as $comment){
           echo '<div class="sub_comment" style="margin-left: 72px;margin-right: 12px; display: flex;border-top: solid 1px #eee;">
@@ -327,7 +329,7 @@ foreach ($comments as $comment) {
               <div style="font-weight: bold;font-size: 15px;color: #009EE5;margin-top: 15px;width: 100%;">
                 <div class="col-md-9" style="padding-left: 0px;">
                   '.$comment['guest_name'].'
-                  <span class="" style="color: #A3B0B9;font-weight: normal;font-size: 11px;">'.$comment['created_at'].'</span>
+                  <span class="" style="color: #A3B0B9;font-weight: normal;font-size: 11px;">'.timeAgo($comment['created_at']).'</span>
                 </div>
                   
                 <div class="col-md-3" style="text-align: right;padding-right: 0px;">
@@ -342,7 +344,9 @@ foreach ($comments as $comment) {
               <div style="margin-top: 10px;line-height: 19px;    font-size: 12px;color: #38aee3;">
                 <button style="border:none;background:transparent;">Thích</button>
                 <span style="padding:0 5px;margin-top: 5px!important;">.</span>
+
                 <button style="border:none;background:transparent;" name="rep" id="'.$father_id.'" onclick="rep('.$father_id.')">Trả lời</button>
+
                 <span style="padding:0 5px;">.</span>
                 <button style="border:none;background:transparent;">Chia sẻ</button>
               </div>                         
@@ -350,7 +354,7 @@ foreach ($comments as $comment) {
           </div>';
       }
 
-      //in ra chỗ để đổ form rep cmt
+//in ra chỗ để đổ form rep cmt
       echo '<span id="span_rep'.$father_id.'"></span>';
 
       echo '</div>';

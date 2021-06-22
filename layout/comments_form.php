@@ -24,7 +24,7 @@
                                 </div>
                                 
                                 <div class="col-md-6" style="text-align: right;padding-right: 25px!important;margin-bottom: 20px;">
-                                  <button name="btn_comments" style="height: 28px;    background: #6d84b4;border:1px solid #3b5998;border-radius: 2px;color: #fff;font-weight: bold;font-size: 12px;">Gủi bình luận</button>
+                                  <button name="btn_submit_main_comments" style="height: 28px;    background: #6d84b4;border:1px solid #3b5998;border-radius: 2px;color: #fff;font-weight: bold;font-size: 12px;">Gủi bình luận</button>
                                 </div>
                               </div>
                           </div>

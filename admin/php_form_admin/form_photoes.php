@@ -5,6 +5,7 @@ $selected='adm_photoes';
   $user = checkLogin();
       if ($user=='') {
         header('Location: index.php');
+        die();
       }
 
 $active=$user['active'];

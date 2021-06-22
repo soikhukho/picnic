@@ -5,6 +5,7 @@ $selected='adm_places';
   $user = checkLogin();
       if ($user=='') {
         header('Location: index.php');
+        die();
       }
 $user_id=$user['id'];
 $active=$user['active'];
@@ -30,6 +31,7 @@ if ($active != 1) {
         $edit_place = executeResult("select * from places where id = $editID order by updated_at desc",true);
         if ($edit_place=='') {
           header('Location: adm_places.php');
+          die();
         }
     }
 
@@ -39,6 +41,7 @@ if ($active != 1) {
         execute("delete from places where id = $delID");
         mess('<b>Địa điểm ID='.$delID.'</b> đã bị xóa bởi admin '.$user['fullname'],'adm_places.php');
         header('Location: adm_places.php');
+        die();
     }
 
     //add
@@ -61,6 +64,7 @@ if ($active != 1) {
         mess('<b>Địa điểm '.$title.'</b> đã được update bởi admin '.$user['fullname'],'adm_places.php');
 
         header('Location: adm_places.php');
+        die();
     }
   }
 

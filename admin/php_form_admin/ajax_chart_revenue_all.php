@@ -5,6 +5,7 @@
   $user = checkLogin();
       if ($user=='') {
         header('Location: index.php');
+        die();
       }
     $user_id=$user['id'];
 
