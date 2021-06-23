@@ -1,4 +1,11 @@
 <?php
+session_start();
+
+$alert='';
+if (isset($_SESSION['alert'])) {
+  # code...
+  $alert=$_SESSION['alert'];
+}
 
 $selected='adm_albums';
 
@@ -45,7 +52,7 @@ $sql="select photoes.id , photoes.title  ,photoes.address,albums.title 'album ti
 $data = executeResult($sql);
 
   
-  $alert='';
+
 
 
   $date = date('Y-m-d H:i:s');
@@ -107,7 +114,8 @@ $data = executeResult($sql);
         } 
 
   }
-
+  //đến đây là đã upfile và có list thông báo
+  //tiếp theo là quản lí file đã up 
 
 
   $delID= getPost('delID');
@@ -125,7 +133,7 @@ if (!empty($_POST)) {
 
     //delete
     if ($delID!='') {
-        execute("delete from photoes where id = $delID");
+        execute("delete from photoes where id = '$delID' ");
 
          mess('<b>Photo ID='.$delID.'</b> đã bị xóa bởi admin '.$user['fullname'],'adm_photoes.php');
          die();
@@ -134,6 +142,7 @@ if (!empty($_POST)) {
     //add
     if ($title!='' && $editID =='' ) {
     	if ($address!='') {
+        //dùng url
     		execute("insert into photoes(title ,address , album_id, created_at , updated_at)
                    values ('$title','$address' ,$album_id , '$date','$date')");
 
@@ -141,10 +150,9 @@ if (!empty($_POST)) {
 
 	        echo "<script>
 	          alert('Bạn đã thêm ảnh thành công')
-	          window.location.replace('adm_album_details.php?album_id=".$album_id.")
+	          window.location.replace('adm_album_details.php?album_id=".$album_id."')
 	        </script>";
-	        // header("Location: adm_album_details.php?album_id=".$album_id);
-          // die();
+	        
     	}
     	else{
 
@@ -156,8 +164,10 @@ if (!empty($_POST)) {
 		         mess('<b>Photo '.$title.'</b> đã được thêm bởi admin '.$user['fullname'],'adm_photoes.php');
 		        
 	    	}
-	    	// header("Location: adm_album_details.php?album_id=".$album_id);
-        // die();
+
+        $_SESSION['alert']=$alert;
+	    	header("Location: adm_album_details.php?album_id=".$album_id);
+        die();
     	}
         
     }

@@ -227,7 +227,7 @@
         var option = $(this).val() ;
 
         if (option=="upload") {
-          $('#group_upload').html(`<label>Chọn File ảnh</label>
+          $('#group_upload').html(`<label>Chọn File video </label>
                             <input id="video_file" required="true" type="file" multiple="multiple" name="video_file[]" >(***Nếu chọn upload nhiều video thì tất cả video được lưu đều có chung một Title)`) ;
           $('#group_url').empty() ;
 
@@ -298,3 +298,7 @@
 </body>
 
 </html>
+
+<?php
+  session_destroy();
+?>

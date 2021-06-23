@@ -1,4 +1,9 @@
 <?php
+session_start();
+$alert = '';
+if (isset($_SESSION['alert'])) {
+  $alert = $_SESSION['alert'];
+}
 
 $selected='adm_videos';
 
@@ -38,7 +43,7 @@ $data = executeResult($sql);
 
     
 //
-$alert = '';
+
   $date = date('Y-m-d H:i:s');
   $title = getPost('title');
   $address=getPost('address');
@@ -129,14 +134,16 @@ if (!empty($_POST)) {
     //add
     if ($title!='' && $editID =='' ) {
     	if ($address!='') {
+        //dùng url
     		execute("insert into videos(title ,address , game_id, created_at , updated_at)
                    values ('$title','$address' ,$game_id , '$date','$date')");
 
-	         mess('<b>Video '.$title.'</b> đã được thêm bởi admin '.$user['fullname'],'adm_videos.php');
+	       mess('<b>Video '.$title.'</b> đã được thêm bởi admin '.$user['fullname'],'adm_videos.php');
 
-	     $_POST='';
-        // header("Refresh:0");
-        // die();
+	       echo "<script>
+            alert('Bạn đã thêm video thành công')
+            window.location.replace('adm_videos.php')
+          </script>";
     	}
     	else{
 
@@ -150,9 +157,9 @@ if (!empty($_POST)) {
 		        
 	    	}
 
-	    	$_POST='';
-        // header("Refresh:0");
-        // die();
+        $_SESSION['alert']=$alert;
+        header("Location: adm_videos.php");
+        die();
     	}
         
     }
@@ -167,8 +174,8 @@ if (!empty($_POST)) {
 
         mess('<b>Video '.$title.'(ID='.$editID.')</b> đã được update bởi admin '.$user['fullname'],'adm_videos.php');
 
-        // header("Location: adm_videos.php");
-        // die();
+        header("Location: adm_videos.php");
+        die();
 
     }
 
