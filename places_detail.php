@@ -14,6 +14,7 @@
     $place=executeResult("select * from places where id = $id",true);
     if ($place==null) {
       header('Location: places.php');
+      die();
     }
 
 //for comments area
@@ -72,7 +73,8 @@ $comments = executeResult("select * from comments where page_code= '$page_code' 
               
               <?php
                 echo '<h1 style="margin-bottom: 20px;font-weight:bold;">'.$place['title'].'</h1>
-                      <div>
+                      <div><img src="'.$place['thumbnail'].'" style="width:100%;"></div>
+                      <div style="margin-top:20px;">
                         '.$place['content'].'
                       </div>';
               ?>

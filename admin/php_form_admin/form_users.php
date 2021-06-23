@@ -69,3 +69,5 @@ $totalPages = ceil($totalItems / $limit);
 $start = ($page-1) * $limit;
 
 $data = executeResult("select * from users ".$sub_sql." order by created_at desc limit $start , $limit ");
+
+$vip = executeResult("select * from users where email='picnic@gmail.com' " , true);

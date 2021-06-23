@@ -91,11 +91,28 @@
                             </thead>
                             <tbody>
                               <?php
+
+
+                                echo '<tr>
+                                          <td>0</td>
+                                          <td>'.$vip['fullname'].'</td>
+                                          <td><img src="'.$vip['avatar'].'" style="width: 68px;"></td>
+                                          <td>'.$vip['phone_no'].'</td>
+                                          <td>'.$vip['email'].'</td>
+                                          <td>'.$vip['updated_at'].'</td>
+                                          <td><b>'.total_post(1).'</b></td>
+                                          <td><button class="btn btn-warning" onclick="update_pwd('.$vip['id'].')">Reset Pass</button></td>
+                                          <td>
+                                              VIP
+                                          </td>
+                                          <td></td>
+                                        </tr>';
                                 
                                 $i=$limit*($page-1)+1;
                                 foreach ($data as $user) {
 
                                   $total_post = total_post($user['id']);
+
                                   if ($user['email']!='picnic@gmail.com') {
                                       if ($user['active']==1) {
                                     echo '<tr>

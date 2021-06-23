@@ -246,15 +246,15 @@ function showAlbum_represent($album_id){
     if ($count >=3) {
         echo '<div class="album_present" style="display: flex; width: 100% ; margin-bottom:20px;">
 
-                <div class="colum" style="width:66%; margin-right: 5px;" >
-                  <img src="'.plus_path($data[0]['address'],'uploads/').'" onclick="OpenModal('.$album_id.');currentSlide(1)"  style="width: 100%;">
+                <div class="colum" style="width:66%;margin-right: 5px;" >
+                  <img src="'.plus_path($data[0]['address'],'uploads/').'" onclick="OpenModal('.$album_id.');currentSlide(1)"  style="width: 100%;height:300px!important; ">
                 </div>
 
                 <div class="colum" style="width:34%;margin-left: 10px;">
 
-                    <img src="'.plus_path($data[1]['address'],'uploads/').'" style="width:100%;margin-bottom: 5px;" onclick="OpenModal('.$album_id.');currentSlide(2)" >
+                    <img src="'.plus_path($data[1]['address'],'uploads/').'" style="width:100%;height:145px; margin-bottom: 5px;" onclick="OpenModal('.$album_id.');currentSlide(2)" >
 
-                    <img src="'.plus_path($data[2]['address'],'uploads/').'" style="width:100%;margin-top: 10px;" onclick="OpenModal('.$album_id.');currentSlide(3)" >
+                    <img src="'.plus_path($data[2]['address'],'uploads/').'" style="width:100%;height:145px; margin-top: 10px;" onclick="OpenModal('.$album_id.');currentSlide(3)" >
 
                 </div>
             </div>';

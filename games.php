@@ -60,7 +60,7 @@
                       <div class="game-inner">
                         <div class="thumbnail" style="position: relative;">
                           <a href="games_detail.php?id='.$game['id'].'">
-                            <div class="img-hidden"><img src="'.$game['thumbnail'].'" style=" position: absolute;bottom:0px;max-height:225px;width:100%;border-radius:10px 10px 0 0;"></div>
+                            <div class="img-hidden"><img src="'.$game['thumbnail'].'" style=" position: absolute;bottom:0px;height:225px;width:100%;border-radius:10px 10px 0 0;"></div>
                           </a>
                         </div>
 

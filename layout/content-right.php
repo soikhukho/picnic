@@ -2,7 +2,7 @@
 
             <!-- scroll start -->
             <div class="scroll-right" >
-                <h3>Nội dung chính</h3>
+                <h3>Xem thêm :</h3>
                 <div class="nav">
                     <ul><p>Những địa điểm gần nhất Sài Gòn.</p>
                         <li style="padding-top: 20px;"><a>Làng nổi Tân Lập</a></li>
