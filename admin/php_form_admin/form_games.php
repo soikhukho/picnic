@@ -29,6 +29,17 @@ if ($active != 1) {
   $delID= getPost('delID');
 
   $editID = getGet('editID');
+  $trashed_id = getPost('trashed_id');
+  $restore_id = getPost('restore_id');
+
+  $select=" and games.status = '0' ";
+
+  $game_status = getGet('game_status');
+  if ($game_status=='-1') {
+    $select=" and games.status = '-1' ";
+  }
+
+  
 
   if ($editID !=''){
         //tránh tình trạng sửa trên url
@@ -41,10 +52,22 @@ if ($active != 1) {
     }
 
   if (!empty($_POST)) {
+    //tráhed 
+    if ($trashed_id !='') {
+      execute("update games set status = '-1' where id = '$trashed_id' ");
+      mess('<b>Game ID='.$trashed_id.'</b> đã bị ẩn bởi admin '.$user['fullname'],'adm_games.php');
+    }
+
+    //restore
+    if ($restore_id !='') {
+      execute("update games set status = '0' where id = '$restore_id' ");
+      mess('<b>Game ID='.$restore_id.'</b> đã được RESTORE bởi admin '.$user['fullname'],'adm_games.php');
+    }
+
     //delete
     if ($delID!='') {
         execute("delete from games where id = $delID");
-        mess('<b>Game ID='.$delID.'</b> đã bị xóa bởi admin '.$user['fullname'],'adm_games.php','adm_games.php');
+        mess('<b>Game ID='.$delID.'</b> đã bị xóa bởi admin '.$user['fullname'],'adm_games.php');
         header('Location: adm_games.php');
         die();
     }
@@ -82,10 +105,10 @@ if ($active != 1) {
 
 $totalItems = executeResult("select count(*) 'count' from games ,  category , users
                                                     where games.cate_id = category.id 
-                                                    and  games.user_id = users.id ".$sub_sql,true);
+                                                    and  games.user_id = users.id   ".$select.$sub_sql,true);
   $totalItems = $totalItems['count'];
 
-$href='adm_games.php?search='.$search.'&';
+$href='adm_games.php?game_status='.$game_status.'&search='.$search.'&';
 
 $page = getGET('page');
 if($page==''){$page = 1;}
@@ -97,8 +120,8 @@ $start = ($page-1) * $limit;
 
 $data = executeResult(" select games.id ,games.title 'game title',
                                                         category.title 'category title' ,
-                                                        games.thumbnail ,games.price , users.fullname , games.created_at , games.updated_at 
+                                                        games.thumbnail ,games.price , users.fullname , games.created_at , games.updated_at ,games.status
                                                     from games ,  category , users
                                                     where games.cate_id = category.id 
-                                                    and  games.user_id = users.id ".$sub_sql."
+                                                    and  games.user_id = users.id  ".$select.$sub_sql."
                                                     ORDER by games.updated_at desc limit $start , $limit ");

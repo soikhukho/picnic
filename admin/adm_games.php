@@ -120,20 +120,27 @@
                 <!-- form create end -->
                 
                 <!-- show games -->
-                <div id="show_cate" style="margin-top: 50px;margin-bottom: 50px;">
-                  <h2>List of Games</h2>
 
+                <div id="show_cate" style="margin-top: 50px;margin-bottom: 50px;">
+                  <div style="margin-bottom: 20px;">
+                    <span style="font-weight: bold;font-size: 30px; "> List of Games : </span>
+                    <select id="select_status">
+                      <option value="0" <?=($game_status==0)?'selected':''?> >Game Đang hoạt động</option>
+                      <option value="-1" <?=($game_status==-1)?'selected':''?> >Game tạm ẩn </option>
+                    </select>
+                  </div>
+                  
                   <!-- search form start -->
-                      <form method="get">
+                      <div id="search_form" method="get">
                         <div class="input-group custom-search-form" style="margin-bottom: 8px;width: 300px;">
                             <input type="text" class="form-control" name="search" placeholder="Search id or title..." value="<?= $search ?>">
                             <span class="input-group-btn">
-                                <button class="btn btn-default" type="submit">
+                                <button class="btn btn-default" type="submit" id="btn_search">
                                     <i class="fa fa-search"></i>
                                 </button>
                             </span>
                         </div>
-                      </form>
+                      </div>
                       <!-- search form end -->
 
                   <table class="table table-bordered" style=" margin: 0px auto;">
@@ -149,6 +156,7 @@
                         <th>Updated At</th>
                         <th></th>
                         <th></th>
+                        
                       </tr>
                     </thead>
                     <tbody>
@@ -156,18 +164,39 @@
                         
                         $i=$limit*($page-1)+1;
                         foreach ($data as $item) {
-                          echo '<tr>
-                                  <td>'.$i++.'</td>
-                                  <td><img src="'.$item['thumbnail'].'" style="width: 120px;"></td>
-                                  <td><b>'.$item['game title'].'</b></td>
-                                  <td>'.$item['category title'].'</td>
-                                  <td><b>'.number_format($item['price']).'</b></td>
-                                  <td>'.$item['fullname'].'</td>
-                                  <td>'.$item['created_at'].'</td>
-                                  <td>'.$item['updated_at'].'</td>
-                                  <td><button class="btn btn-danger" onclick="del('.$item['id'].')">Delete</button></td>
-                                  <td><button class="btn btn-warning" onclick="edit('.$item['id'].')">Edit</button></td>
-                                </tr>';
+                          if ($item['status']==0) {
+                            echo '<tr>
+                                    <td>'.$i++.'</td>
+                                    <td><img src="'.$item['thumbnail'].'" style="width: 120px;"></td>
+                                    <td><b>'.$item['game title'].'</b></td>
+                                    <td>'.$item['category title'].'</td>
+                                    <td><b>'.number_format($item['price']).'</b></td>
+                                    <td>'.$item['fullname'].'</td>
+                                    <td>'.$item['created_at'].'</td>
+                                    <td>'.$item['updated_at'].'</td>
+                                    
+                                    <td><button class="btn btn-warning" onclick="edit('.$item['id'].')">Edit</button></td>
+
+                                    <td><button class="btn btn-danger" onclick="trashed('.$item['id'].')">Trashed </button></td>
+
+                                  </tr>';
+                          }else{
+
+                            echo '<tr>
+                                    <td>'.$i++.'</td>
+                                    <td><img src="'.$item['thumbnail'].'" style="width: 120px;"></td>
+                                    <td><b>'.$item['game title'].'</b></td>
+                                    <td>'.$item['category title'].'</td>
+                                    <td><b>'.number_format($item['price']).'</b></td>
+                                    <td>'.$item['fullname'].'</td>
+                                    <td>'.$item['created_at'].'</td>
+                                    <td>'.$item['updated_at'].'</td>
+                                    <td><button class="btn btn-warning" onclick="restore('.$item['id'].')">Restore </button></td>
+                                    <td><button class="btn btn-danger" onclick="del('.$item['id'].')">Delete</button></td>
+                                    
+                                  </tr>';
+                          }
+                          
                         }
                       ?>
                     </tbody>
@@ -179,6 +208,50 @@
 
 
              <script type="text/javascript">
+              $('#btn_search').click(function(){
+                var game_status= $('#select_status').val();
+                var search = $('[name=search]').val()
+
+                 window.location.replace('adm_games.php?game_status='+game_status+'&search='+search)
+
+              })
+
+              $('#select_status').change(function(){
+                var game_status= $(this).val();
+                var search = $('[name=search]').val()
+
+                window.location.replace('adm_games.php?game_status='+game_status+'&search='+search)
+                
+              })
+
+              function trashed(id){
+                if (confirm('Ban co chắc chắc muốn xóa sp này ?') ) {
+                  $.post('adm_games.php',
+                    {
+                      trashed_id:id
+                    }
+                    ,
+                    function(data){
+                      location.reload()
+                    }
+                    )
+                }
+              }
+
+              function restore(id){
+                
+                  $.post('adm_games.php',
+                    {
+                      restore_id:id
+                    }
+                    ,
+                    function(data){
+                      location.reload()
+                    }
+                    )
+                
+              }
+
               function del(id){
                 if (confirm('Ban co chắc chắc muốn xóa sp này ?') ) {
                   $.post('adm_games.php',

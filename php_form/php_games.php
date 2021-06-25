@@ -21,7 +21,7 @@ if ($search !='') {
       }
 
   $totalItems = executeResult("select count(*) 'count' from games join category where 
-                            games.cate_id = category.id ".$sub_sql1.$sub_sql2,true);
+                            games.cate_id = category.id  and games.status = '0' ".$sub_sql1.$sub_sql2,true);
 
 
   $totalItems = $totalItems['count'];
@@ -36,4 +36,4 @@ if ($search !='') {
   $start = ($page-1) * $limit;
 
   $data = executeResult("select games.*,category.title 'cate title' from games join category where 
-                            games.cate_id = category.id ".$sub_sql1.$sub_sql2." order by updated_at DESC limit $start , $limit ");
+                            games.cate_id = category.id and games.status = '0' ".$sub_sql1.$sub_sql2." order by updated_at DESC limit $start , $limit ");
