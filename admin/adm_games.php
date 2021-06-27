@@ -206,6 +206,7 @@
                 </div>
              </div>
 
+              <input type="text" id="a_month_ago" value="<?=$a_month_ago?>" style="display: none;">
 
              <script type="text/javascript">
               $('#btn_search').click(function(){
@@ -225,7 +226,9 @@
               })
 
               function trashed(id){
-                if (confirm('Ban co chắc chắc muốn xóa sp này ?') ) {
+                var a_month_ago = $('#a_month_ago').val()
+
+                if (confirm('Khi ẩn sản phẩm này , nó sẽ bị xóa tự động sau '+a_month_ago+' .Bạn có chắc chắn ?') ) {
                   $.post('adm_games.php',
                     {
                       trashed_id:id

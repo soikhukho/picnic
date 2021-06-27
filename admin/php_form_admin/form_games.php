@@ -33,13 +33,22 @@ if ($active != 1) {
   $restore_id = getPost('restore_id');
 
   $select=" and games.status = '0' ";
-
+ 
   $game_status = getGet('game_status');
   if ($game_status=='-1') {
     $select=" and games.status = '-1' ";
   }
 
   
+ //kích hoạt xóa 
+  //ngày cách đây 1 tháng :
+  $month = strtotime(date("Y-m-d", strtotime($date)) . " -1 month");
+  $a_month_ago = strftime("%Y-%m-%d", $month);
+
+  execute("delete from games where status !=0 and updated_at < '$a_month_ago' ");
+
+
+
 
   if ($editID !=''){
         //tránh tình trạng sửa trên url
@@ -54,7 +63,7 @@ if ($active != 1) {
   if (!empty($_POST)) {
     //tráhed 
     if ($trashed_id !='') {
-      execute("update games set status = '-1' where id = '$trashed_id' ");
+      execute("update games set status = '-1' , updated_at ='$date' where id = '$trashed_id' ");
       mess('<b>Game ID='.$trashed_id.'</b> đã bị ẩn bởi admin '.$user['fullname'],'adm_games.php');
     }
 

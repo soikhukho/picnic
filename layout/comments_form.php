@@ -19,7 +19,7 @@
 
                           <div class="row" style="height:36px;margin-top:!important;">
                               <div  style="background:#ededed;">
-                                <div class="col-md-6" style="padding-left: 25px!important;margin-top: 8px; font-size: 15px;font-weight: bold;">
+                                <div class="col-md-6" style="padding-left: 25px!important;margin-top: 8px; font-size: 15px;font-weight: bold;" id="count_comments">
                                     <?=count($comments) ?> Bình luận
                                 </div>
                                 

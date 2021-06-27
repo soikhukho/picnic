@@ -77,12 +77,20 @@
 
           var cmt_page = $('[name=cmt_page]').val();
 
-          $.post('form_ajax/load_comment.php',{page_code:page_code,guest_name:guest_name ,
-                                              avatar:avatar, content:content,table:'comments',
-                                              cmt_page:cmt_page*1}
-                                              ,function(data){
-                                                              $('#list_comment').html(data) ;
-                                                            })
+          $.post('form_ajax/load_comment.php'
+            ,{page_code:page_code,guest_name:guest_name ,
+              avatar:avatar, content:content,table:'comments',
+              cmt_page:cmt_page*1}
+              ,function(data){
+                              $('#list_comment').html(data) ;
+
+                                //load lại số cmt
+                                $.post('form_ajax/count_comments.php',{page_code:page_code},function(data){
+                                  $('#count_comments').html(data)
+                                })
+                            })
+          
+
                  
       }
    
@@ -184,10 +192,18 @@ function del_comment(id){
   var page_code = $('[name=comments_area]').attr('id');
 
   if (confirm('Bạn có chắc chắn muốn xóa bình luận này ?')) {
-    $.post('form_ajax/load_comment.php',{page_code:page_code,del_comment_id:id })
+    $.post('form_ajax/load_comment.php',{page_code:page_code,del_comment_id:id },function(data){
+
+        //load lại số cmt
+          $.post('form_ajax/count_comments.php',{page_code:page_code},function(data){
+            $('#count_comments').html(data)
+          })  
+    })
 
     $('#comment'+id).empty()
     $('#sub_comment_area_of_'+id).empty()
+
+     
   }
 }
 

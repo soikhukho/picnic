@@ -278,6 +278,8 @@ function load_comments($page_code, $limit , $exept_id ){
 
     $comments = executeResult("select * from comments where page_code= '$page_code' and id !='$exept_id' order by created_at desc limit 0, $limit ");
 
+   // include_once '../layout/comments_form.php';
+
     foreach ($comments as $comment) {
         $father_id=$comment['id'];
 
