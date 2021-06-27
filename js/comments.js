@@ -1,9 +1,43 @@
 
-//khi nhấp link , vào page sẽ focus vào ô trả lời cmt
+ //load cmt 
   $(document).ready(function(){
+
+    var page_code=$('[name=page_code]').val();
     var rep_comment_id = $('[name=rep_comment_id').val()
-      $('#'+rep_comment_id).click()
+    // alert(rep_comment_id)
+
+    $.post('form_ajax/pagination_cmt.php',{cmt_page:1,page_code:page_code,rep_comment_id:rep_comment_id},function(data){
+        //load cmt
+        $('#list_comment').html(data);
+
+        //khi nhấp link , vào page sẽ focus vào ô trả lời cmt nếu có   
+        $('#'+rep_comment_id).click()
+    })
   })
+
+  //function loadmore cmt
+  function loadmore_cmt(page){
+    //ẩn nút cũ:
+    $('#btn'+page).empty()
+
+    var page_code=$('[name=page_code]').val();
+     var rep_comment_id = $('[name=rep_comment_id').val()
+
+    $.post('form_ajax/pagination_cmt.php',{page:page*1+1,page_code:page_code,rep_comment_id:rep_comment_id},function(data){
+        $('#list_comment').html(data);
+    })
+
+  } ;
+
+  function loadmore_sub_cmt(father_id,page_sub_cmt){
+    $.post('form_ajax/load_sub_comment.php',{page_sub_cmt:page_sub_cmt*1+1,father_id:father_id},function(data){
+       
+       // $('#sub_comment_area_of_'+father_id).empty() ;
+
+       $('#sub_comment_area_of_'+father_id).html(data) ;
+    })
+
+  };
 
   //khi nhấn nút submit cmt
   $('[name=btn_submit_main_comments]').click(function(){
@@ -41,11 +75,14 @@
           that.children('textarea').val('')
           that.children('[name=guest_name]').val(admin_name)
 
-          $.post('form_ajax/load_comment.php',{page_code:page_code,guest_name:guest_name ,avatar:avatar, content:content,table:'comments'},function(data){
-            $('#list_comment').html(data) ;
+          var cmt_page = $('[name=cmt_page]').val();
 
-
-          })
+          $.post('form_ajax/load_comment.php',{page_code:page_code,guest_name:guest_name ,
+                                              avatar:avatar, content:content,table:'comments',
+                                              cmt_page:cmt_page*1}
+                                              ,function(data){
+                                                              $('#list_comment').html(data) ;
+                                                            })
                  
       }
    
@@ -67,9 +104,9 @@
                           
                           <input type="number" name="father_id" style="display:none;" >
                           <input type="text" name="avatar" style="display:none;" >
-                          <input type="text" value="" name="guest_name_rep" style="width: 100%;border-radius: 3px;height: 30px;border: 1px solid #e5e5e5;" placeholder="Nhập tên bạn" required="true" >
+                          <input type="text" value="" name="guest_name_rep" style="width: 100%;border-radius: 3px;height: 30px;border: none;outline:none" placeholder="Nhập tên bạn" required="true" >
 
-                          <textarea name="content_rep" style="width: 100%;border-radius: 3px;height: 60px;border: 1px solid #e5e5e5;" placeholder="Nhập câu trả lời " required="true"></textarea>
+                          <textarea name="content_rep" style="width: 100%;border-radius: 3px;height: 60px;border: none;outline:none ; margin-top:3px;" placeholder="Nhập câu trả lời " required="true"></textarea>
                        
 
                           <div class="row" style="height:36px;margin-top:-4px!important;">
@@ -78,7 +115,7 @@
                                   
                               </div>
                               <div class="col-md-6" style="text-align: right;padding-right: 25px!important;margin-bottom: 20px;">
-                                <button name="btn_submit_sub_comments" onclick="submit_sub_comments()" style="height: 28px;    background: #6d84b4;border:1px solid #3b5998;border-radius: 2px;color: #fff;font-weight: bold;font-size: 12px;">Gủi bình luận</button>
+                                <button name="btn_submit_sub_comments" onclick="submit_sub_comments()" style="height: 28px; margin-top: 3px;   background: #6d84b4;border:1px solid #3b5998;border-radius: 2px;color: #fff;font-weight: bold;font-size: 12px;">Gủi bình luận</button>
                               </div>
                             </div>
                           </div>
@@ -99,13 +136,16 @@
   }
 
 
-//khi click vào nút gửi rep cmt
+//khi gửi rep cmt
 function submit_sub_comments(){
     var page_code = $('[name=comments_area]').attr('id');
     var father_id = $('[name=father_id]').val()
     var guest_name = $('[name=guest_name_rep]').val()
     var avatar = $('[name=avatar]').val()
     var content = $('[name=content_rep]').val()
+    var page_sub_cmt = $('#page_sub_cmt'+father_id).val();
+
+    // alert(page_sub_cmt) ;
 
     if (guest_name=='') {
       alert('Ban chưa điền tên')
@@ -128,24 +168,26 @@ function submit_sub_comments(){
         return false;
       }
 
+
   if (content!='' && guest_name!='' ) {
 
-     $.post('form_ajax/load_comment.php',{page_code:page_code,avatar:avatar,father_id:father_id , guest_name:guest_name , content:content,table:'sub_comments'},function(data){
-        $('#list_comment').html(data) ;
-
-        // window.location.reload()
+     $.post('form_ajax/load_sub_comment.php',{page_sub_cmt:page_sub_cmt,page_code:page_code,avatar:avatar,father_id:father_id , guest_name:guest_name , content:content,table:'sub_comments'},function(data){
+        
+        $('#sub_comment_area_of_'+father_id).html(data) ;
       })
   }  
-}
+
+};
+
 
 function del_comment(id){
   var page_code = $('[name=comments_area]').attr('id');
 
   if (confirm('Bạn có chắc chắn muốn xóa bình luận này ?')) {
-    $.post('form_ajax/load_comment.php',{page_code:page_code,del_comment_id:id },function(data){
-        $('#list_comment').html(data) ;
-        // window.location.reload()
-      })
+    $.post('form_ajax/load_comment.php',{page_code:page_code,del_comment_id:id })
+
+    $('#comment'+id).empty()
+    $('#sub_comment_area_of_'+id).empty()
   }
 }
 
@@ -153,9 +195,8 @@ function del_sub_comment(id){
   var page_code = $('[name=comments_area]').attr('id');
 
   if (confirm('Bạn có chắc chắn muốn xóa bình luận này ?')) {
-    $.post('form_ajax/load_comment.php',{page_code:page_code,del_sub_comment_id:id },function(data){
-        $('#list_comment').html(data) ;
-        // window.location.reload()
-      })
+    $.post('form_ajax/load_sub_comment.php',{page_code:page_code,del_sub_comment_id:id })
+
+    $('#sub_comment'+id).empty()
   }
 }

@@ -85,10 +85,11 @@ $comments = executeResult("select * from comments where page_code= '$page_code' 
                     <input type="text" id="admin_name" value="<?=$admin_name?>" style="display:none;">
                     <input type="text" id="avatar" value="<?=$avatar?>" style="display:none;">
 
+                    <input type="text" name="page_code" value="<?=$page_code?>" style="display: none;">
                     <div id="list_comment" style="border:solid 1px #eee;margin-top:;padding-bottom: 15px;">
-                      <?php
-                        load_comments($page_code);
-                      ?>
+                      <!-- <?php
+                        // load_comments($page_code);
+                      ?> -->
                     </div>
                     <!-- list cm end -->
 

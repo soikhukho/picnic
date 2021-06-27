@@ -86,9 +86,10 @@ $comments = executeResult("select * from comments where page_code= '$page_code' 
                     <input type="text" id="admin_name" value="<?=$admin_name?>" style="display:none;">
                     <input type="text" id="avatar" value="<?=$avatar?>" style="display:none;">
 
+                    <input type="text" name="page_code" value="<?=$page_code?>" style="display: none;">
                     <div id="list_comment" style="border:solid 1px #eee;margin-top:;padding-bottom: 15px;">
                       <?php
-                        load_comments($page_code);
+                        // load_comments($page_code);
                       ?>
                     </div>
                     <!-- list cm end -->
@@ -106,6 +107,16 @@ $comments = executeResult("select * from comments where page_code= '$page_code' 
   </section>
 
   <script type="text/javascript">
+
+       //load cmt 
+      $(document).ready(function(){
+        var page_code=$('[name=page_code]').val();
+
+        $.post('form_ajax/pagination_cmt.php',{page:1,page_code:page_code},function(data){
+            $('#list_comment').html(data);
+        })
+      })
+  
       loadmore(0)
       
       function loadmore(page) {

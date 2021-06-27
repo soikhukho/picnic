@@ -27,19 +27,19 @@ $sql=$sql.$sub_sql;
 
 switch ($task) {
     case '0':
-        $sql=$sql.'and status=0 GROUP by orders.id ORDER by orders.created_at DESC';
+        $sql=$sql.'and orders.status=0 GROUP by orders.id ORDER by orders.created_at DESC';
         break;
 
     case 1:
-        $sql=$sql.'and status=1 GROUP by orders.id ORDER by orders.created_at DESC';
+        $sql=$sql.'and orders.status=1 GROUP by orders.id ORDER by orders.created_at DESC';
         break;
 
     case 2:
-        $sql=$sql.'and status=2 GROUP by orders.id ORDER by orders.created_at DESC';
+        $sql=$sql.'and orders.status=2 GROUP by orders.id ORDER by orders.created_at DESC';
         break;
 
     case -1:
-       $sql=$sql.'and status=-1 GROUP by orders.id ORDER by orders.created_at DESC';
+       $sql=$sql.'and orders.status=-1 GROUP by orders.id ORDER by orders.created_at DESC';
         break;
     
     case 99:
@@ -47,7 +47,7 @@ switch ($task) {
         break;
 
     default:
-        $sql=$sql.'and status=0 GROUP by orders.id ORDER by orders.created_at DESC';
+        $sql=$sql.'and orders.status=0 GROUP by orders.id ORDER by orders.created_at DESC';
         break;
 }
 $ordersList=executeResult($sql);

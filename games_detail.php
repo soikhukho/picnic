@@ -40,6 +40,8 @@
   $page_code = 'games_detail.php?id='.$id;
   $comments = executeResult("select * from comments where page_code= '$page_code' order by created_at desc ");
 
+  $limit_cmt=3;
+  
 
 
 ?>
@@ -144,12 +146,13 @@
 
                       <!-- list cm start -->
                       <!-- chỗ này sẽ đươc load lại sau mỗi cmt thành công -->
+                      <input type="text" name="page_code" value="<?=$page_code?>" style="display: none;">
                       <div id="list_comment" style="border:solid 1px #eee;margin-top:;padding-bottom: 15px;">
-                        <?php
-                          load_comments($page_code);
-                        ?>
+                        
+                         
                       </div>
                       <!-- list cm end -->
+                      
 
                   </div>
                   <!-- cmt area end -->
@@ -182,6 +185,8 @@
   <?php include 'layout/footer.php'; ?>
 
 <script>
+ 
+
   //for modal and slide
   function OpenModal(id) {
       $.post('form_ajax/show_album.php',{id:id},function(data){
